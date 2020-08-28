@@ -102,7 +102,7 @@
 
 
       customEmoji(value) {
-        return `<img src="${require(`../../static/faces/${value}`)}" style="width:20px"/>`
+        return `<img src="${require(`../../../static/faces/${value}`)}" style="width:20px"/>`
       },
     
       
@@ -154,7 +154,7 @@
 
   .messagebox-content {
     width: 100%;
-    height: calc(100% - 250px);
+    height: calc(100% - 185px);
     top: 50px;
     background: #fff;
     overflow-y: scroll;
@@ -169,7 +169,7 @@
 
   .messagebox {
     width: 400px;
-    height: 600px;
+    height: 675px;
     background-color: #fff;
 
     .title {

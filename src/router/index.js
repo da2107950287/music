@@ -118,12 +118,7 @@ const routes = [
         component: () => import("views/LiveVedio.vue"),
         meta: { title: "直播" }
       },
-      {
-        path:'test',
-        component:()=>import("views/Test.vue"),
-        meta:{title:'测试'}
-      },
-      
+     
      
 
     ]

@@ -1,10 +1,8 @@
-// import danmuHtml from './index.html'
-// import danmuControl from './danmu-control.html'
-// import danmuInput from './danmu-input.html'
-import './index.scss'
-import {CommentManager} from 'comment-core-library/build/CommentCoreLibrary'
+
+import { CommentManager } from 'comment-core-library/build/CommentCoreLibrary'
 import 'comment-core-library/build/style.css'
-import { parseDom, isElement } from '../../../assets/js/utils'
+
+import { parseDom ,isElement} from '../../../assets/js/utils'
 
 /**
  * 弹幕组件
@@ -15,7 +13,7 @@ export default class AliplayerDanmuComponent {
    * @param {Array danmuList 弹幕数组, 参考 CommentCoreLibrary 文档 https://github.com/jabbany/CommentCoreLibrary/}
    * @param {id 或者 Element, sendEl, 发送弹幕的输入框, 默认为 null}  
    */
-  constructor(danmukuList, sendEl = 'controlbar') {
+  constructor (danmukuList, sendEl = 'controlbar') {
     this.sendEl = sendEl
     this.danmukuList = danmukuList
     this.html = parseDom(`<div class="aliplayer-danmuku abp">
@@ -37,8 +35,9 @@ export default class AliplayerDanmuComponent {
     this.userDanmuOpen = true     // 用户打开关闭弹幕的状态, 默认为 true 打开
   }
 
-  createEl(el, player) {
+  createEl (el, player) {
     console.log(player)
+console.log(CommentManager)
     const lang = player._options && player._options.language
     this.isEn = lang && lang === 'en-us'
     if (this.danmuInput !== null) {
@@ -70,10 +69,11 @@ export default class AliplayerDanmuComponent {
     el.querySelector('.prism-controlbar').appendChild(this.danmuControlHtml)
     let videoSiblingElement = el.querySelector('video').nextElementSibling
     if (videoSiblingElement) {
-      el.insertBefore(this.html, videoSiblingElement)
+      el.insertBefore(this.html, videoSiblingElement)      
     } else {
       el.appendChild(this.html)
     }
+    console.log(CommentManager,parseDom)
     this.CM = new CommentManager(this.html.querySelector('.danmu'))     // 初始化 CommentManager
 
     this.CM.init()
@@ -82,7 +82,7 @@ export default class AliplayerDanmuComponent {
     /* 根据视频播放器的 timeupdate 事件更新弹幕的事件轴   */
     el.querySelector('video').ontimeupdate = () => {
       if (el.querySelector('video') !== null) {
-        this.CM.time(el.querySelector('video').currentTime * 1000)
+        this.CM.time(el.querySelector('video').currentTime * 1000)        
       }
     }
 
@@ -115,13 +115,12 @@ export default class AliplayerDanmuComponent {
           this.sendDanmuHandle.call(this)
         }
       }
-
+      
     }
   }
 
   // 弹幕发送按钮点击事件和弹幕输入框按下 enter 键, 处理事件
-  sendDanmuHandle() {
-    console.log(8888)
+  sendDanmuHandle () {
     let danmuInputEle = this.danmuInput.querySelector('.ali-danmu-input input')
     let danmuText = danmuInputEle.value
     let commentSize = [16, 18, 25, 36, 45]
@@ -141,23 +140,23 @@ export default class AliplayerDanmuComponent {
     danmuInputEle.focus()
   }
 
-  randomIndex(max) {
+  randomIndex (max) {
     return Math.floor(Math.random() * max)
   }
 
-  play(player, e) {
+  play (player, e) {
     if (this.userDanmuOpen) {
       this.CM.start()
     }
   }
 
-  pause(player, e) {
+  pause (player, e) {
     if (this.userDanmuOpen) {
       this.CM.stop()
     }
   }
 
-  send(danmuku) {
+  send (danmuku) {
     this.CM.send(danmuku)
   }
 
@@ -165,7 +164,7 @@ export default class AliplayerDanmuComponent {
    * 暴露出去的插入弹幕的方法
    * @param {Object danmuku 弹幕对象 只能一条一条插入}
    */
-  insert(danmuku) {
+  insert (danmuku) {
     this.CM && this.CM.insert(danmuku)
   }
 

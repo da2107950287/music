@@ -49,6 +49,7 @@
           //直播
           if (item.catType == 1) {
             if (item.playstate == 1) {//直播未开始
+              console.log("直播未开始")
               this.$message("直播未开始")
             } else if (item.playstate == 2) {//正在直播
               this.$router.push({ path: '/index/liveVedio', query: { url: item.playurl, catName: item.catName, catId: item.catId } })

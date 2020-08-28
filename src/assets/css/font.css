@@ -1,0 +1,26 @@
+@font-face {
+  font-family: "PingFangSC-Medium";
+  src: url("../font/PingFangSC-Medium.woff2") format("woff2"),
+    url("../font/PingFangSC-Medium.woff") format("woff"),
+    url("../font/PingFangSC-Medium.ttf") format("truetype"),
+    url("../font/PingFangSC-Medium.eot") format("embedded-opentype"),
+    url("../font/PingFangSC-Medium.svg") format("svg");
+}
+
+@font-face {
+  font-family: "PingFangSC-Regular";
+  src: url("../font/PingFangSC-Regular.woff2") format("woff2"),
+    url("../font/PingFangSC-Regular.woff") format("woff"),
+    url("../font/PingFangSC-Regular.ttf") format("truetype"),
+    url("../font/PingFangSC-Regular.eot") format("embedded-opentype"),
+    url("../font/PingFangSC-Regular.svg") format("svg");
+}
+
+@font-face {
+  font-family: "sthupo";
+  src: url("../font/sthupo.woff2") format("woff2"),
+    url("../font/sthupo.woff") format("woff"),
+    url("../font/sthupo.ttf") format("truetype"),
+    url("../font/sthupo.eot") format("embedded-opentype"),
+    url("../font/sthupo.svg") format("svg");
+}

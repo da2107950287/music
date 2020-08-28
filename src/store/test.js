@@ -2,9 +2,9 @@ import WebIM from "assets/js/WebIM";
 var Test = {
   state: {
     msgList: {
-      contact: {},
-      group: {},
-      chatroom: {},
+      contact: {},//一对一
+      group: {},//群
+      chatroom: {},//聊天室
     },
     currentMsgs: []
   },
