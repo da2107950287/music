@@ -35,9 +35,6 @@
     </div>
   </div>
 </template>
-<style lang="scss" scoped>
-
-</style>
 <script>
   import ChatEmoji from "components/chat/ChatEmoji";
   import emoji from "assets/js/emoji";
@@ -109,9 +106,7 @@
           roomId: this.roomId, // 聊天室id
           success: function () {
             console.log("加入聊天室成功");
-            console.log(888);
             console.log(this.$store.state, this.$store.state);
-
             // this.getHistoryMessage({ name: this.chatId, isGroup: true });
             this.$forceUpdate();
             if (!this.msgList) {
@@ -171,6 +166,7 @@
           message: this.message,
         });
         this.message = "";
+        console.log(this.message)
       },
       //选择表情包
       selectEmoji(v) {

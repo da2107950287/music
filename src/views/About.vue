@@ -13,25 +13,25 @@
     data() {
       return {
         text: null,
-        type:""
+        type: ""
       }
     },
-    watch:{
-      $route(){
+    watch: {
+      $route() {
         this.getAgreement()
       }
     },
-    created(){
-     this.getAgreement()
+    created() {
+      this.getAgreement()
     },
-    methods:{
-      getAgreement(){
-        this.type=this.$route.query.type;
-      this.$post('/other/getAgreement',{type:this.type}).then(res=>{
-        if(res.code==200){
-          this.text=res.data.content;
-        }
-      })
+    methods: {
+      getAgreement() {
+        this.type = this.$route.query.type;
+        this.$post('/other/getAgreement', { type: this.type }).then(res => {
+          if (res.code == 200) {
+            this.text = res.data.content;
+          }
+        })
       }
     }
   }
@@ -47,7 +47,7 @@
 
   .mian-about {
     padding: 30px;
-    
+
   }
 
   .title {
@@ -57,8 +57,6 @@
     font-weight: 500;
     color: #36363A;
     font-family: "PingFangSC-Regular", "PingFang SC";
-
-
   }
 
   .blank {

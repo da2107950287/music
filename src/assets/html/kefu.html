@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+<body>
+<a href='javascript:;' onclick='easemobim.bind({configId: "426fae41-c211-4a9c-b74e-088a1edf39e3"})' id="kefu" style="position:absolute; left:-1000px;">#</a>
+<script>
+window.easemobim = window.easemobim || {};
+easemobim.config = {
+    hide: true,
+    autoConnect: true,
+    hideKeyboard: true,
+    visitor: {
+        trueName: '',
+        qq: '',
+        phone: '',
+        companyName: '',
+        userNickname: '',
+        description: '来源'+document.referrer,
+        email: ''
+    },
+    onmessage: function ( message ) { 
+        window.parent.postMessage({c:'msg', t:message}, '*');
+    }
+};
+</script>
+<script src='//kefu.easemob.com/webim/easemob.js'></script>
+
+<script>
+const body = document.body;
+// 监听body的class属性变化 判断是否客服隐藏窗口
+const observer = new MutationObserver(mutationsList => {
+    if(body.getAttribute('class') != null && body.getAttribute('class').replace(/\s+/g,"") == ''){
+        window.parent.postMessage({c:'hide'}, '*');
+    }
+});
+
+observer.observe(body, {
+    attributes: true,
+    childList: true,
+    subtree: true,
+});
+</script>
+</body>
+</html>

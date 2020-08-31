@@ -86,12 +86,15 @@
           this.message = "";
           return;
         }
+        console.log(this.message)
         this.onSendText({
           chatType: this.chatType,
           chatId: this.chatId,
           message: this.message,
         });
+        this.$emit("onSendTextMsg",this.message);
         this.message = "";
+    
       },
       //选择表情包
       selectEmoji(v) {

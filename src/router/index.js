@@ -10,6 +10,11 @@ VueRouter.prototype.push = function push(location) {
 const routes = [
   { path: '/', redirect: '/index' },
   {
+    path: '/shareCourse',
+    component: () => import("views/share/ShareCourse.vue"),
+    meta: { title: "分享课程" }
+  },
+  {
     path: '/index',
     component: () => import('views/Index.vue'),
     children: [
@@ -118,8 +123,9 @@ const routes = [
         component: () => import("views/LiveVedio.vue"),
         meta: { title: "直播" }
       },
-     
-     
+
+
+
 
     ]
   }

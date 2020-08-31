@@ -2,9 +2,11 @@
 // import danmuControl from './danmu-control.html'
 // import danmuInput from './danmu-input.html'
 import './index.scss'
-import {CommentManager} from 'comment-core-library/build/CommentCoreLibrary'
-import 'comment-core-library/build/style.css'
+// import {CommentManager} from 'comment-core-library/build/CommentCoreLibrary'
+import CommentManager from "../../../assets/js/commentmanager"
+// import 'comment-core-library/build/style.css'
 import { parseDom, isElement } from '../../../assets/js/utils'
+import { ElSwitch } from 'element-ui'
 
 /**
  * 弹幕组件
@@ -20,14 +22,22 @@ export default class AliplayerDanmuComponent {
     this.danmukuList = danmukuList
     this.html = parseDom(`<div class="aliplayer-danmuku abp">
     <div class="danmu container"></div>
-  </div>`)
+   </div>`)
     this.danmuControlHtml = parseDom(`<div class="ali-danmuku-control">
     <div class="ali-danmu-input-wrap"></div>
-    <i class="iconfont icon-danmu-close"></i>
-    <div class="player-tooltip close"></div>
-    <i class="iconfont icon-danmu-open" style="display: none;"></i>
-    <div class="player-tooltip open"></div>  
+    <div class="toggle-button-wrapper">
+    <input type="checkbox" id="toggle-button" name="switch">
+    <label for="toggle-button" class="button-label">
+        <span class="circle"></span>
+        <span class="text on">弹幕</span>
+        <span class="text off">弹幕</span>
+    </label>
+</div>
   </div>`)
+    // <i class="iconfont icon-danmu-close"></i>
+    //   <div class="player-tooltip close"></div>
+    //   <i class="iconfont icon-danmu-open" style="display: none;"></i>
+    //   <div class="player-tooltip open"></div>  
     this.sendEl = sendEl
     this.danmuInput = sendEl === null ? null : parseDom(`<div class="ali-danmu-input">
     <input type="text" placeholder="">
@@ -38,15 +48,15 @@ export default class AliplayerDanmuComponent {
   }
 
   createEl(el, player) {
-    console.log(player)
     const lang = player._options && player._options.language
     this.isEn = lang && lang === 'en-us'
     if (this.danmuInput !== null) {
       this.danmuInput.querySelector('.danmu-input-enter').innerText = this.isEn ? 'Enter' : '发送'
       this.danmuInput.querySelector('input').setAttribute('placeholder', this.isEn ? 'Input danmu' : '输入弹幕')
     }
-    this.danmuControlHtml.querySelector('.player-tooltip.close').innerText = this.isEn ? 'Close Bullect' : '关闭弹幕'
-    this.danmuControlHtml.querySelector('.player-tooltip.open').innerText = this.isEn ? 'Open Bullect' : '打开弹幕'
+
+    // this.danmuControlHtml.querySelector('.player-tooltip.close').innerText = this.isEn ? 'Close Bullect' : '关闭弹幕'
+    // this.danmuControlHtml.querySelector('.player-tooltip.open').innerText = this.isEn ? 'Open Bullect' : '打开弹幕'
 
     if (this.sendEl === 'controlbar') {
       let danmuInputWrapEle = this.danmuControlHtml.querySelector('.ali-danmu-input-wrap')
@@ -86,8 +96,8 @@ export default class AliplayerDanmuComponent {
       }
     }
 
-    let danmuCloseElement = this.danmuControlHtml.querySelector('.icon-danmu-close')
-    let danmuOpenElement = this.danmuControlHtml.querySelector('.icon-danmu-open')
+    let danmuCloseElement = this.danmuControlHtml.querySelector('.off')
+    let danmuOpenElement = this.danmuControlHtml.querySelector('.on')
     /* 绑定控制条关闭弹幕处理函数 */
     danmuCloseElement.onclick = () => {
       this.userDanmuOpen = false
@@ -120,10 +130,10 @@ export default class AliplayerDanmuComponent {
   }
 
   // 弹幕发送按钮点击事件和弹幕输入框按下 enter 键, 处理事件
-  sendDanmuHandle() {
-    console.log(8888)
+  sendDanmuHandle(message) {
+    console.log(message, "hjdhaj")
     let danmuInputEle = this.danmuInput.querySelector('.ali-danmu-input input')
-    let danmuText = danmuInputEle.value
+    let danmuText = danmuInputEle.value || message
     let commentSize = [16, 18, 25, 36, 45]
     let commentColor = [0xffffff, 0x0000ff, 0xcc0000, 0xff66ff, 0xffff33]
     if (danmuText === '') {
@@ -158,6 +168,7 @@ export default class AliplayerDanmuComponent {
   }
 
   send(danmuku) {
+    console.log(danmuku)
     this.CM.send(danmuku)
   }
 

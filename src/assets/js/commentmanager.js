@@ -832,9 +832,10 @@ var CommentManager = (function() {
 		
 	};
 	CommentManager.prototype.send = function(data){
-    console.log(data)
+		console.log(data)
+		console.log(this.scripting);
+		
 		if(data.mode === 8){
-			console.log(data);
 			if(this.scripting){
 				console.log(this.scripting.eval(data.code));
 			}
@@ -845,6 +846,7 @@ var CommentManager = (function() {
 			if(data == null) return;
 		}
 		if(data.mode === 1 || data.mode === 2 || data.mode === 6){
+
 			var cmt = new ScrollComment(this, data);
 		}else{
 			var cmt = new CoreComment(this, data);

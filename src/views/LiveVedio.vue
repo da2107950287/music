@@ -1,14 +1,14 @@
 <template>
- <div class="live-vedio">
-  <div class="vedio">
-    <div class="prism-player" id="player-con"></div>
-    <div class="title-box">
-      <div>{{catName}}</div>
-      <div>用户ID：{{uid}}</div>
+  <div class="live-vedio">
+    <div class="vedio">
+      <div class="prism-player" id="player-con"></div>
+      <div class="title-box">
+        <div>{{catName}}</div>
+        <div>用户ID：{{uid}}</div>
+      </div>
     </div>
+    <test @onSendTextMsg="onSendTextMsg" class="chat"></test>
   </div>
-<test class="chat"></test>
- </div>
 </template>
 <script>
 
@@ -19,146 +19,43 @@
     data() {
       return {
         url: "",//直播推流地址
-        catName:'',//课程名
-        uid:''//用户id
+        catName: '',//课程名
+        uid: '',//用户id
+        player: '',
+        fullscrean:true,
       };
     },
+    watch:{
+      fullscrean(){
+        if(this.fullscrean==false){
+          document.querySelector('.ali-danmu-input-wrap').style.visibility="hidden"
+        }else{
+          document.querySelector('.ali-danmu-input-wrap').style.visibility="visible"
+        }
+      }
+    },
     mounted() {
- 
-      this.catName=this.$route.query.catName;
+      let _this = this;
+      this.catName = this.$route.query.catName;
       this.url = this.$route.query.url;
-      this.catId=this.$route.query.catId;
-      console.log(this.url)
-      this.uid=localStorage.getItem("uid");
-      this.$post("/aliyun/enterLive",{catId:this.catId}).then(res=>{
-        if(res.data==200){
+      this.catId = this.$route.query.catId;
+
+      this.uid = localStorage.getItem("uid");
+      this.$post("/aliyun/enterLive", { catId: this.catId }).then(res => {
+        if (res.data == 200) {
           console.log(res.data)
         }
       })
-      var danmukuList = [{
-    "mode": 1,
-    "text": "test",
-    "stime": 1000,
-    "size": 25,
-    "color": 0xffffff
-  }, {
-    "mode": 1,
-    "text": "test",
-    "stime": 2000,
-    "size": 25,
-    "color": 0xff0000
-  }, {
-    "mode": 1,
-    "text": "test",
-    "stime": 30000,
-    "size": 25,
-    "color": 0xff0000
-  }, {
-    "mode": 1,
-    "text": "test",
-    "stime": 4000,
-    "size": 25,
-    "color": 0x00c1de
-  }, {
-    "mode": 1,
-    "text": "test",
-    "stime": 5000,
-    "size": 25,
-    "color": 0x00c1de
-  }, {
-    "mode": 1,
-    "text": "test",
-    "stime": 10000,
-    "size": 25,
-    "color": 0x00c1de
-  }, {
-    "mode": 1,
-    "text": "test",
-    "stime": 1000,
-    "size": 25,
-    "color": 0xffffff
-  }, {
-    "mode": 1,
-    "text": "test",
-    "stime": 1000,
-    "size": 25,
-    "color": 0xffffff
-  }, {
-    "mode": 1,
-    "text": "test",
-    "stime": 1000,
-    "size": 25,
-    "color": 0xffffff
-  }, {
-    "mode": 1,
-    "text": "test",
-    "stime": 1000,
-    "size": 25,
-    "color": 0xffffff
-  }, {
-    "mode": 1,
-    "text": "test",
-    "stime": 1000,
-    "size": 25,
-    "color": 0xffffff
-  }, {
-    "mode": 1,
-    "text": "test",
-    "stime": 1000,
-    "size": 25,
-    "color": 0xffffff
-  }, {
-    "mode": 1,
-    "text": "test",
-    "stime": 1000,
-    "size": 25,
-    "color": 0xffffff
-  }, {
-    "mode": 1,
-    "text": "test",
-    "stime": 1000,
-    "size": 25,
-    "color": 0xffffff
-  }, {
-    "mode": 1,
-    "text": "test",
-    "stime": 1000,
-    "size": 25,
-    "color": 0xffffff
-  }, {
-    "mode": 1,
-    "text": "test",
-    "stime": 1000,
-    "size": 25,
-    "color": 0xffffff
-  }, {
-    "mode": 1,
-    "text": "test",
-    "stime": 1000,
-    "size": 25,
-    "color": 0xffffff
-  }, {
-    "mode": 1,
-    "text": "test",
-    "stime": 1000,
-    "size": 25,
-    "color": 0xffffff
-  }, {
-    "mode": 1,
-    "text": "test",
-    "stime": 1000,
-    "size": 25,
-    "color": 0xffffff
-  }]
+      var danmukuList = []
       var player = new Aliplayer(
         {
           id: "player-con",
-          source: this.url,
+          source: "//player.alicdn.com/video/editor.mp4",
           width: "1200px",
           height: "675px",
           autoplay: true,
           isLive: true,
-          rePlay: false,
+          
           playsinline: true,
           preload: true,
           controlBarVisibility: "hover",
@@ -226,35 +123,52 @@
             },
           ],
           components: [
+            // {
+            //   name: "RateComponent",
+            //   type: RateComponent,
+            // },
             {
-              name: "RateComponent",
-              type: RateComponent,
-            },
-            {
-              name:"AliplayerDanmuComponent",
-              type:AliplayerDanmuComponent,
+              name: "AliplayerDanmuComponent",
+              type: AliplayerDanmuComponent,
               args: [danmukuList]
             }
           ],
         },
         function (player) {
+          _this.player = player;
+          _this.fullscrean=player.fullscreenService.getIsFullScreen();
+          var handleRequestFullScreen=function(){
+          _this.fullscrean=player.fullscreenService.getIsFullScreen();
+          };
+          var handleCancelFullScreen=function(){
+          _this.fullscrean=player.fullscreenService.getIsFullScreen();
+
+          }
+          player.on("requestFullScreen",handleRequestFullScreen);
+          player.on("cancelFullScreen",handleCancelFullScreen)
           console.log("The player is created");
         }
       );
     },
-    components:{
+    methods: {
+      onSendTextMsg(message) {
+        this.player.getComponent("AliplayerDanmuComponent").sendDanmuHandle(message)
+      }
+    },
+    components: {
       Test
     }
   };
 </script>
 <style lang="scss">
-  .live-vedio{
+  .live-vedio {
     width: 1570px;
     margin: 0 auto;
     margin-bottom: 30px;
     display: flex;
-    
+
   }
+
   .vedio {
     width: 1200px;
     position: relative;
@@ -277,6 +191,7 @@
     font-family: "PingFangSC-Medium", "PingFang SC";
     font-weight: 500;
   }
+
   /* 组件样式 */
   .player-hidden {
     display: none !important;
@@ -325,106 +240,7 @@
     }
   }
 </style>
-<style>
-  .aliplayer-danmuku {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  &.abp {
-    position: absolute;
-    .container {
-      z-index: 0;
-    }
-  }
-  .danmu {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
-}
 
-.ali-danmuku-control {
-  float: right;
-  color: #fff;
-  margin-right: 5px;
-  position: relative;
-  display: table-cell;
-  margin-top: 8px;
-  .iconfont {
-    font-size: 35px;
-    cursor: pointer;
-    vertical-align: middle;
-    user-select: none;
-    line-height: initial;
-    &.icon-danmu-close {
-      display: inline-block;
-    }
-  }
-  .player-tooltip {
-    &.close, &.open {
-      right: -12px;
-    }
-  }
-  @media (min-width: 768px) {
-    .icon-danmu-close:hover + .player-tooltip {
-      display: block;
-    }
-    .icon-danmu-open:hover + .player-tooltip {
-      display: block;
-    }
-  }
-  .ali-danmu-input-wrap {
-    width: 200px;
-    display: none;
-  }
-}
-.ali-danmu-input {
-  position: relative;
-  width: 100%;
-  display: inline-block;
-  input {
-    display: inline-block;
-    width: 100%;
-    padding-right: 40px;
-    box-sizing: border-box;
-    padding: 5px 40px 5px 5px;
-    background-color: rgba(130, 132, 138, .4);
-    border: 1px solid #c0c4cc;
-    font-size: 14px;
-    color: #fff;
-    border-radius: 3px;
-    &:focus {
-      outline: none;
-      border-color: #0f84fd;
-    }
-  }
-  .danmu-input-enter {
-    position: absolute;
-    right: 0;
-    top: 0;
-    border: 1px solid;
-    color: #fff;
-    background-color: #0f84fd;
-    border-color: #0f84fd;
-    font-size: 12px;
-    padding: 6px 7px;
-    display: inline-block;
-    height: 28px;
-    border-radius: 0 3px 3px 0;
-    cursor: pointer;
-    &:focus {
-      outline: none;
-    }
-    &:hover {
-      background-color: #288df5;
-      border-color: #288df5;
-    }
-  }
-}
-
-</style>
 <style scoped>
   @import "https://g.alicdn.com/de/prismplayer/2.8.8/skins/default/aliplayer-min.css";
 </style>

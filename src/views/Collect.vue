@@ -6,8 +6,7 @@
         <div class="collect-bottom" :style="{'margin-bottom':total<=pageSize?'30px':''}">
             <course-item v-for="(item,index) in list" :key="index" :list="item.courseEntity" @click.native="seeDetail(item.couId)">
                 <img slot="img" :src="item.courseEntity.cover">
-                <div slot="collect" class="iscollected" ></div>
-              
+                <div slot="collect" class="iscollected" ></div> 
                 <div slot="last" class="btn">
                     <span>会员价：&yen;</span>
                     <span class="price">{{item.courseEntity.pricevip}}</span>
@@ -49,7 +48,6 @@
                 this.getData()
             },
             seeDetail(couId){
-                console.log(9999)
                 this.$router.push({path:'/index/detail',query:{couId}})
             }
         },
