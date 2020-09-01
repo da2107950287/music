@@ -23,6 +23,7 @@
             <!-- <chat v-if="isShowChat" @hideChat="hideChat" class="chat"></chat> -->
 
         </div>
+
     </div>
 </template>
 <script>
@@ -39,56 +40,75 @@
                 configId: "6a6f3d22-243d-4b3c-9e7f-5598c1057842"
             }
         },
-        
+
         watch: {
             $route(to, from) {
                 this.isShow = false
             }
         },
         created() {
-            let _this=this
+            let _this = this
             window.easemobim = window.easemobim || {};
-            if(localStorage.getItem("token")){
+            if (localStorage.getItem("token")) {
                 this.$post("/userinfo/showUserinfo").then(res => {
-                if (res.code == 200) {
-                    this.uid = res.data.userinfo.uid;
-                    this.nickname = res.data.userinfo.nickname;
-                    this.account = res.data.userinfo.account;
-                    easemobim.config = {
-                        configId: _this.configId,
-                        hide: true,
-                        autoConnect: true,
-                        hideKeyboard: true,
-                        // dialogPosition: { x: '30px', y: '100px' },
-                        // user: {
-                        //     // username 必填，password 和 token 任选一项填写
-                        //     username: this.uid,
-                        //     password: this.password,
-                        // },
+                    if (res.code == 200) {
+                        this.uid = res.data.userinfo.uid;
+                        this.nickname = res.data.userinfo.nickname;
+                        this.account = res.data.userinfo.account;
+                        easemobim.config = {
+                            configId: _this.configId,
+                            hide: true,
+                            autoConnect: true,
+                            hideKeyboard: true,
+                            // dialogPosition: { x: '30px', y: '100px' },
+                            // user: {
+                            //     // username 必填，password 和 token 任选一项填写
+                            //     username: this.uid,
+                            //     password: this.password,
+                            // },
 
-                        visitor: {
-                            userNickname: _this.username,
-                            phone: _this.account
-                        },
-                        onready: function () {
-                            console.log("open")
-                        },
-                        onclose: function () {
-                            _this.isShowChat = false
+                            visitor: {
+                                userNickname: _this.username,
+                                phone: _this.account
+                            },
+                            onready: function () {
+                                console.log("open")
+                            },
+                            onclose: function () {
+                                _this.isShowChat = false
+                            }
                         }
+
+
                     }
-
-
-                }
-            })
+                })
 
             }
-            
+
         },
         methods: {
+            kefu(){
+
+            },
             showChat() {
                 this.isShowChat = true;
+
                 easemobim.bind({ configId: this.configId })
+                this.$nextTick(()=>{
+                    window.onload=function(){
+                        console.log(8888)
+                        console.log(document.querySelector(".easemobim-chat-panel"))
+                    // console.log(a=document.getElementsByClassName("easemobim-chat-panel")[0])
+                    console.log(document.getElementsByClassName("easemobim-chat-panel")[0].contentWindow.document.getElementsByClassName('em-widget-box'),22222)
+                    var x=document.querySelector(".easemobim-chat-panel");
+                    console.log(x.contentWindow)
+                    console.log(document.querySelector('.easemobim-chat-panel').contentDocument.document.getElementsByClassName('div'),11111)
+                    var y=x.contentWindow 
+                    console.log(y)
+                    }
+                    var a;
+                  
+                })
             },
             hideChat() {
                 this.isShowChat = false;

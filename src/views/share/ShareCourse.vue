@@ -18,7 +18,7 @@
           <span class="font12">{{userinfo.nickname}}</span>
         </div>
         <div>
-          <img src="~assets/image/icon_vip .png" class="vip-icon" />
+          <img src="~assets/image/icon_vip.png" class="vip-icon" />
           <span class="font12">&yen;{{courseinfo.pricevip}}</span>
           <span class="price">&yen;{{courseinfo.price}}</span>
         </div>
@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="block"></div>
-      <div v-if="currentIndex==0" v-html="courseinfo.lecturerIntro"></div>
+      <div v-if="currentIndex==0" v-html="courseinfo.intro"></div>
       <div v-else-if="currentIndex==1" class="catalogue">
         <div v-for="(el,index) in catalogue" :key="index">
           <div class="num">{{index+1}}</div>
@@ -38,16 +38,16 @@
             <div class="cat-name">{{el.catName}}</div>
             <div class="flex">
               <span class="font12">主讲人：{{el.lecturer}}</span>
-              <div class="font12">
-                <span  v-if="el.catType==1">【直播】</span>
-                <span  v-else>【录播】</span>
+              <div class="font12 cat-type">
+                <span v-if="el.catType==1">【直播】</span>
+                <span v-else>【录播】</span>
               </div>
-              <div v-if="el.audition==1" class="audition">试听</div>
-              <div class="font12" v-else>
-                <span  v-if="el.catType==1">{{el.catTime}}</span>
+              <div class="font12" v-if="el.audition==2">
+                <span v-if="el.catType==1">{{el.catTime}}</span>
               </div>
             </div>
           </div>
+          <div v-if="el.audition==1" class="audition tag">试听</div>
         </div>
       </div>
       <div v-else v-html="courseinfo.lecturerIntro"></div>
@@ -69,7 +69,6 @@ export default {
     this.$post("/course/showCourse", { couId: this.couId }).then((res) => {
       if (res.code == 200) {
         this.courseinfo = res.data;
-        console.log(this.courseinfo);
       }
     });
     this.$post("/userinfo/showUserinfo", {}).then((res) => {
@@ -80,6 +79,9 @@ export default {
     this.$post("/course/getCatalogue", { couId: this.couId }).then((res) => {
       if (res.code == 200) {
         this.catalogue = res.data;
+        this.catalogue.forEach((el,index) => {
+          this.catalogue[index].catTime=el.catTime.substr(0,16)
+        });
       }
     });
   },
@@ -108,6 +110,8 @@ export default {
     .open {
       width: 52px;
       height: 23px;
+      
+border-radius: 2px;
       text-align: center;
       line-height: 23px;
       background-color: #fff;
@@ -208,7 +212,8 @@ export default {
       height: 16px;
       text-align: center;
       line-height: 16px;
-      font-size: 12px;
+       font-size: 12px;
+    transform : scale(0.83,0.83);
       color: #fff;
       background-color: #fb9715;
       border-top-left-radius: 9px;
@@ -235,6 +240,7 @@ export default {
       display: flex;
       margin-top: 20px;
       align-items: center;
+      position: relative;
 
       .num {
         width: 20px;
@@ -253,10 +259,18 @@ export default {
         font-weight: 500;
         color: #36363a;
       }
-      .flex{
+      .flex {
         display: flex;
         align-items: center;
+        .cat-type{
+          margin:0 30px
+        }
       }
+      .tag{
+        position: absolute;
+        right: 0;
+      }
+      
     }
   }
 }

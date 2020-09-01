@@ -64,6 +64,7 @@
 </script>
 <style lang="scss" scoped>
   .user-box {
+    
     .user {
       width: 1200px;
       margin: 0 auto;
@@ -75,6 +76,8 @@
     width: 240px;
     text-align: center;
     margin-right: 10px;
+    height: 100%;
+    border: 1px solid #e8e8e8;
 
     .left-top {
       height: 180px;

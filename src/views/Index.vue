@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div class="index">
         <top-header></top-header>
-            <router-view />
+        <router-view />
         <bottom-footer></bottom-footer>
     </div>
 </template>
@@ -15,3 +15,9 @@
         }
     }
 </script>
+<style scoped>
+  .index{
+    min-width: 1200px;
+    background-color: #F5F5F5;
+  }
+</style>

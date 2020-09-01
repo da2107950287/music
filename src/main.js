@@ -9,7 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import VueLazyload from 'vue-lazyload'
 
 
-import 'normalize.css/normalize.css'
+// import 'normalize.css/normalize.css'
 import {post} from './assets/js/axios'
 import axios from 'axios'
 import Vant from 'vant';

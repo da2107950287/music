@@ -160,6 +160,7 @@
     width: 100%;
     margin-bottom: 30px;
     background-color: #fff;
+    box-shadow: 1px 1px 1px #e8e8e8;
   }
 
   .top-header {

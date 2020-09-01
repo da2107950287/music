@@ -47,8 +47,8 @@
   html,
   body,
   #app {
-    min-width: 1200px;
-    background-color: #F5F5F5;
+    /* min-width: 1200px;
+    background-color: #F5F5F5; */
     font-family:"PingFangSC-Regular","PingFang SC,sthupo";
   }
 </style>

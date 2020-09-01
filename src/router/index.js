@@ -10,9 +10,19 @@ VueRouter.prototype.push = function push(location) {
 const routes = [
   { path: '/', redirect: '/index' },
   {
+    path: '/ShareCircle',
+    component: () => import("views/share/ShareCircle.vue"),
+    meta: { title: "分享圈子" }
+  },
+  {
     path: '/shareCourse',
     component: () => import("views/share/ShareCourse.vue"),
     meta: { title: "分享课程" }
+  },
+  {
+    path: '/shareGood',
+    component: () => import("views/share/ShareGood.vue"),
+    meta: { title: "分享商品" }
   },
   {
     path: '/index',
