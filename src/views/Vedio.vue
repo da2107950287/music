@@ -7,6 +7,8 @@
     </div>
   </div>
 </template>
+
+
 <script>
   import RateComponent from "components/vedio/RateComponent/index.js";
   export default {
@@ -15,7 +17,6 @@
         url: "",
         catName: '',
         uid: '',
-
       };
     },
     mounted() {
@@ -119,6 +120,8 @@
   };
 </script>
 <style lang="scss">
+  @import "~assets/css/mixin";
+
   .vedio {
     width: 1200px;
     margin: 0 auto;
@@ -127,18 +130,15 @@
   }
 
   .title-box {
-    width: 1200px;
-    height: 48px;
-    position: absolute;
-    top: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    @include wh(1200px, 48px);
+    @include fj();
+    @include pa();
+
     padding: 0 30px;
     box-sizing: border-box;
-    background-color: #36363A;
+    background-color: $tcolor;
     opacity: 0.7;
-    color: #fff;
+    color: $fc;
     font-family: "PingFangSC-Medium", "PingFang SC";
     font-weight: 500;
   }
@@ -150,7 +150,7 @@
 
   .rate-components {
     float: right;
-    color: #fff;
+    color: $fc;
     height: 35px;
     position: relative;
     box-sizing: border-box;
@@ -158,12 +158,7 @@
   }
 
   .current-rate {
-    display: flex;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-    width: 70px;
-    cursor: pointer;
+    @include fj(center, center) @include wh(70px, 100%) cursor: pointer;
   }
 
   .rate-list {
@@ -182,7 +177,7 @@
       cursor: pointer;
 
       &.current {
-        color: #98b702;
+        color: $tc;
       }
 
       &:hover {

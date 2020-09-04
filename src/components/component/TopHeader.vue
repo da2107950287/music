@@ -14,49 +14,35 @@
       <div class="right">
         <div @click="go('/index/user/news')" class="notification">
           <div class="notification-message"></div>
-          <!-- <img src="~assets/image/icon_hender_xx.png" class="notification-message" /> -->
           <div class="red-box" v-if="notReadNum>0">{{notReadNum}}</div>
         </div>
         <div v-if="isShow" class="login" @click="showLoginBox">
           <div class="login-icon"></div>
-          <!-- <img src="~assets/image/pho_def.png" class="login-icon" /> -->
+
           <span class="login-text">点击登录</span>
         </div>
-        <!-- <div v-else class="login" @click="showMenu">
-          <img :src="avatar" class="login-icon" />
-          <span class="login-text">{{nickName}}</span>
-        </div> -->
-        <!-- 个人菜单 -->
+        <!-- 个人下拉菜单 -->
         <el-dropdown v-else @command="handleCommand" placement="bottom-end">
-          <!-- <el-button type="primary">
-            更多菜单<i class="el-icon-arrow-down el-icon--right"></i>
-          </el-button> -->
           <div class="login">
-            <img :src="avatar" class="login-icon" />
+            <img v-lazy="avatar" class="login-icon" />
             <span class="login-text">{{nickName}}</span>
           </div>
-          <el-dropdown-menu slot="dropdown" >
-            <el-dropdown-item v-for="(item,index) in menu" :command="item.link" :key="index">{{item.title}}</el-dropdown-item>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item v-for="(item,index) in menu" :command="item.link" :key="index">{{item.title}}
+            </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <!-- <transition name="fade">
-          <top-menu v-if="isShowMenu" @hideMenu="hideMenu"></top-menu>
 
-        </transition> -->
       </div>
     </div>
     <!-- 登录弹窗 -->
     <login-box :dialogFormVisible="dialogFormVisible" @hideLoginBox="hideLoginBox"></login-box>
-
-    <!-- <consult></consult> -->
   </div>
 </template>
 <script>
- 
+
   import LoginBox from "components/component/LoginBox";
   import TopMenu from "components/component/TopMenu";
-
-
   export default {
     inject: ["reload"],
     data() {
@@ -90,7 +76,7 @@
       },
     },
     created() {
-      //获取头部课程类
+      //获取头部课程类别
       this.$post('/other/getDictionary', { dicType: "smd1" }).then(res => {
         if (res.code == 200) {
           this.list = res.data;
@@ -115,17 +101,10 @@
       consult() { },
       //跳转到我的消息页面
       go(link) {
-        if (localStorage.getItem("token")) {
-          this.$router.push(link);
-        } else {
-          this.$message.warning("对不起，请登录后再进行操作！");
-        }
+        this.$router.push(link);
       },
       showMenu() {
         this.isShowMenu = !this.isShowMenu;
-      },
-      hideMenu() {
-        this.isShowMenu = false;
       },
       //隐藏登录框
       hideLoginBox() {
@@ -135,7 +114,7 @@
       showLoginBox() {
         this.dialogFormVisible = true;
       },
-      handleCommand(command){
+      handleCommand(command) {
         if (command.includes("/home")) {
           this.$router.push("/index/home");
           localStorage.clear();
@@ -152,82 +131,64 @@
   };
 </script>
 <style lang="scss" scoped>
- 
-  .fade-leave-active {
-    transition: opacity .5s;
-  }
+  @import "~assets/css/mixin";
   .top-header-box {
     width: 100%;
     margin-bottom: 30px;
-    background-color: #fff;
+    background-color: $fc;
     box-shadow: 1px 1px 1px #e8e8e8;
   }
 
   .top-header {
-    width: 1200px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    position: relative;
+    @include wh(1200px, 100px);
+    @include fj(flex-start) position: relative;
     margin-left: auto;
     margin-right: auto;
 
     .top-center {
-      display: flex;
-      align-items: center;
+      @include fj();
       margin-left: 60px;
       text-align: center;
       font-weight: 500;
-      font-family: "PingFangSC-Medium", "PingFang SC";
+      font-family: $family;
     }
   }
 
   .left {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include fj();
     text-align: center;
 
     .logo {
-      width: 60px;
-      height: 60px;
-      line-height: 60px;
+      @include whl(60px, 60px, 60px);
       font-weight: 600;
       font-size: 18px;
-      background: rgba(255, 255, 255, 1);
+      background: $fc;
       box-shadow: 0px 0px 6px 0px rgba(129, 156, 2, 0.4);
       border-radius: 10px;
-      color: #98b702;
+      color: $tc;
     }
 
     .title {
-      width: 96px;
-      height: 25px;
+      @include whl(96px, 25px, 25px);
       font-size: 24px;
-      color: rgba(152, 183, 2, 1);
-      line-height: 25px;
+      color: $tc;
       margin-left: 10px;
       font-family: "sthupo";
     }
   }
 
-
-
   .item {
-    width: 120px;
-    height: 100px;
-    line-height: 100px;
+    @include whl(120px, 100px, 100px);
     cursor: pointer;
     font-size: 16px;
-    font-weight: 400;
-    color: #36363a;
-    background-color: #fff;
+
+    color: $tcolor;
+    background-color: $fc;
   }
 
   .active {
-    background: #98b702;
-    color: #fff;
+    background: $tc;
+    color: $fc;
   }
 
   .notification {
@@ -242,62 +203,52 @@
     }
 
     .red-box {
-      width: 14px;
-      height: 14px;
-      background-color: #FF4545;
+      @include whl(14px, 14px, 14px) background-color: #FF4545;
       border-radius: 50%;
-      position: absolute;
-      left: 15px;
-      top: -5px;
+      @include pa(15px, -5px);
       font-size: 10px;
-      line-height: 14px;
       text-align: center;
-      color: #fff;
+      color: $fc;
     }
 
   }
 
   .right {
-    display: flex;
-    align-items: center;
+    @include fa();
     margin-left: 73px;
   }
 
   .login {
-    display: flex;
-    align-items: center;
+    @include fa();
     margin-left: 30px;
   }
 
   .login-icon {
-    width: 24px;
-    height: 24px;
+    @include wh(24px, 24px);
     cursor: default;
     background-image: url(~assets/image/icon.png);
-      background-position: -120px -88px;
-      border-radius: 50%;
+    background-position: -120px -88px;
+    border-radius: 50%;
   }
 
   .login-text {
     margin-left: 5px;
     line-height: 60px;
     cursor: default;
-    font-weight: 400;
-    font-family: "PingFangSC-Regular", "PingFang SC";
   }
 
-  
+
 
   /deep/ .el-form-item.is-error .el-input__inner {
-    border-color: #98b702;
+    border-color: $tc;
   }
 
-  .el-dropdown-menu__item:not(.is-disabled):hover{
-    color: #98b702;
-    background-color: #fff;
+  .el-dropdown-menu__item:not(.is-disabled):hover {
+    color: $tc;
+    background-color: $fc;
   }
-  .el-dropdown-menu{
+
+  .el-dropdown-menu {
     padding: 10px 20px;
-
   }
 </style>

@@ -13,7 +13,7 @@
           <!-- 图片消息 -->
           <img
             :key="item.msg"
-            :src="item.msg?item.msg:''"
+            v-lazy="item.msg?item.msg:''"
             v-if="item.type === 'img'"
             class="img-style"
           />
@@ -243,7 +243,7 @@ export default {
   width: 100%;
   height: calc(100% - 250px);
   top: 50px;
-  background: #fff;
+  background: $fc;
   overflow-y: scroll;
   scrollbar-width: none; // firefox下滚动条不显示
   -ms-overflow-style: none; // IE下滚动条不显示
@@ -255,14 +255,14 @@ export default {
 .messagebox {
   width: 360px;
   height: 675px;
-  background-color: #fff;
+  background-color: $fc;
 
   .title {
     height: 48px;
     line-height: 48px;
     text-align: center;
-    background-color: #98b702;
-    color: #fff;
+    background-color: $tc;
+    color: $fc;
     font-family: "PingFangSC-Medium", "PingFang SC";
     font-weight: 500;
   }
@@ -285,8 +285,8 @@ export default {
       border-radius: 4px;
     }
     .byself {
-      background: #98b702;
-      color: #fff;
+      background: $tc;
+      color: $fc;
       float: right;
     }
   }
@@ -329,8 +329,8 @@ export default {
       line-height: 34px;
       text-align: center;
       font-size: 14px;
-      color: #fff;
-      background-color: #98b702;
+      color: $fc;
+      background-color: $tc;
       border-radius: 0px 4px 4px 0px;
       cursor: default;
     }

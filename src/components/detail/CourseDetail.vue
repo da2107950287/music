@@ -1,3 +1,4 @@
+
 <template>
     <div class="course-detail">
         <div class="top">
@@ -8,8 +9,8 @@
         <div class="content">
             <course-description v-show="currentIndex==0" :courseDes="couresDetail"></course-description>
             <course-catalog v-show="currentIndex==1" :catalogue="catalogue" :buyState="buyState"></course-catalog>
-            <!-- <div v-show="currentIndex==2" v-html="couresDetail.lecturerIntro"></div> -->
-            <teacher-intro v-show="currentIndex==2"  :teacherList="couresDetail.list"></teacher-intro>
+            <div v-show="currentIndex==2" v-html="couresDetail.lecturerIntro"></div>
+            <!-- <teacher-intro v-show="currentIndex==2"  :teacherList="couresDetail.list"></teacher-intro> -->
         </div>
     </div>
 </template>
@@ -63,8 +64,10 @@
     }
 </script>
 <style lang="scss" scoped>
+    @import "~assets/css/mixin";
+
     .course-detail {
-        background-color: #fff;
+        background-color: $fc;
         width: 1200px;
         margin-bottom: 30px;
     }
@@ -93,14 +96,14 @@
         text-align: center;
         background-color: #f7f7f7;
         border-top: 1px solid #ddd;
-        color: #36363A;
+        color: $tcolor;
         cursor: default;
     }
 
     .active {
-        border-top:3px solid #98B702;
+        border-top:3px solid $tc;
         
-        color: #98B702;
-        background-color: #fff;
+        color: $tc;
+        background-color: $fc;
     }
 </style>

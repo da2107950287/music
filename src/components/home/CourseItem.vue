@@ -63,24 +63,21 @@
     }
 </script>
 <style lang="scss" scoped>
+    @import "~assets/css/mixin";
     .course-box {
-        width: 384px;
-        height: 306px;
+        @include wh(384px,306px);      
         box-sizing: border-box;
         margin-top: 45px;
-        background-color: #fff;
+        background-color: $fc;
         border: 1px solid rgba(238, 238, 238, 1);
     }
 
     .course-item {
         position: relative;
-        background: #fff;
+        background: $fc;
         border-radius: 3px;
         padding: 30px 20px 15px;
         box-sizing: border-box;
-
-
-
     }
 
     .course-box:hover {
@@ -92,14 +89,10 @@
     }
 
     .title {
-        width: 90px;
-        height: 30px;
-        position: absolute;
-        top: -15px;
-        left: 148px;
-        color: #FFFFFF;
-        line-height: 30px;
-        background: #98B702;
+        @include whl(90px,30px,30px)
+        @include pa(-15px,148px)
+        color: $fc;
+        background: $tc;
         border-radius: 15px;
         text-align: center;
     }
@@ -109,8 +102,7 @@
         box-sizing: border-box;
         background-color: #F7F7F7;
         color: #9899A1;
-        font-size: 16px;
-        /* text-align: left; */
+        
         display: block;
 
 
@@ -120,7 +112,7 @@
     .course-name {
         margin-bottom: 20px;
         line-height: 36px;
-        color: #36363A;
+        color: $tcolor;
         font-size: 22px;
         font-weight: 500;
         overflow: hidden;
@@ -130,8 +122,7 @@
     }
 
     .img-icon {
-        width: 16px;
-        height: 16px;
+        @include wh(16px,16px)
         margin-right: 3px;
         background-image: url(~assets/image/icon.png);
     }
@@ -154,8 +145,7 @@
     }
 
     .common {
-        display: flex;
-        align-items: center;
+        @include fa();
         line-height: 22px;
     }
 
@@ -168,23 +158,19 @@
     }
 
     .blank {
-        width: 1px;
-        height: 20px;
+       @include wh(1px,20px)
         background-color: #ccc;
         margin-left: 8px;
     }
 
     .bottom {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+      @include fj()
         margin-top: 15px;
     }
 
     .left,
     .right {
-        display: flex;
-        align-items: center;
+        @include fa();
 
     }
 
@@ -196,8 +182,7 @@
 
     .right {
         .vip {
-            width: 32px;
-            height: 18px;
+            @include wh(32px,18px)
             background-image: url(~assets/image/icon.png);
             background-position: -358px -91px;
         }
@@ -205,7 +190,7 @@
 
 
     .money {
-        color: #36363A;
+        color: $tcolor;
         font-family:"PingFangSC-Semibold","PingFang SC";
     }
 

@@ -14,7 +14,9 @@
           <!-- 直播 -->
           <div v-if="item.catType==1">
             <div v-if="item.playstate==1">未开播</div>
-            <div v-else-if="item.playstate==2" class="living"><div></div>直播中</div>
+            <div v-else-if="item.playstate==2" class="living">
+              <div></div>直播中
+            </div>
             <div v-else>{{item.catTime}}</div>
           </div>
           <!-- 录播 -->
@@ -62,36 +64,31 @@
   }
 </script>
 <style lang="scss" scoped>
+  @import "~assets/css/mixin";
+
   .course-catalog {
     padding: 30px;
   }
 
   .title {
-    height: 52px;
-    width: 1140px;
-    line-height: 52px;
-    background-color: #f7f7f7;
+    @include whl(1140px, 52px, 52px) background-color: #f7f7f7;
     text-align: left;
-    color: #36363a;
-    font-family: "PingFangSC-Regular", "PingFang SC";
-    font-weight: 400;
+    color: $tcolor;
   }
 
   .title::before {
     content: "";
     display: inline-block;
-    width: 4px;
-    height: 12px;
-    background-color: #98b702;
+    @include wh(4px,12px);
+    background-color: $tc;
     margin-right: 20px;
   }
 
   .lists {
     .list {
+      @include fj();
       height: 67px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+
       font-size: 14px;
       line-height: 20px;
       border-bottom: 1px solid #eee;
@@ -99,17 +96,16 @@
       cursor: pointer;
 
       >div {
-        display: flex;
-        flex: 1;
-        justify-content: flex-end;
 
-        span {
+        flex: 1;
+
+        @include fj(flex-end);
+         span {
           color: #6a6a6f;
         }
 
         .play {
-          width: 20px;
-          height: 20px;
+          @include wh(20px,20px)
           margin: 0 10px;
           background-image: url(~assets/image/icon.png);
         }
@@ -149,17 +145,18 @@
 
   .list:hover span,
   .list:hover div {
-    color: #98b702 !important;
+    color: $tc !important;
   }
-  .living{
+
+  .living {
     color: #FB9715;
     font-size: 14px;
-    >div{
-      width: 16px;
-      height: 16px;
+
+    >div {
+      @include wh(16px,16px);
       background-image: url(~assets/image/icon.png);
       background-position: -312px -92px;
-      
+
     }
   }
 </style>

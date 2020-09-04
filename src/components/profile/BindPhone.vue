@@ -167,14 +167,16 @@
   };
 </script>
 <style lang="scss" scoped>
+  @import "~assets/css/mixin";
+
   .form {
-    display: flex;
+    @include fa();
     flex-direction: column;
-    align-items: center;
+
 
     .bind-phone {
       margin: 15px 0 40px;
-      color: #36363a;
+      color: $tcolor;
       font-size: 20px;
       font-weight: 500;
       line-height: 28px;
@@ -191,7 +193,7 @@
       border: none;
       border: 1px solid #ddd;
       font-size: 14px;
-      color: #36363a;
+      color: $tcolor;
       border-radius: 2px;
       background-color: #f7f7f7;
     }
@@ -200,18 +202,16 @@
       position: relative;
 
       .code {
-        position: absolute;
-        top: 0;
-        right: 20px;
+        @include pa(0,20px)
         font-size: 14px;
         font-family: "PingFangSC-Regular", "PingFang SC";
         font-weight: 400;
-        color: #98b702;
+        color: $tc;
         cursor: default;
       }
 
       .can-click {
-        color: #98b702;
+        color: $tc;
       }
     }
 
@@ -233,12 +233,11 @@
     }
 
     .login-button {
-      width: 300px;
-      height: 40px;
-      background-color: #98b702;
+      @include wh(300px,40px)
+      background-color: $tc;
       border-radius: 2px;
       border: 0;
-      color: #fff;
+      color: $fc;
       font-size: 16px;
       font-weight: 500;
       margin: 12px 0;

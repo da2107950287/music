@@ -43,21 +43,22 @@
   }
 </script>
 <style lang="scss" scoped>
+  @import "~assets/css/mixin";
+
 .pay-success {
   width: 1200px;
   margin: 0 auto;
   padding: 60px 0;
   text-align: center;
-  background-color: #fff;
+  background-color: $fc;
   color: #9899a1;
   img {
-    width: 60px;
-    height: 60px;
+  @include wh(60px,60px)
   }
 
   .integral {
     margin-top: 20px;
-    color: #36363a;
+    color: $tcolor;
     font-size: 20px;
     line-height: 28px;
     font-family: "PingFangSC-Medium", "PingFang SC";
@@ -81,18 +82,15 @@
     line-height: 22px;
 
     span:nth-child(2) {
-      color: #36363a;
+      color: $tcolor;
       font-family: "PingFangSC-Medium", "PingFang SC";
     }
   }
   .btn {
     margin-top: 60px;
-    display: flex;
-    justify-content: center;
+    @include fj(center,center)
     div {
-      width: 120px;
-      height: 40px;
-      line-height: 40px;
+      @include whl(120px,40px,40px)
       text-align: center;
       font-size: 14px;
     }
@@ -104,8 +102,8 @@
     }
     div:nth-child(2) {
       margin-left: 20px;
-      background-color: #98b702;
-      color: #fff;
+      background-color: $tc;
+      color: $fc;
     }
   }
 }

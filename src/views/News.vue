@@ -98,7 +98,7 @@
       },
       // 获取已读消息
       readMsg() {
-        this.currentPage=1;
+        this.currentPage = 1;
         this.$post('/other/getMessage', { PageNumber: this.currentPage, PageSize: this.pageSize }).then(res => {
           if (res.code == 200) {
             this.arr = res.data.list;
@@ -131,6 +131,7 @@
 </script>
 <style lang="scss" scoped>
   @import "~assets/css/pagination.css";
+  @import "~assets/css/mixin";
 
   .flex {
     display: flex;
@@ -143,11 +144,11 @@
   .table {
     padding: 30px 30px 0;
     margin-top: 10px;
-    background-color: #fff;
+    background-color: $fc;
 
     .select-icon {
-      width: 16px;
-      height: 16px;
+      @include wh(16px, 16px);
+
     }
   }
 
@@ -158,9 +159,7 @@
     background-color: #f7f7f7;
 
     .btn {
-      width: 60px;
-      height: 28px;
-      line-height: 28px;
+      @include whl(60px, 28px, 28px);
       text-align: center;
       border-radius: 2px;
       cursor: default;
@@ -172,7 +171,7 @@
       font-size: 14px;
       box-sizing: border-box;
       border: 1px solid #bbb;
-      background-color: #fff;
+      background-color: $fc;
     }
 
     .delete {
@@ -185,9 +184,7 @@
   }
 
   .table-body {
-    height: 108px;
-    width: 100%;
-    padding-left: 30px;
+    @include wh(100%, 108px) padding-left: 30px;
     box-sizing: border-box;
     align-items: center;
     color: #9899a1;
@@ -200,15 +197,16 @@
 
       .td-left {
         position: relative;
+
         img {
-          width: 48px;
-          height: 48px;
+          @include wh(48px, 48px);
+
           margin-right: 10px;
         }
 
         .red-circle {
-          width: 6px;
-          height: 6px;
+
+          @include wh(6px, 6px);
           position: absolute;
           top: 4px;
           right: 14px;
@@ -223,15 +221,14 @@
 
         div {
           justify-content: space-between;
-          font-family: "PingFangSC-Regular", "PingFang SC";
 
           .tip {
-            color: #36363a;
+            color: $tcolor;
             font-weight: 500;
           }
 
           .msg-title {
-            color: #36363A;
+            color: $tcolor;
             font-family: "PingFangSC-Medium", "PingFang SC";
           }
         }

@@ -9,7 +9,7 @@
         <span>(微信/支付宝支付)</span>
       </div>
       <div class="table-body">
-        <el-radio-group v-model="payMethod" fill="#98B702">
+        <el-radio-group v-model="payMethod" fill="$tc">
           <el-radio :label="1">
             <div class="btns">
               <div class="btn wx"></div>
@@ -50,21 +50,22 @@
   };
 </script>
 <style lang="scss" scoped>
+    @import "~assets/css/mixin";
+
   .pay-order {
     padding: 30px;
     margin: 10px 0 30px;
     box-sizing: border-box;
-    background-color: #fff;
+    background-color: $fc;
 
     .title {
-      display: flex;
-      align-items: center;
+     @include fa();
       position: relative;
 
       div:first-child {
         font-size: 20px;
         font-weight: 500;
-        color: #36363a;
+        color: $tcolor;
         font-family:"PingFangSC-Medium","PingFang SC";
       }
 
@@ -77,13 +78,13 @@
 
     .title::before {
       content: "";
+      @include wh(4px,12px);
+      @include pa(5px,-26px);
       position: absolute;
-      top: 5px;
-      left: -26px;
+
       display: inline-block;
-      width: 4px;
-      height: 12px;
-      background-color: #98b702;
+    
+      background-color: $tc;
       margin-right: 30px;
     }
 
@@ -93,11 +94,11 @@
       border: 1px solid #ddd;
 
       .table-header {
-        width: 242px;
-        height: 50px;
+
+        @include wh(242px,50px);
         text-align: center;
         line-height: 50px;
-        color: #36363a;
+        color: $tcolor;
         border-right: 1px solid #ddd;
         border-bottom: 1px solid #ddd;
 
@@ -116,24 +117,19 @@
         }
 
         .el-radio {
-          display: flex;
-          align-items: center;
+       @include fa();
         }
 
         .btns {
-          width: 146px;
-          height: 46px;
+          @include fj(center);
+          @include wh(146px,46px);
           margin-left: 10px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          color: #36363a;
+          color: $tcolor;
           border: 1px solid #ddd;
-          background-color: #fff;
+          background-color: $fc;
 
           .btn {
-            width: 32px;
-            height: 32px;
+            @include wh(32px,32px);
             margin-right: 10px;
             background-image: url(~assets/image/icon.png);
 
@@ -152,30 +148,29 @@
     }
 
     .total {
+      @include fj(flex-end)
       margin-top: 30px;
-      display: flex;
-      justify-content: flex-end;
+  
       color: #9899a1;
 
       .price {
-        color: #36363a;
+        color: $tcolor;
       }
     }
 
     .confirm-btn {
-      display: flex;
-      justify-content: flex-end;
+      @include fj(flex-end)
+
 
       div {
-        width: 204px;
-        height: 56px;
+        @include wh(204px,56px);
         margin-top: 40px;
 
         line-height: 56px;
         text-align: center;
         font-size: 24px;
-        color: #fff;
-        background-color: #98b702;
+        color: $fc;
+        background-color: $tc;
         border-radius: 2px;
         cursor: default;
 
@@ -189,11 +184,11 @@
 
   // 添加颜色类
   .el-radio /deep/ .el-radio__input.is-checked+.el-radio__label {
-    color: #98b702;
+    color: $tc;
   }
 
   .el-radio /deep/ .el-radio__input.is-checked .el-radio__inner {
-    background: #98b702;
-    border-color: #98b702;
+    background: $tc;
+    border-color: $tc;
   }
 </style>

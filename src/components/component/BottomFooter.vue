@@ -24,8 +24,10 @@
 
         </div>
 
+
     </div>
 </template>
+<script src='//192.168.199.157:8080/easemob.js'></script>
 <script>
     import Chat from 'components/chat/Chat'
     export default {
@@ -55,60 +57,52 @@
                         this.uid = res.data.userinfo.uid;
                         this.nickname = res.data.userinfo.nickname;
                         this.account = res.data.userinfo.account;
-                        easemobim.config = {
-                            configId: _this.configId,
-                            hide: true,
-                            autoConnect: true,
-                            hideKeyboard: true,
-                            // dialogPosition: { x: '30px', y: '100px' },
-                            // user: {
-                            //     // username 必填，password 和 token 任选一项填写
-                            //     username: this.uid,
-                            //     password: this.password,
-                            // },
-
-                            visitor: {
-                                userNickname: _this.username,
-                                phone: _this.account
-                            },
-                            onready: function () {
-                                console.log("open")
-                            },
-                            onclose: function () {
-                                _this.isShowChat = false
-                            }
-                        }
-
 
                     }
                 })
-
             }
+        },
+        mounted() {
+            let _this = this;
 
+            easemobim.config = {
+                configId: _this.configId,
+                //设置为您的网页插件页面显示的configId的值
+              
+                //环信移动客服域，固定值，请按照示例配置
+                domain: '//kefu.easemob.com',
+                //您网站上im.html文件的完整路径
+                path: '//192.168.199.157:8080/im.html',
+                // //访客插件static的路径
+                staticPath: '//192.168.199.157:8080/static',
+                hide: true,
+                autoConnect: true,
+                hideKeyboard: true,
+                // dialogPosition: { x: '30px', y: '100px' },
+                // user: {
+                //     // username 必填，password 和 token 任选一项填写
+                //     username: this.uid,
+                //     password: this.password,
+                // },
+                visitor: {
+                    userNickname: _this.username,
+                    phone: _this.account
+                },
+                onready: function () {
+                    console.log(88812)
+         
+                },
+                onsessionclosed: function () {
+                    console.log("close")
+                }
+            }
+        
         },
         methods: {
-            kefu(){
-
-            },
             showChat() {
-                this.isShowChat = true;
 
+                this.isShowChat = true;
                 easemobim.bind({ configId: this.configId })
-                this.$nextTick(()=>{
-                    window.onload=function(){
-                        console.log(8888)
-                        console.log(document.querySelector(".easemobim-chat-panel"))
-                    // console.log(a=document.getElementsByClassName("easemobim-chat-panel")[0])
-                    console.log(document.getElementsByClassName("easemobim-chat-panel")[0].contentWindow.document.getElementsByClassName('em-widget-box'),22222)
-                    var x=document.querySelector(".easemobim-chat-panel");
-                    console.log(x.contentWindow)
-                    console.log(document.querySelector('.easemobim-chat-panel').contentDocument.document.getElementsByClassName('div'),11111)
-                    var y=x.contentWindow 
-                    console.log(y)
-                    }
-                    var a;
-                  
-                })
             },
             hideChat() {
                 this.isShowChat = false;
@@ -130,30 +124,30 @@
     }
 </script>
 <style>
-    body.theme-5 /deep/ .bg-color {
-        display: none !important;
-        background-color: #fff;
+    .em-widget-header {
+        color: red;
     }
 </style>
 <style lang="scss" scoped>
+    @import '~assets/css/mixin';
+
     .footer-box {
         width: 100%;
-        background-color: #36363A;
+        background-color: $tcolor;
         position: relative;
 
         .footer {
             width: 1200px;
             height: 100px;
-            display: flex;
-            justify-content: space-between;
+
+            @include fj();
             margin-left: auto;
             margin-right: auto;
-            background-color: #36363A;
+            background-color: $tcolor;
 
             .left,
             .right {
-                display: flex;
-                align-items: center;
+                @include fj();
                 color: #9899A1;
             }
         }
@@ -232,7 +226,6 @@
             bottom: 160px;
             right: 20px;
             box-shadow: 5px 5px 10px rgba(152, 183, 2, 0.2);
-
         }
     }
 </style>

@@ -56,36 +56,33 @@
   }
 </script>
   <style lang="scss" scoped>
+    @import "~assets/css/mixin";
+
 .good-info {
   padding: 30px;
   margin-top: 10px;
   box-sizing: border-box;
-  background-color: #fff;
+  background-color: $fc;
   .title {
-    display: flex;
-    align-items: center;
+   @include fa();
     position: relative;
     div:first-child {
       font-size: 20px;
       font-weight: 500;
-      color: #36363a;
+      color: $tcolor;
       font-family:"PingFangSC-Medium","PingFang SC";
     }
     div:nth-child(2) {
       margin-left: 10px;
-      font-size: 16px;
       color: #ff4545;
     }
   }
   .title::before {
     content: "";
-    position: absolute;
-    top: 5px;
-    left: -26px;
+    @include pa(5px,-26px);
+    @include wh(4px,12px);
     display: inline-block;
-    width: 4px;
-    height: 12px;
-    background-color: #98b702;
+    background-color: $tc;
     margin-right: 30px;
   }
   .table {
@@ -93,13 +90,12 @@
     border: 1px solid #eee;
     .table-body {
       padding:  0 30px 30px;
-      display: flex;
-      justify-content: space-between;
+      @include fj();
       .list{
          
           div{
               margin-top: 30px;
-              color: #36363A;
+              color: $tcolor;
               span:nth-child(1){
                   margin-right: 30px;
                   color:#6A6A6F

@@ -64,6 +64,8 @@
 </script>
 <style lang="scss" scoped>
   @import '~assets/css/pagination.css';
+  @import "~assets/css/mixin";
+
 
   ul,
   ol,
@@ -79,7 +81,7 @@
     padding: 30px;
     box-sizing: border-box;
 
-    background-color: #fff;
+    background-color: $fc;
   }
 
   .table {
@@ -104,7 +106,7 @@
     display: flex;
     line-height: 80px;
     border-bottom: 1px solid #eee;
-    font-family: "PingFangSC-Regular", "PingFang SC";
+
 
     li:nth-child(1) {
       text-align: left;
@@ -117,7 +119,7 @@
     li {
       width: 25%;
       font-size: 14px;
-      color: #36363a;
+      color: $tcolor;
       text-align: center;
     }
 
@@ -127,6 +129,6 @@
   }
 
   .el-pagination.is-background /deep/ .el-pager li:not(.disabled).active {
-    background-color: #98B702;
+    background-color: $tc;
   }
 </style>

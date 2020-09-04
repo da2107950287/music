@@ -7,30 +7,31 @@
     </div>
   </div>
 </template>
-<style scoped>
-.download {
-  width: 100%;
-  background-image: url(~assets/image/bg_ad_xz.png);
-  background-size: auto 120px;
-  background-repeat: no-repeat;
-}
-.download > div {
-    height: 120px;
-  display: flex;
-  align-items: center;
-  width: 1200px;
-  margin: 0 auto;
-}
-.download > div > div {
-  height: 40px;
-  font-size: 30px;
-  font-family: "FZLTCHJW--GB1-0", "FZLTCHJW--GB1";
-  font-weight: normal;
-  color: #fff;
-}
-.img-qr {
-  width: 70px;
-  height: 70px;
-  margin-left: 57px;
-}
+<style lang="scss" scoped>
+  @import "~assets/css/mixin";
+  .download {
+    width: 100%;
+    background-image: url(~assets/image/bg_ad_xz.png);
+    background-size: auto 120px;
+    background-repeat: no-repeat;
+  }
+
+  .download>div {
+    @include wh(1200px, 120px);
+     @include fa();
+    margin: 0 auto;
+  }
+
+  .download>div>div {
+    height: 40px;
+    font-size: 30px;
+    font-family: "FZLTCHJW--GB1-0", "FZLTCHJW--GB1";
+    font-weight: normal;
+    color: $fc;
+  }
+
+  .img-qr {
+    @include wh(70px,70px);
+    margin-left: 57px;
+  }
 </style>

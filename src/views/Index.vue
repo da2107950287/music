@@ -16,8 +16,8 @@
     }
 </script>
 <style scoped>
-  .index{
-    min-width: 1200px;
-    background-color: #F5F5F5;
-  }
+    .index {
+        min-width: 1200px;
+        background-color: #F5F5F5;
+    }
 </style>

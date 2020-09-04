@@ -73,9 +73,6 @@
         width: 1200px;
         margin: 0 auto 30px;
 
-        .count-time {
-            font-family: "PingFangSC-Regular", "PingFang SC";
-            font-weight: 400;
-        }
+        
     }
 </style>

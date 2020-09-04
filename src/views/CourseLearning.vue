@@ -6,7 +6,7 @@
       </div>
       <div class="right">
         <div class="bg-progress progress1">
-          <el-progress type="circle" :percentage="arr.rateOfLearning" :width="100" color="#98B702" class="progress"></el-progress>
+          <el-progress type="circle" :percentage="arr.rateOfLearning" :width="100" color="$tc" class="progress"></el-progress>
           <div class="progress-text text1">已学习</div>
         </div>
         <div class="bg-progress progress2">
@@ -82,6 +82,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  @import "~assets/css/mixin";
+
 .course-learning {
   width: 1200px;
   margin: 0 auto;
@@ -90,38 +92,33 @@ export default {
   width: 1200px;
   padding: 30px;
   box-sizing: border-box;
-  display: flex;
-  justify-content: space-between;
-  background-color: #fff;
+@include fj();
+  background-color: $fc;
   .right {
-    display: flex;
-    align-items: center;
+    @include fa();
 
     .bg-progress {
-      width: 100px;
-      height: 100px;
+      @include wh(100px,100px);
+
       position: relative;
 
       .progress {
-        width: 100px;
-        height: 100px;
-        // position: absolute;
+        @include wh(100px,100px);
+        /* // position: absolute;
         // top: 50%;
         // left: 50%;
-        // transform: translate(-50px, -50px);
+        // transform: translate(-50px, -50px); */
       }
 
       .progress-text {
-        position: absolute;
-        top: 50%;
-        left: 50%;
+        @include pa();
         transform: translate(-22px, 10px);
         font-size: 14px;
 
         line-height: 20px;
       }
       .text1 {
-        color: #98b702;
+        color: $tc;
       }
       .text2 {
         color: #fb9715;
@@ -134,7 +131,7 @@ export default {
 }
 .course-detail {
   margin-top: 30px;
-  background-color: #fff;
+  background-color: $fc;
   width: 1200px;
   margin-bottom: 30px;
 }
@@ -145,20 +142,18 @@ export default {
 }
 
 .list-tab {
-  width: 600px;
-  height: 64px;
-  line-height: 64px;
+  @include whl(600px,64px,64px);
   text-align: center;
   background-color: #f7f7f7;
   border-top: 1px solid #ddd;
-  color: #36363a;
+  color: $tcolor;
   cursor: default;
 }
 
 .active {
-  border-top-style: #98b702;
-  color: #98b702;
-  background-color: #fff;
+  border-top-style: $tc;
+  color: $tc;
+  background-color: $fc;
 }
 .progress1 /deep/ path:first-child {
   stroke: rgba(152, 183, 2, 0.3);

@@ -34,29 +34,28 @@
         }
     }
 </script>
-<style scoped>
+<style lang="scss" scoped>
+    @import "~assets/css/mixin";
+
     .content {
         padding: 0 20px;
         /* background-color: #F7F7F7; */
         color: #9899A1;
-        font-size: 16px;
+        /* font-size: 16px; */
         /* text-align: left; */
-
     }
 
     .course-name {
         margin-bottom: 16px;
         line-height: 36px;
-        color: #36363A;
+        color: $tcolor;
         font-size: 22px;
         font-weight: 500;
         font-family: "PingFangSC-Medium", "PingFang SC";
     }
 
     .img-icon {
-        width: 16px;
-        height: 16px;
-        margin-right: 3px;
+        @include wh(16px, 16px) margin-right: 3px;
         background-image: url(~assets/image/icon.png);
     }
 
@@ -73,22 +72,18 @@
     }
 
     .common {
-        font-family: "PingFangSC-Regular", "PingFang SC";
         display: flex;
+
         >span:nth-child(2) {
             color: #9899A1;
         }
-
 
         >span:nth-child(3) {
             color: #6A6A6F;
         }
     }
-
-
     .blank {
-        width: 1px;
-        height: 20px;
+        @include wh(1px,20px);
         background-color: #ccc;
         margin-left: 8px;
     }

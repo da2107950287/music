@@ -24,13 +24,12 @@
         width: 1200px;
         /* background-color: #F7F7F7; */
         margin: 0 auto 30px;
-
         display: flex;
         justify-content: flex-start;
         flex-wrap: wrap;
         >div:nth-child(3n+2){
             margin-left: 24px;
-            margin-right:24px
+            margin-right:24px;
         }
     }
 </style>

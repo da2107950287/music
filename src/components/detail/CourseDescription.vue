@@ -1,3 +1,4 @@
+<!-- 课程介绍 -->
 <template>
     <div class="course-desc">
         <!-- <div class="title">课程参数</div> -->
@@ -68,6 +69,7 @@
     }
 </script>
 <style lang="scss" scoped>
+    @import "~assets/css/mixin";
     ul,
     li {
         list-style: none;
@@ -84,7 +86,7 @@
         line-height: 52px;
         background-color: #f7f7f7;
         text-align: left;
-        color: #36363A;
+        color: $tcolor;
         font-family:"PingFangSC-Regular","PingFang SC";
     }
 
@@ -93,7 +95,7 @@
         display: inline-block;
         width: 4px;
         height: 12px;
-        background-color: #98B702;
+        background-color: $tc;
         margin-right: 20px;
     }
 

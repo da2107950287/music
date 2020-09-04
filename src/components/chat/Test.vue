@@ -10,7 +10,7 @@
         <div v-for="(item,i) in msgList" :key="i" class="msg-box" :style="{'float':item.bySelf ? 'right':'left'}">
           <div :style="{'text-align':item.bySelf ? 'right':'left'}" class="nickname">{{item.from}}</div>
           <!-- 图片消息 -->
-          <img :key="item.msg" :src="item.msg?item.msg:''" v-if="item.type === 'img'" class="img-style" />
+          <img :key="item.msg" v-lazy="item.msg?item.msg:''" v-if="item.type === 'img'" class="img-style" />
           <!-- 聊天消息 -->
           <div style="user-select: text" v-else v-html="renderTxt(item.msg)" :class="{ 'byself': item.bySelf}"
             class="text"></div>
@@ -151,6 +151,8 @@
   };
 </script>
 <style lang="scss" scoped>
+  @import "~assets/css/mixin";
+
   .updateMsgList {
     height: 250px;
   }
@@ -159,7 +161,7 @@
     width: 100%;
     height: calc(100% - 185px);
     top: 50px;
-    background: #fff;
+    background: $fc;
     overflow-y: scroll;
     scrollbar-width: none; // firefox下滚动条不显示
     -ms-overflow-style: none; // IE下滚动条不显示
@@ -173,7 +175,7 @@
   .messagebox {
     width: 400px;
     height: 675px;
-    background-color: #fff;
+    background-color: $fc;
 
     .title {
       height: 80px;
@@ -181,8 +183,8 @@
       display: flex;
       text-align: center;
       align-items: center;
-      background-color: #98b702;
-      color: #fff;
+      background-color: $tc;
+      color: $fc;
       font-family: "PingFangSC-Medium", "PingFang SC";
       font-weight: 500;
 
@@ -230,8 +232,8 @@
       }
 
       .byself {
-        background: #98b702;
-        color: #fff;
+        background: $tc;
+        color: $fc;
         float: right;
       }
     }
@@ -279,8 +281,8 @@
         line-height: 34px;
         text-align: center;
         font-size: 14px;
-        color: #fff;
-        background-color: #98b702;
+        color: $fc;
+        background-color: $tc;
         border-radius: 0px 4px 4px 0px;
         cursor: default;
       }

@@ -72,11 +72,9 @@ export default {
       }
     },
     buy() {
-      if (localStorage.getItem("token")) {
+    
         this.$emit("buy");
-      } else {
-        this.$message.warning("对不起，请登录后再进行操作！");
-      }
+     
     },
     //试听
     audition() {
@@ -86,21 +84,19 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+    @import "~assets/css/mixin";
+
 .top-detail {
-  height: 440px;
-  width: 1200px;
+  @include wh(1200px,440px);
   padding: 30px;
   display: flex;
   box-sizing: border-box;
-  background-color: #fff;
+  background-color: $fc;
 }
 
-.left {
-}
 
 .left > img {
-  width: 580px;
-  height: 380px;
+  @include wh(580px,380px);
 }
 
 .right {
@@ -109,13 +105,11 @@ export default {
 }
 
 .title {
-  display: flex;
-  justify-content: space-between;
+ @include fj();
   font-size: 22px;
-  color: #36363a;
+  color: $tcolor;
   .bgc-img {
-    width: 20px;
-    height: 20px;
+    @include wh(20px,20px);
     margin-left: 52px;
     background-image: url(~assets/image/icon.png);
   }
@@ -128,16 +122,13 @@ export default {
 }
 
 .title > img {
-  width: 20px;
-  height: 20px;
+  @include wh(20px,20px);
   margin-left: 52px;
 }
 
 .price {
+  @include fa();
   height: 70px;
-
-  display: flex;
-  align-items: center;
   margin: 35px 0 20px;
   background: rgba(251, 151, 21, 0.15);
   padding-left: 20px;
@@ -145,9 +136,9 @@ export default {
 }
 
 .member-price {
-  color: #36363a;
-  display: flex;
-  align-items: center;
+  color: $tcolor;
+  @include fa();
+ 
 }
 
 .member-price > span:nth-child(1) {
@@ -166,8 +157,7 @@ export default {
 }
 
 .img-icon {
-  width: 16px;
-  height: 16px;
+  @include wh(16px,16px);
   margin-right: 3px;
   background-image: url(~assets/image/icon.png);
 }
@@ -195,8 +185,7 @@ export default {
 }
 
 .blank {
-  width: 1px;
-  height: 20px;
+  @include wh(1px,20px);
   background-color: #ccc;
   margin-left: 8px;
 }
@@ -207,20 +196,18 @@ export default {
 }
 
 .btn-box > div {
-  width: 200px;
-  height: 55px;
-  line-height: 55px;
+
+  @include whl(200px,55px,55px);
   text-align: center;
   border-radius: 3px;
   font-size: 18px;
-  font-weight: 400;
   border: none;
   cursor: default;
 }
 
 .btn-box > div:nth-child(1) {
-  background-color: #98b702;
-  color: #fff;
+  background-color: $tc;
+  color: $fc;
 }
 
 .btn-box > div:nth-child(2) {

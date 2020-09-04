@@ -1,3 +1,4 @@
+<!-- 课程目录 -->
 <template>
   <div class="course-catalog">
     <div v-for="(item,index) in catalogue" :key="index">
@@ -67,6 +68,8 @@
   }
 </script>
 <style lang="scss" scoped>
+    @import "~assets/css/mixin";
+
   .course-catalog {
     padding: 30px;
   }
@@ -77,7 +80,7 @@
     line-height: 52px;
     background-color: #f7f7f7;
     text-align: left;
-    color: #36363a;
+    color: $tcolor;
     font-family: "PingFangSC-Regular", "PingFang SC";
     font-weight: 400;
   }
@@ -87,7 +90,7 @@
     display: inline-block;
     width: 4px;
     height: 12px;
-    background-color: #98b702;
+    background-color: $tc;
     margin-right: 20px;
   }
 
@@ -152,7 +155,7 @@
 
   .list:hover span,
   .list:hover div {
-    color: #98b702 !important;
+    color: $tc !important;
   }
   .living{
     color: #FB9715;

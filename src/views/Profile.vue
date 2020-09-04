@@ -162,23 +162,23 @@
   };
 </script>
 <style lang="scss" scoped>
+  @import "~assets/css/mixin";
+
   .profile {
-    width: 950px;
-    height: 622px;
+   
+    @include wh(950px,622px);
     padding: 24px 60px;
     box-sizing: border-box;
-    background-color: #fff;
+    background-color: $fc;
     margin-bottom: 30px;
   }
 
   .profile-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    @include fj();
     margin-bottom: 30px;
 
     div {
-      color: #36363A;
+      color: $tcolor;
       font-size: 16px;
       font-weight: 500;
       font-family: "PingFangSC-Medium", "PingFang SC";
@@ -193,8 +193,7 @@
   }
 
   .profile-bottom {
-    width: 830px;
-    height: 446px;
+    @include wh(830px,446px);
     padding: 0 60px;
     position: relative;
     box-sizing: border-box;
@@ -214,14 +213,14 @@
       }
 
       span:nth-child(2) {
-        color: #36363a;
+        color: $tcolor;
         margin-left: 20px;
         cursor: default;
       }
 
       span:nth-child(3) {
         margin-left: 10px;
-        color: #98b702;
+        color: $tc;
         cursor: default;
       }
     }
@@ -232,8 +231,7 @@
       right: 60px;
 
       img:nth-child(1) {
-        width: 100px;
-        height: 100px;
+        @include wh(100px,100px)
       }
 
       img:nth-child(2) {
@@ -247,15 +245,14 @@
   .edit-form {
     div {
       display: flex;
-      // align-items: center;
+      /* // align-items: center; */
       height: 40px;
       line-height: 40px;
     }
 
     /deep/ .el-input__inner,
     /deep/ .el-input {
-      width: 400px;
-      height: 40px;
+      @include wh(400px,40px);
     }
   }
 
@@ -265,9 +262,7 @@
     justify-content: center;
 
     .btn {
-      width: 100px;
-      height: 40px;
-      line-height: 40px;
+      @include whl(100px,40px,40px);
       border-radius: 3px;
       text-align: center;
       font-size: 14px;
@@ -277,19 +272,19 @@
     .cancel {
       background-color: #f7f7f7;
       border: 1px solid #ddd;
-      color: #36363a;
+      color: $tcolor;
     }
 
     .save {
-      background-color: #98b702;
-      border: 1px solid #98b702;
-      color: #fff;
+      background-color: $tc;
+      border: 1px solid $tc;
+      color: $fc;
       margin-left: 16px;
     }
   }
 
   .popup-title {
-    color: #36363a;
+    color: $tcolor;
     font-size: 20px;
     font-weight: 500;
     line-height: 28px;

@@ -19,7 +19,7 @@
                 }
             }
         },
-        created(){
+        created() {
 
         },
         components: {
@@ -28,6 +28,8 @@
     }
 </script>
 <style lang="scss" scoped>
+    @import "~assets/css/mixin";
+
     .home-main {
         width: 1200px;
         /* background-color: #F7F7F7; */
@@ -40,31 +42,29 @@
         /* margin-top: 30px; */
         font-size: 22px;
         font-weight: 500;
-        color: #36363A;
-        text-align: left;
-        display: flex;
-        align-items: center;
+        color: $tcolor;
+        @include fj(flex-start);
 
     }
 
     .title::before {
         content: "";
-        width: 6px;
-        height: 20px;
+        
+        @include wh(6px,20px);
 
         display: inline-block;
-        background-color: #98B702;
+        background-color: $tc;
         margin-right: 10px;
 
     }
 
     .content {
-        display: flex;
-        justify-content: flex-start;
+        @include fj(flex-start,center)
         flex-wrap: wrap;
-        >div:nth-child(3n+2){
+
+        >div:nth-child(3n+2) {
             margin-left: 24px;
-            margin-right:24px
+            margin-right: 24px
         }
     }
 </style>

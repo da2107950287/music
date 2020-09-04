@@ -10,7 +10,6 @@
                     @keyup.enter.native="nextEnter('smsCode')">
                 </el-input>
             </el-form-item>
-
             <el-form-item prop="smsCode" class="graphics-code">
                 <el-input v-model="loginForm.smsCode" ref="smsCode" placeholder="请输入验证码"
                     @keyup.enter.native="submitForm"></el-input>
@@ -23,7 +22,6 @@
         </div>
         <button @click="submitForm" ref="login" class="login-button" :disabled="!loginBtn"
             :class="{'login-btn-active':loginBtn}">登 录</button>
-
         <div class="contact">
             <span>登录遇到问题请联系客服：</span>
             <span>400-555-666</span>
@@ -189,31 +187,27 @@
     }
 </script>
 <style lang="scss" scoped>
+    @import "~assets/css/mixin";
+
     .left {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        @include fj(center, center);
         text-align: center;
         margin-bottom: 50px;
 
         .logo {
-            width: 60px;
-            height: 60px;
-            line-height: 60px;
+            @include whl(60px, 60px, 60px);
             font-weight: 600;
             font-size: 18px;
             background: rgba(255, 255, 255, 1);
             box-shadow: 0px 0px 6px 0px rgba(129, 156, 2, 0.4);
             border-radius: 10px;
-            color: #98b702;
+            color: $tc;
         }
 
         .title {
-            width: 96px;
-            height: 25px;
+            @include whl(96px, 25px, 25px);
             font-size: 24px;
-            color: rgba(152, 183, 2, 1);
-            line-height: 25px;
+            color: $tc;
             margin-left: 10px;
             font-family: "sthupo";
         }
@@ -224,7 +218,7 @@
         border: none;
         border-bottom: 1px solid #eee;
         font-size: 16px;
-        color: #36363a;
+        color: $tcolor;
         border-radius: 0;
     }
 
@@ -236,23 +230,22 @@
             top: 0;
             right: 0;
             font-size: 14px;
-            font-family: "PingFangSC-Regular", "PingFang SC";
-            font-weight: 400;
             color: #ccc;
             cursor: default;
         }
 
         .can-click {
-            color: #98b702;
+            color: $tc;
         }
     }
 
     .agreement {
         font-size: 14px;
         text-align: center;
-        font-family:"PingFangSC-Regular","PingFang SC";
+
+
         >span:nth-child(1) {
-            color: #36363a;
+            color: $tcolor;
         }
 
         >span:nth-child(2) {
@@ -262,16 +255,13 @@
     }
 
     .login-button {
-        width: 400px;
-        height: 50px;
+        @include wh(400px, 50px);
+        @include fj(center, center);
         margin: 12px auto;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #98b702;
+        background-color: $tc;
         border-radius: 3px;
         opacity: 0.6;
-        color: #fff;
+        color: $fc;
         font-size: 18px;
         font-weight: 500;
         cursor: default;
@@ -284,10 +274,8 @@
 
     .contact {
         font-size: 14px;
-        font-weight: 400px;
         text-align: center;
         color: #6a6a6f;
-        font-family:"PingFangSC-Regular","PingFang SC";
 
         >spam:nth-child(1) {
             color: #6a6a6f;

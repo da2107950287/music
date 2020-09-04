@@ -44,22 +44,23 @@
   }
 </script>
 <style lang="scss" scoped>
+  @import "~assets/css/mixin";
+
   .course-info {
     padding: 30px;
     margin-top: 10px;
     box-sizing: border-box;
-    background-color: #fff;
+    background-color: $fc;
 
     .title {
-      display: flex;
-      align-items: center;
+      @include fa();
       position: relative;
 
       div:first-child {
         font-size: 20px;
         font-weight: 500;
-        color: #36363a;
-        font-family:"PingFangSC-Medium","PingFang SC";
+        color: $tcolor;
+        font-family: "PingFangSC-Medium", "PingFang SC";
 
       }
 
@@ -72,13 +73,10 @@
 
     .title::before {
       content: "";
-      position: absolute;
-      top: 5px;
-      left: -26px;
+      @include pa(5px, -26px);
+      @include wh(4px, 12px);
       display: inline-block;
-      width: 4px;
-      height: 12px;
-      background-color: #98b702;
+      background-color: $tc;
       margin-right: 30px;
     }
 
@@ -88,11 +86,10 @@
 
       .table-body {
         padding: 30px;
-        display: flex;
-        justify-content: space-between;
+        @include fj();
 
         .left {
-          color: #36363a;
+          color: $tcolor;
           font-weight: 500;
           font-family: "PingFangSC-Medium", "PingFang SC";
         }
@@ -117,18 +114,18 @@
 
     .total {
       margin-top: 30px;
-      display: flex;
-      justify-content: space-between;
+      @include fj();
+
       color: #9899a1;
 
       .total-left {
-        display: flex;
-        align-items: center;
+        @include fa();
+
         color: #fb9715;
 
         .select {
-          width: 16px;
-          height: 16px;
+          @include wh(16px, 16px);
+
           margin-left: 5px;
           background-image: url(~assets/image/icon.png);
           background-position: -520px -92px;
@@ -142,7 +139,7 @@
           margin-left: 30px;
 
           .price {
-            color: #36363a;
+            color: $tcolor;
           }
         }
       }

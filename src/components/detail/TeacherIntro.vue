@@ -1,8 +1,9 @@
+<!-- 老师介绍 -->
 <template>
   <div class="teacher-intro">
     <div class="intro-item" v-for="(item,index) in teacherList" :key="index">
       <div class="left">
-        <img :src="item.headportrait" />
+        <img v-lazy="item.headportrait" />
       </div>
       <div class="right">
         <div class="nickname">{{item.username}}</div>
@@ -28,6 +29,8 @@
   };
 </script>
 <style lang="scss" scoped>
+    @import "~assets/css/mixin";
+
   .teacher-intro {
     padding: 0 30px 30px;
   }
@@ -39,12 +42,12 @@
     background-color: #f7f7f7;
 
     .left {
-      width: 177px;
-      height: 210px;
+      @include wh(177px,210px);
+     
 
       img {
-        width: 177px;
-        height: 210px;
+        @include wh(177px,210px);
+
       }
     }
 
@@ -53,7 +56,7 @@
       margin-left: 20px;
 
       .nickname {
-        color: #36363A;
+        color: $tcolor;
         font-size: 24px;
         font-family: "PingFangSC-Medium", "PingFang SC";
         font-weight: 500;

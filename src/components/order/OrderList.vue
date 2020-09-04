@@ -98,27 +98,25 @@
     }
 </script>
 <style lang="scss" scoped>
+  @import "~assets/css/mixin";
+
     .order-item {
         margin-top: 10px;
         padding: 30px;
         box-sizing: border-box;
-        background-color: #fff;
+        background-color: $fc;
 
         .title {
-            display: flex;
-            align-items: center;
+            @include fa();
             position: relative;
 
             div:first-child {
                 font-size: 20px;
                 font-weight: 500;
-                color: #36363a;
+                color: $tcolor;
                 font-family:"PingFangSC-Medium","PingFang SC";
             }
 
-            /* .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-} */
             .count-down{
                 margin-left: 10px;
                 font-size: 16px;
@@ -128,13 +126,11 @@
 
         .title::before {
             content: "";
-            position: absolute;
-            top: 5px;
-            left: -26px;
+            @include pa(5px,-26px);
+            @include wh(4px,12px);
             display: inline-block;
-            width: 4px;
-            height: 12px;
-            background-color: #98b702;
+            
+            background-color: $tc;
             margin-right: 30px;
         }
 
@@ -143,11 +139,10 @@
             border: 1px solid #eee;
 
             .table-header {
+                @include fj();
                 height: 62px;
                 padding: 0 30px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
+                
                 background-color: #f7f7f7;
                 color: #9899a1;
                 cursor: default;
@@ -155,14 +150,15 @@
             }
 
             .table-body {
+                @include fj();
+
                 padding: 30px;
-                display: flex;
-                justify-content: space-between;
+               
                 cursor: default;
 
 
                 .left {
-                    color: #36363a;
+                    color: $tcolor;
                     font-weight: 500;
                     font-family:"PingFangSC-Medium","PingFang SC";
                 }
@@ -179,8 +175,8 @@
 
         .total,
         .btn-box {
-            display: flex;
-            justify-content: flex-end;
+         
+            @include fj(flex-end);
 
             div {
                 cursor: default;
@@ -195,7 +191,7 @@
                 margin-left: 30px;
 
                 .price {
-                    color: #36363a;
+                    color: $tcolor;
                 }
             }
 
@@ -204,9 +200,8 @@
         .btn-box {
 
             .btn {
-                width: 108px;
-                height: 32px;
-                line-height: 32px;
+                @include whl(108px,32px,32px)
+               
                 text-align: center;
                 border-radius: 2px;
                 margin-left: 15px;
@@ -215,18 +210,18 @@
 
             .cancel {
                 box-sizing: border-box;
-                color: #36363A;
+                color: $tcolor;
                 background-color: #f7f7f7;
                 border: 1px solid #ddd;
             }
 
             .pay {
-                color: #fff;
-                background-color: #98b702;
+                color: $fc;
+                background-color: $tc;
             }
 
             .study {
-                color: #fff;
+                color: $fc;
                 background-color: #FB9715;
             }
         }

@@ -45,14 +45,16 @@
   };
 </script>
 <style lang="scss" scoped>
+  @import "~assets/css/mixin";
 
   .top-menu {
+    @include pa(70px);
+
     z-index: 999;
     padding: 10px 30px;
-    position: absolute;
-    top: 70px;
-    background-color: #fff;
-    box-shadow: 0 0 1px #36363a;
+   
+    background-color: $fc;
+    box-shadow: 0 0 1px $tcolor;
 
     div {
       display: block;
@@ -60,12 +62,12 @@
       line-height: 40px;
       font-size: 14px;
       text-align: center;
-      color: #36363a;
+      color: $tcolor;
       cursor: default;
     }
 
     .active {
-      color: #98b702;
+      color: $tc;
     }
   }
 </style>

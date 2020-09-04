@@ -20,20 +20,20 @@
   </div>
 </template>
 <style lang="scss" scoped>
+    @import "~assets/css/mixin";
+
 .content {
-  width: 1200px;
-  height: 453px;
+  @include whl(1200px,453px,22px)
   margin: 0 auto;
   padding: 60px 0;
   box-sizing: border-box;
-  background-color: #fff;
+  background-color: $fc;
   text-align: center;
   color: #9899a1;
-  line-height: 22px;
-  font-weight: 400;
+
   .clues {
     margin-top: 20px;
-    color: #36363a;
+    color: $tcolor;
     font-size: 20px;
     line-height: 28px;
     font-weight: 500px;
@@ -54,19 +54,16 @@
   .money {
     margin-top: 19px;
     span:nth-child(2) {
-      color: #36363a;
+      color: $tcolor;
     }
   }
   .btn-box {
       margin-top: 60px;
-      display: flex;
-      justify-content: center;
+     @Include fa();
     .btn {
-      width: 120px;
-      height: 40px;
-      line-height: 40px;
+      @include whl(120px,40px,40px);
+
       text-align: center;
-      font-weight: 400;
       font-size: 14px;
       border-radius: 2px;
     }
@@ -78,8 +75,8 @@
     }
     .to-study{
         margin-left: 20px;
-        color: #fff;
-        background-color: #98B702;
+        color: $fc;
+        background-color: $tc;
     }
     
   }

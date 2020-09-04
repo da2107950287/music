@@ -34,31 +34,30 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  @import "~assets/css/mixin";
 .course {
   padding: 30px 0 29px;
-  background-color: #fff;
+  background-color: $fc;
   display: flex;
   img {
-    width: 282px;
-    height: 185px;
+    @include wh(282px,185px);
   }
 
 }
 .left {
-  width: 282px;
-  height: 185px;
+  @include wh(282px,185px);
   position: relative;
 }
 .right {
   width: 638px;
   position: relative;
   .collect {
-    position: absolute;
-    top: 0;
-    right: 0;
+position: absolute;
+top:0;
+right:0;
     img {
-      width: 20px;
-      height: 20px;
+      @include wh(20px,20px);
+
     }
   }
 

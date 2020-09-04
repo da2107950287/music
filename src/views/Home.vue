@@ -7,7 +7,7 @@
       </home-main>
       <div class="recommend">
         <home-main :courses="recommendedCourse" class="recommend">
-          <span slot="title">推荐</span>
+          <span slot="title">推荐课程</span>
         </home-main>
       </div>
     </div>
@@ -37,7 +37,6 @@
       }
     },
     created() {
-
       // 获取精品课
       this.$post('/course/getCourseBoutique', {}).then(res => {
         if (res.code == 200) {
@@ -78,7 +77,7 @@
 </script>
 <style lang="scss" scoped>
   .recommend {
-    background-color: #fff;
+    background-color: #f7f7f7;
     margin-top: 40px;
     padding-bottom: 20px;
   }

@@ -34,7 +34,7 @@
       <span>{{userinfo.intro}}</span>
     </div>
     <div class="personal-icon">
-      <img :src="userinfo.headportrait" alt />
+      <img v-lazy="userinfo.headportrait" alt />
 
       <label for="inputId">
         <input
@@ -104,9 +104,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+    @import "~assets/css/mixin";
+
 .profile-bottom {
-  width: 830px;
-  height: 446px;
+
+  @include wh(830px,446px);
   padding: 0 60px;
   position: relative;
   box-sizing: border-box;
@@ -127,31 +129,31 @@ export default {
     }
 
     span:nth-child(2) {
-      color: #36363a;
+      color: $tcolor;
       margin-left: 20px;
       cursor: default;
     }
 
     span:nth-child(3) {
       margin-left: 10px;
-      color: #98b702;
+      color: $tc;
       cursor: default;
     }
   }
 
   .personal-icon {
+    @include pa(40px,0,60px)
     position: absolute;
     top: 40px;
     right: 60px;
 
     img:nth-child(1) {
-      width: 100px;
-      height: 100px;
+    
+      @include wh(100px,100px);
     }
 
     .edit {
-      width: 85px;
-      height: 24px;
+      @include wh(85px,24px);
       position: absolute;
       bottom: 2px;
       right: 8px;

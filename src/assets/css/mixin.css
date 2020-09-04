@@ -1,0 +1,41 @@
+$fc:#fff;
+$tc:#98b702;
+$tcolor:#36363a;
+$family:"PingFangSC-Medium", "PingFang SC";
+// 背景图片地址和大小
+@mixin bis($url) { 
+	background-image: url($url);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+@mixin borderRadius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  -o-border-radius: $radius;
+  border-radius: $radius;
+}
+@mixin fj($htype: space-between,$vtype:center){
+	display: flex;
+  justify-content: $htype;
+  align-items:$vtype;
+}
+@mixin fa($vtype:cneter){
+  display: flex;
+  align-items: center;
+}
+@mixin wh($width,$height){
+  width:$width;
+  height:$height;
+}
+@mixin whl($w,$h,$l){
+  width:$w;
+  height:$h;
+  line-height: $l;
+}
+@mixin pa($t:0,$l:0,$r:0){
+  position: absolute;
+  top: $t;
+  left: $l;
+  right:$r
+}

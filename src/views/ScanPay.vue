@@ -195,17 +195,17 @@
   };
 </script>
 <style lang="scss" scoped>
+  @import "~assets/css/mixin";
   .scan-pay {
     width: 1200px;
     margin: auto;
-    background-color: #fff;
+    background-color: $fc;
     margin-bottom: 30px;
   }
 
   .header {
     padding: 30px;
-    display: flex;
-    justify-content: space-between;
+   @include fj()
     line-height: 22px;
     color: #9899a1;
     border-bottom: 1px solid #ddd;
@@ -216,7 +216,7 @@
 
     div {
       span:nth-child(2) {
-        color: #36363a;
+        color: $tcolor;
       }
     }
   }
@@ -250,8 +250,7 @@
       }
 
       .img {
-        width: 200px;
-        height: 67px;
+        @include wh(200px,67px);
 
       }
     }

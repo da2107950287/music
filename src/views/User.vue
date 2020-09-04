@@ -3,7 +3,7 @@
     <div class="user">
       <div class="user-left">
         <div class="left-top">
-          <img :src="avatar" alt />
+          <img v-lazy="avatar" alt />
           <div>
             <span class="nickname">{{nickName}}</span>
             <div v-if="sex=='女'" class="sex-icon female"></div>
@@ -21,7 +21,7 @@
 </template>
 <script>
   export default {
-    inject:['reload'],
+    inject: ['reload'],
     data() {
       return {
         menu: [
@@ -43,7 +43,7 @@
       nickName() {
         return localStorage.getItem("nickName")
       },
-      sex(){
+      sex() {
         return localStorage.getItem("sex")
       }
     },
@@ -63,8 +63,10 @@
   };
 </script>
 <style lang="scss" scoped>
+  @import "~assets/css/mixin";
+
   .user-box {
-    
+
     .user {
       width: 1200px;
       margin: 0 auto;
@@ -73,49 +75,48 @@
   }
 
   .user-left {
-    width: 240px;
+    @include wh(240px, 100%);
+
     text-align: center;
     margin-right: 10px;
-    height: 100%;
+
     border: 1px solid #e8e8e8;
 
     .left-top {
       height: 180px;
       padding: 34px 0;
       box-sizing: border-box;
-      background-color: #fff;
+      background-color: $fc;
 
       >img {
-        width: 80px;
-        height: 80px;
+        @include wh(80px, 80px);
+
       }
 
       >div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        @include fj(center,center);
         margin-top: 10px;
         color: #6a6a6f;
         font-size: 16px;
-        font-family: "PingFangSC-Regular", "PingFang SC";
       }
 
       .sex-icon {
-        width: 16px;
-        height: 16px;
-        background-image: url(~assets/image/icon.png); 
+        @include wh(16px, 16px);
+        background-image: url(~assets/image/icon.png);
       }
-      .female{
+
+      .female {
         background-position: -66px -195px;
       }
-      .male{
+
+      .male {
         background-position: -112px -195px;
       }
     }
 
     .left-bottom {
       margin-top: 10px;
-      background-color: #fff;
+      background-color: $fc;
       font-family: "PingFangSC-Medium", "PingFang SC";
       margin-bottom: 30px;
 
@@ -130,20 +131,19 @@
       >div::before {
         content: "";
         display: inline-block;
-        width: 6px;
-        height: 32px;
-        background-color: #fff;
+        @include wh(6px, 32px);
+        background-color: $fc;
         vertical-align: middle;
         margin-right: 80px;
       }
 
       .active {
         background: rgba(152, 183, 2, 0.1);
-        color: #98b702;
+        color: $tc;
       }
 
       .active::before {
-        background-color: #98b702;
+        background-color: $tc;
       }
     }
   }

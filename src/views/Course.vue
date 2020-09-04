@@ -8,7 +8,7 @@
       <course-item v-for="(item,index) in list" :key="index" :list="item.courseEntity">
         <img slot="img" v-lazy="item.courseEntity.cover" alt />
         <div slot="progress" class="bg-progress">
-          <el-progress type="circle" :percentage="item.rateOfLearning" :width="100" color="#fff" class="progress">
+          <el-progress type="circle" :percentage="item.rateOfLearning" :width="100" color="$fc" class="progress">
           </el-progress>
           <div class="progress-text">已学习</div>
         </div>
@@ -61,52 +61,50 @@
 </script>
 <style lang="scss" scoped>
   @import '~assets/css/pagination.css';
+  @import "~assets/css/mixin";
+
   .course-bottom {
     width: 950px;
 
     padding: 0 30px;
     box-sizing: border-box;
-    background-color: #fff;
+    background-color: $fc;
 
     >div {
       border-bottom: 1px solid #EEEEEE
     }
 
     .bg-progress {
-      width: 282px;
-      height: 185px;
-      position: absolute;
-      top: 0;
+ 
+      @include wh(282px,185px);
+     @include pa();
       background-color: rgba(54, 54, 58, 0.3);
 
       .progress {
         width: 100px;
         height: 100px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
+        @include pa(50%,50%);
+
         transform: translate(-50px, -50px);
       }
 
       .progress-text {
-        position: absolute;
-        top: 50%;
-        left: 50%;
+        @include pa(50%,50%);
+
         transform: translate(-22px, 10px);
         font-size: 14px;
-        color: #fff;
+        color: $fc;
         line-height: 20px;
       }
     }
   }
 
   .btn {
-    width: 88px;
-    height: 32px;
+    @include whl(88px,32px,32px)
     border-radius: 2px;
-    line-height: 32px;
+    
     text-align: center;
-    color: #fff;
+    color: $fc;
     background-color: #fb9715;
     cursor: default;
   }
@@ -116,7 +114,7 @@
   }
 
   .el-progress /deep/ .el-progress__text {
-    color: #fff;
+    color: $fc;
     font-size: 16px !important;
   }
 </style>

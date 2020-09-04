@@ -49,35 +49,33 @@
   };
 </script>
 <style lang="scss" scoped>
+    @import "~assets/css/mixin";
+
   .course-info {
     padding: 30px;
     margin-top: 10px;
     box-sizing: border-box;
-    background-color: #fff;
+    background-color: $fc;
 
     .title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+     @include fj();
       position: relative;
 
       .title-right {
         font-size: 20px;
         font-weight: 500;
-        color: #36363a;
+        color: $tcolor;
         font-family: "PingFangSC-Medium", "PingFang SC";
       }
 
       .title-left {
-        display: flex;
-        align-items: center;
+@include fa();
         color: #0091FF;
         font-size: 18px;
         cursor: default;
 
         >img {
-          width: 16px;
-          height: 16px;
+          @include wh(16px,16px);
           margin-right: 4px;
         }
 
@@ -86,13 +84,13 @@
 
     .title::before {
       content: "";
-      position: absolute;
-      top: 5px;
-      left: -26px;
+      @include wh(4px,12px);
+      @include pa(5px,-26px)
+      
       display: inline-block;
-      width: 4px;
-      height: 12px;
-      background-color: #98b702;
+    
+ 
+      background-color: $tc;
       margin-right: 30px;
     }
 
@@ -103,7 +101,7 @@
       font-size: 18px;
 
       .tr1 {
-        color: #36363a;
+        color: $tcolor;
         line-height: 30px;
 
         >span:first-child {

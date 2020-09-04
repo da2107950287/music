@@ -36,11 +36,13 @@
     }
   }
 </script>
-<style scoped>
+<style lang="scss" scoped>
+    @import "~assets/css/mixin";
+
   .about {
     width: 1200px;
     margin: 0 auto;
-    background-color: #fff;
+    background-color: $fc;
     margin-bottom: 30px;
 
   }
@@ -55,22 +57,20 @@
     text-align: center;
     font-size: 20px;
     font-weight: 500;
-    color: #36363A;
-    font-family: "PingFangSC-Regular", "PingFang SC";
+    color: $tcolor;
+
   }
 
   .blank {
     margin: 30px 0;
-    width: 1140px;
-    height: 1px;
+    @include wh(1140px,1px);
+
     background-color: #EEE;
   }
 
   .content {
     width: 1140px;
     font-size: 14px;
-    font-family: "PingFangSC-Regular", "PingFang SC";
-    font-weight: 400;
     color: rgba(54, 54, 58, 1);
     line-height: 28px;
   }

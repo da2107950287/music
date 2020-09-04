@@ -10,8 +10,8 @@
     <test @onSendTextMsg="onSendTextMsg" class="chat"></test>
   </div>
 </template>
-<script>
 
+<script>
   import Test from "components/chat/Test"
   import RateComponent from "components/vedio/RateComponent/index.js";
   import AliplayerDanmuComponent from "components/vedio/AliplayerDanmuComponent/index.js";
@@ -161,6 +161,8 @@
   };
 </script>
 <style lang="scss">
+  @import "~assets/css/mixin";
+
   .live-vedio {
     width: 1570px;
     margin: 0 auto;
@@ -176,18 +178,14 @@
   }
 
   .title-box {
-    width: 1200px;
-    height: 48px;
-    position: absolute;
-    top: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    @include wh(1200px,48px);
+    @include fj();
+    @include pa();
     padding: 0 30px;
     box-sizing: border-box;
-    background-color: #36363A;
+    background-color: $tcolor;
     opacity: 0.7;
-    color: #fff;
+    color: $fc;
     font-family: "PingFangSC-Medium", "PingFang SC";
     font-weight: 500;
   }
@@ -199,7 +197,7 @@
 
   .rate-components {
     float: right;
-    color: #fff;
+    color: $fc;
     height: 35px;
     position: relative;
     box-sizing: border-box;
@@ -207,11 +205,9 @@
   }
 
   .current-rate {
-    display: flex;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-    width: 70px;
+    @include fj(center,center);
+    @include pa(70px,100%)
+   
     cursor: pointer;
   }
 
@@ -231,7 +227,7 @@
       cursor: pointer;
 
       &.current {
-        color: #98b702;
+        color: $tc;
       }
 
       &:hover {

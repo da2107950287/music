@@ -91,21 +91,22 @@
   }
 </script>
 <style lang="scss" scoped>
+  @import "~assets/css/mixin";
+
   .good-info {
     padding: 30px;
     margin-top: 10px;
     box-sizing: border-box;
-    background-color: #fff;
+    background-color: $fc;
 
     .title {
-      display: flex;
-      align-items: center;
+      @include fa();
       position: relative;
 
       div:first-child {
         font-size: 20px;
         font-weight: 500;
-        color: #36363a;
+        color: $tcolor;
         font-family:"PingFangSC-Medium","PingFang SC";
       }
 
@@ -118,13 +119,11 @@
 
     .title::before {
       content: "";
-      position: absolute;
-      top: 5px;
-      left: -26px;
+      @include pa(5px,-26px)
+      @include wh(4px,12px)
       display: inline-block;
-      width: 4px;
-      height: 12px;
-      background-color: #98b702;
+  
+      background-color: $tc;
       margin-right: 30px;
     }
 
@@ -134,11 +133,10 @@
 
       .table-body {
         padding: 30px;
-        display: flex;
-        justify-content: space-between;
+        @include fj();
 
         .left {
-          color: #36363a;
+          color: $tcolor;
           font-weight: 500;
           font-family:"PingFangSC-Medium","PingFang SC";
         }
@@ -159,9 +157,8 @@
 
     .total,
     .btn-box {
-      display: flex;
-      justify-content: flex-end;
-
+      
+      @include fj(flex-end,center);
       div {
         cursor: default;
       }
@@ -175,7 +172,7 @@
         margin-left: 30px;
 
         .price {
-          color: #36363a;
+          color: $tcolor;
           font-family:"PingFangSC-Medium","PingFang SC";
         }
       }
@@ -183,9 +180,8 @@
 
     .btn-box {
       .btn {
-        width: 108px;
-        height: 32px;
-        line-height: 32px;
+        @include whl(108px,32px,32px);
+        
         text-align: center;
         border-radius: 2px;
         margin-left: 15px;
@@ -194,18 +190,18 @@
 
       .cancel {
         box-sizing: border-box;
-        color: #36363a;
+        color: $tcolor;
         background-color: #f7f7f7;
         border: 1px solid #ddd;
       }
 
       .pay {
-        color: #fff;
-        background-color: #98b702;
+        color: $fc;
+        background-color: $tc;
       }
 
       .study {
-        color: #fff;
+        color: $fc;
         background-color: #fb9715;
       }
     }

@@ -1,7 +1,8 @@
+<!-- 表情组件 -->
 <template>
   <span>
     <el-popover ref="popover5" placement="top-start" width="360" v-model="showModal">
-      <img v-for="(v,i) in emojiList" :src="require(`../../../static/faces/${v}`)" :key="i" @click="selectEmoji(i)"
+      <img v-for="(v,i) in emojiList" v-lazy="require(`../../../static/faces/${v}`)" :key="i" @click="selectEmoji(i)"
         class="img-style" />
     </el-popover>
     <span class="img-icon" v-popover:popover5></span>

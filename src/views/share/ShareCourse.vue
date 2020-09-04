@@ -2,9 +2,9 @@
   <div class="share-course">
     <div class="top">
       <div>打开APP购买课程</div>
-      <div class="open">打开</div>
+      <a href="#" class="open">打开</a>
     </div>
-    <img :src="courseinfo.cover" alt />
+    <img v-lazy="courseinfo.cover" alt />
     <div class="info">
       <div class="info1">
         <div class="cou-type-name">{{courseinfo.couTypeName}}</div>
@@ -13,9 +13,9 @@
       </div>
       <div class="total-hours font12">总课时：{{courseinfo.totalHours}}课时</div>
       <div class="userinfo">
-        <div>
-          <img class="avator" :src="userinfo.headportrait" alt />
-          <span class="font12">{{userinfo.nickname}}</span>
+        <div v-for="(item,index) in courseinfo.list">
+          <img class="avator" v-lazy="item.headportrait" alt />
+          <span class="font12">{{item.username}}</span>
         </div>
         <div>
           <img src="~assets/image/icon_vip.png" class="vip-icon" />
@@ -47,7 +47,7 @@
               </div>
             </div>
           </div>
-          <div v-if="el.audition==1" class="audition tag">试听</div>
+          <div v-if="el.audition==1" class="audition tag" >试听</div>
         </div>
       </div>
       <div v-else v-html="courseinfo.lecturerIntro"></div>
@@ -55,32 +55,29 @@
   </div>
 </template>
 <script>
+  import {getRequest} from "assets/js/utils.js"
 export default {
   data() {
     return {
-      couId: "20200320183310082303",
+      couId: "",
       courseinfo: {},
-      userinfo: {},
       currentIndex: 0,
       options: ["教材介绍", "教材大纲", "讲师介绍"],
     };
   },
   created() {
+    this.couId=getRequest().couId;
     this.$post("/course/showCourse", { couId: this.couId }).then((res) => {
       if (res.code == 200) {
         this.courseinfo = res.data;
       }
     });
-    this.$post("/userinfo/showUserinfo", {}).then((res) => {
-      if (res.code == 200) {
-        this.userinfo = res.data.userinfo;
-      }
-    });
+   
     this.$post("/course/getCatalogue", { couId: this.couId }).then((res) => {
       if (res.code == 200) {
         this.catalogue = res.data;
-        this.catalogue.forEach((el,index) => {
-          this.catalogue[index].catTime=el.catTime.substr(0,16)
+        this.catalogue.forEach((el, index) => {
+          this.catalogue[index].catTime = el.catTime.substr(0, 16);
         });
       }
     });
@@ -108,10 +105,11 @@ export default {
     background-color: #98b702;
     color: #fff;
     .open {
+      display: inset-block;
       width: 52px;
       height: 23px;
-      
-border-radius: 2px;
+
+      border-radius: 2px;
       text-align: center;
       line-height: 23px;
       background-color: #fff;
@@ -171,6 +169,7 @@ border-radius: 2px;
         width: 25px;
         height: 25px;
         margin-right: 10px;
+        border-radius: 50%;
       }
     }
     div:nth-child(2) {
@@ -206,14 +205,14 @@ border-radius: 2px;
       cursor: default;
     }
     .item:nth-child(2) > .item-text:after {
-      content: "视听";
+      content: "试听";
       display: inline-block;
       width: 30px;
       height: 16px;
       text-align: center;
       line-height: 16px;
-       font-size: 12px;
-    transform : scale(0.83,0.83);
+      font-size: 12px;
+      transform: scale(0.83, 0.83);
       color: #fff;
       background-color: #fb9715;
       border-top-left-radius: 9px;
@@ -262,15 +261,14 @@ border-radius: 2px;
       .flex {
         display: flex;
         align-items: center;
-        .cat-type{
-          margin:0 30px
+        .cat-type {
+          margin: 0 30px;
         }
       }
-      .tag{
+      .tag {
         position: absolute;
         right: 0;
       }
-      
     }
   }
 }
