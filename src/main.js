@@ -17,6 +17,10 @@ import 'vant/lib/index.css';
 
 Vue.use(Vant);
 
+import VueOnoffs from 'vue-onoffs'
+Vue.use(VueOnoffs)
+Vue.prototype.VueOnoffs = VueOnoffs
+
 Vue.use(ElementUI);
 Vue.use(VueLazyload)
 Vue.prototype.$axios=axios

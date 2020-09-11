@@ -1,6 +1,7 @@
 <template>
   <div class="vedio">
-    <div class="prism-player" id="player-con"></div>
+    <div class="playback" id="playbackPlayer"></div>
+    <!-- <div  id="player-con"></div> -->
     <div class="title-box">
       <div>{{catName}}</div>
       <div>用户ID：{{uid}}</div>
@@ -10,8 +11,15 @@
 
 
 <script>
-  import RateComponent from "components/vedio/RateComponent/index.js";
+  import { mapGetters } from 'vuex'
+
   export default {
+    computed: {
+      ...mapGetters([
+        'getUserId'
+      ]),
+
+    },
     data() {
       return {
         url: "",
@@ -20,106 +28,40 @@
       };
     },
     mounted() {
-      this.catName = this.$route.query.catName;
-      this.url = this.$route.query.url;
-      this.uid = localStorage.getItem("uid")
-      var player = new Aliplayer(
-        {
-          id: "player-con",
-          source: this.url,
-          width: "1200px",
-          height: "675px",
-          autoplay: true,
-          isLive: false,
-          rePlay: false,
-          playsinline: true,
-          preload: true,
-          controlBarVisibility: "hover",
-          useH5Prism: true,
-          skinLayout: [
-            {
-              name: "H5Loading",
-              align: "cc",
-            },
-            {
-              name: "errorDisplay",
-              align: "tlabs",
-              x: 0,
-              y: 0,
-            },
-            {
-              name: "infoDisplay",
-            },
-            {
-              name: "tooltip",
-              align: "blabs",
-              x: 0,
-              y: 56,
-            },
-            {
-              name: "thumbnail",
-            },
-            {
-              name: "tooltip",
-              align: "blabs",
-              x: 0,
-              y: 56,
-            },
-            {
-              name: "controlBar",
-              align: "blabs",
-              x: 0,
-              y: 0,
-              children: [
-                {
-                  name: "progress",
-                  align: "blabs",
-                  x: 0,
-                  y: 44,
-                },
-                {
-                  name: "playButton",
-                  align: "tl",
-                  x: 15,
-                  y: 12,
-                },
-                {
-                  name: "fullScreenButton",
-                  align: "tr",
-                  x: 10,
-                  y: 12,
-                },
-                {
-                  name: "timeDisplay",
-                  align: "tl",
-                  x: 10,
-                  y: 7,
-                },
-              ],
-            },
-          ],
-          components: [
-            {
-              name: "RateComponent",
-              type: RateComponent,
-            },
-          ],
-
-        },
-        function (player) {
-          console.log("The player is created");
-
-        },
-
-      );
-      player.on("ready", function () {
-        console.log(player.getDuration());//获取视频总时长
-      })
-
+      this.init()
     },
+    methods: {
+      init() {
+        var options = this.$route.query;
+        this.catName = options.catName;
+        this.uid = localStorage.getItem("uid")
+        console.log(options.recordId)
+        console.log(options)
+        $.DW.config({
+          userId: this.getUserId,
+          roomId: options.catId,
+          recordId: options.recordId,
+        },
+        
+        );
+        window.on_cc_login_error=function(err){
+          console.log(err)
+          console.log("登录失败")
+        }
+        window.on_cc_login_success=function(){
+          console.log("登陆成功")
+        }
+        window.on_cc_live_player_load=function(){
+          console.log($.DW.getDuration()); // 获取视频总时长单位:秒
+        }
+      
+      }
+    }
+
+
   };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   @import "~assets/css/mixin";
 
   .vedio {
@@ -127,6 +69,10 @@
     margin: 0 auto;
     margin-bottom: 30px;
     position: relative;
+
+    .playback {
+      height: 675px;
+    }
   }
 
   .title-box {
@@ -185,7 +131,4 @@
       }
     }
   }
-</style>
-<style scoped>
-  @import "https://g.alicdn.com/de/prismplayer/2.8.8/skins/default/aliplayer-min.css";
 </style>

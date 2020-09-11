@@ -1,7 +1,8 @@
 <template>
     <div>
         <div class="main-detail">
-            <top-detail v-if="isRouterAlive" :topDetail="topDetail" @collectCourse="collectCourse" @buy="buy" :collected="collected">
+            <top-detail v-if="isRouterAlive" :topDetail="topDetail" @collectCourse="collectCourse" @buy="buy"
+                :collected="collected">
             </top-detail>
             <course-detail :couresDetail="couresDetail" :catalogue="catalogue" :buyState="buyState" class="margin30">
             </course-detail>
@@ -24,31 +25,12 @@
                 catalogue: [],
                 collected: false,
                 buyState: null,
-                isRouterAlive:true,
+                isRouterAlive: true,
             }
         },
         created() {
             this.couId = this.$route.query.couId
-            //获取课程详情
-            this.$post('/course/showCourse', { couId: this.couId }).then(res => {
-                if (res.code == 200) {
-                    this.couresDetail = res.data;
-                    this.couType = res.data.couType;
-                    this.buyState = res.data.buyState;
-                    console.log(this.buyState)
-                    this.topDetail = {
-                        cover: res.data.cover,
-                        couName: res.data.couName,
-                        courseCollState: res.data.courseCollState,
-                        priceVip: res.data.pricevip,
-                        price: res.data.price,
-                        totalHours: res.data.totalHours,
-                        termOfValidity: res.data.termOfValidity,
-                        lecturer: res.data.lecturer,
-                        buyState: res.data.buyState
-                    }
-                }
-            })
+            this.getCourse()
             // 获取课程目录
             this.$post('/course/getCatalogue', { couId: this.couId }).then(res => {
                 if (res.code == 200) {
@@ -58,6 +40,28 @@
             })
         },
         methods: {
+            getCourse() {
+                //获取课程详情
+                this.$post('/course/showCourse', { couId: this.couId }).then(res => {
+                    if (res.code == 200) {
+                        this.couresDetail = res.data;
+                        this.couType = res.data.couType;
+                        this.buyState = res.data.buyState;
+            
+                        this.topDetail = {
+                            cover: res.data.cover,
+                            couName: res.data.couName,
+                            courseCollState: res.data.courseCollState,
+                            priceVip: res.data.pricevip,
+                            price: res.data.price,
+                            totalHours: res.data.totalHours,
+                            termOfValidity: res.data.termOfValidity,
+                            lecturer: res.data.lecturer,
+                            buyState: res.data.buyState
+                        }
+                    }
+                })
+            },
             reload() {
                 this.isRouterAlive = false;
                 this.$nextTick(() => {
@@ -69,7 +73,7 @@
                 this.$post('/course/setCourseColl', { couId: this.couId }).then(res => {
                     if (res.code == 200) {
                         this.collected = true;
-                        this.reload();
+
                         this.$message.success(res.msg)
                     }
                 })

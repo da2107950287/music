@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <div class="mian-about">
-      <div class="title">关于我们</div>
+      <div class="title">{{title}}</div>
       <div class="blank"></div>
       <div class="content" v-html="text">
       </div>
@@ -13,7 +13,8 @@
     data() {
       return {
         text: null,
-        type: ""
+        type: "",
+        title:''
       }
     },
     watch: {
@@ -30,6 +31,7 @@
         this.$post('/other/getAgreement', { type: this.type }).then(res => {
           if (res.code == 200) {
             this.text = res.data.content;
+            this.title=res.data.title
           }
         })
       }
@@ -49,7 +51,6 @@
 
   .mian-about {
     padding: 30px;
-
   }
 
   .title {
@@ -58,13 +59,11 @@
     font-size: 20px;
     font-weight: 500;
     color: $tcolor;
-
   }
 
   .blank {
     margin: 30px 0;
     @include wh(1140px,1px);
-
     background-color: #EEE;
   }
 

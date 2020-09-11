@@ -111,7 +111,7 @@ export default {
       }
 
       .progress-text {
-        @include pa();
+        @include pa(50%,50%);
         transform: translate(-22px, 10px);
         font-size: 14px;
 

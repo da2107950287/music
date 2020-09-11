@@ -1,7 +1,7 @@
 
 
 const path = require("path");
-
+// const HtmlWebpackplugin = require("html-webpack-plugin")
 const utils = {
   assetsPath: function (_path) {
     const assetsSubDirectory = process.env.NODE_ENV === 'production'
@@ -17,10 +17,16 @@ const utils = {
   }
 }
 module.exports = {
-  productionSourceMap:false,
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
   productionSourceMap: false,
   configureWebpack: {
+    
+    performance: {
+      hints: false
+    },
+    // plugins: [
+    //   new HtmlWebpackplugin()
+    // ],
     resolve: {
       alias: {
         'components': '@/components',
@@ -42,6 +48,10 @@ module.exports = {
           }
         },
         // {
+        //   test: /\.html$/,
+        //   loader: "html-loader",
+        // }
+        // {
         //   test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         //   loader: 'url-loader',
         //   options: {
@@ -52,23 +62,24 @@ module.exports = {
       ]
     },
   },
-  chainWebpack: config => {
-    // 压缩图片
-    const imagesRule = config.module.rule('images')
-    imagesRule.uses.clear()
-    imagesRule.use('file-loader')
-        .loader('url-loader')
-        .options({
-         limit: 10240,
-         fallback: {
-          loader: 'file-loader',
-          options: {
-            outputPath: 'static/images'
-          }
-        }
-      })
-    
-  },
+  // chainWebpack: config => {
+  //   // 压缩图片
+  //   const imagesRule = config.module.rule('images')
+  //   imagesRule.uses.clear()
+  //   imagesRule.use('file-loader')
+  //     .loader('url-loader')
+  //     .options({
+  //       limit: 10240,
+  //       fallback: {
+  //         loader: 'file-loader',
+  //         options: {
+  //           outputPath: 'static/images'
+  //         }
+  //       }
+  //     })
+
+
+  // },
   devServer: {
     port: 8080,
     proxy: {
@@ -81,3 +92,5 @@ module.exports = {
   },
 
 }
+
+

@@ -15,10 +15,14 @@ export default new Vuex.Store({
     vip:'',
     integral:null,
     sex:'',
-    status:null
+    status:null,
     // token:'',
+    userid:"81C632A3B425FBC2"
   },
   getters:{
+    getUserId(state){
+      return state.userid;
+    },
     loading(state){
       return state.isShow;
     },

@@ -109,7 +109,7 @@
         wxElement.onload = function () {
           var obj = new WxLogin({
             id: 'wxCode', // 需要显示的容器id
-            appid: 'wx3ce688c651b9bc53', // 公众号appid wx*******
+            appid: 'wxf8f517e1de124d2b', // 公众号appid wx*******
             scope: 'snsapi_login', // 网页默认即可
             redirect_uri: encodeURIComponent('http://127.0.0.1'), // 授权成功后回调的url
             state: Math.ceil(Math.random() * 1000), // 可设置为简单的随机数加session用来校验

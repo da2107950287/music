@@ -80,7 +80,7 @@
     text-align: center;
     margin-right: 10px;
 
-    border: 1px solid #e8e8e8;
+    /* border: 1px solid #e8e8e8; */
 
     .left-top {
       height: 180px;

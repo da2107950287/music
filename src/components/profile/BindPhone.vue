@@ -202,7 +202,9 @@
       position: relative;
 
       .code {
-        @include pa(0,20px)
+        position: absolute;
+        top:0;
+        right: 20px;
         font-size: 14px;
         font-family: "PingFangSC-Regular", "PingFang SC";
         font-weight: 400;

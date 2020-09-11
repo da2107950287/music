@@ -132,12 +132,22 @@ const routes = [
         component: () => import("views/LiveVedio.vue"),
         meta: { title: "直播", requireAuth: true }
       },
+      {
+        path: 'test',
+        component: () => import("views/test.vue"),
+        meta: { title: "直播", requireAuth: true }
+      },
+      {
+        path: 'demo',
+        component: () => import("views/demo.vue"),
+        meta: { title: "直播", requireAuth: true }
+      },
     ]
   }
 ]
 
 const router = new VueRouter({
-  // mode: 'history',
+  // mode: 'hash',
   base: process.env.BASE_URL,
   routes
 })

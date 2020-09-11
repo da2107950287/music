@@ -1,242 +1,133 @@
 <template>
-  <div class="live-vedio">
-    <div class="vedio">
-      <div class="prism-player" id="player-con"></div>
+  <div class="live">
+    <fullscreen ref="fullscreen" @change="fullscreenChange" class="livePlayer">
+      <div id="livePlayer" class="livePlayer"></div>
       <div class="title-box">
         <div>{{catName}}</div>
-        <div>用户ID：{{uid}}</div>
+        <div>用户ID：{{}}</div>
       </div>
-    </div>
-    <test @onSendTextMsg="onSendTextMsg" class="chat"></test>
+      <controls class="controls" :fullscreen="fullscreen" @dankamu="dankamu" @screenfull="screenfull">
+      </controls>
+    </fullscreen>
+    <!-- 聊天室 -->
+    <chat :flag="flag"></chat>
   </div>
 </template>
-
 <script>
-  import Test from "components/chat/Test"
-  import RateComponent from "components/vedio/RateComponent/index.js";
-  import AliplayerDanmuComponent from "components/vedio/AliplayerDanmuComponent/index.js";
+  import Fullscreen from "vue-fullscreen/src/component.vue"
+  import HuodeScene from "assets/js/live.js";
+  import Controls from "components/live/Control";
+  import Chat from "components/live/Chat";
+  import Mixins from "assets/js/mixins.js";
+  import { mapGetters } from 'vuex'
+  // import FullScreen from "assets/js/fullscreen.js"
   export default {
+    mixins: [Mixins],
+    components: {
+      Controls,
+      Chat,
+      Fullscreen
+
+    },
     data() {
       return {
-        url: "",//直播推流地址
         catName: '',//课程名
-        uid: '',//用户id
-        player: '',
-        fullscrean:true,
-      };
-    },
-    watch:{
-      fullscrean(){
-        if(this.fullscrean==false){
-          document.querySelector('.ali-danmu-input-wrap').style.visibility="hidden"
-        }else{
-          document.querySelector('.ali-danmu-input-wrap').style.visibility="visible"
-        }
+        fullscreen: false,
+        flag:false
       }
+    },
+    computed: {
+      ...mapGetters([
+        'getUserId'
+      ]),
+     
     },
     mounted() {
-      let _this = this;
-      this.catName = this.$route.query.catName;
-      this.url = this.$route.query.url;
-      this.catId = this.$route.query.catId;
-
-      this.uid = localStorage.getItem("uid");
-      this.$post("/aliyun/enterLive", { catId: this.catId }).then(res => {
-        if (res.data == 200) {
-          console.log(res.data)
-        }
-      })
-      var danmukuList = []
-      var player = new Aliplayer(
-        {
-          id: "player-con",
-          source: "//player.alicdn.com/video/editor.mp4",
-          width: "1200px",
-          height: "675px",
-          autoplay: true,
-          isLive: true,
-          
-          playsinline: true,
-          preload: true,
-          controlBarVisibility: "hover",
-          useH5Prism: true,
-          skinLayout: [
-            {
-              name: "H5Loading",
-              align: "cc",
-            },
-            {
-              name: "errorDisplay",
-              align: "tlabs",
-              x: 0,
-              y: 0,
-            },
-            {
-              name: "infoDisplay",
-            },
-            {
-              name: "tooltip",
-              align: "blabs",
-              x: 0,
-              y: 56,
-            },
-            {
-              name: "thumbnail",
-            },
-            {
-              name: "tooltip",
-              align: "blabs",
-              x: 0,
-              y: 56,
-            },
-            {
-              name: "controlBar",
-              align: "blabs",
-              x: 0,
-              y: 0,
-              children: [
-                {
-                  name: "progress",
-                  align: "blabs",
-                  x: 0,
-                  y: 44,
-                },
-                {
-                  name: "playButton",
-                  align: "tl",
-                  x: 15,
-                  y: 12,
-                },
-                {
-                  name: "fullScreenButton",
-                  align: "tr",
-                  x: 10,
-                  y: 12,
-                },
-                {
-                  name: "timeDisplay",
-                  align: "tl",
-                  x: 10,
-                  y: 7,
-                },
-              ],
-            },
-          ],
-          components: [
-            // {
-            //   name: "RateComponent",
-            //   type: RateComponent,
-            // },
-            {
-              name: "AliplayerDanmuComponent",
-              type: AliplayerDanmuComponent,
-              args: [danmukuList]
-            }
-          ],
-        },
-        function (player) {
-          _this.player = player;
-          _this.fullscrean=player.fullscreenService.getIsFullScreen();
-          var handleRequestFullScreen=function(){
-          _this.fullscrean=player.fullscreenService.getIsFullScreen();
-          };
-          var handleCancelFullScreen=function(){
-          _this.fullscrean=player.fullscreenService.getIsFullScreen();
-
-          }
-          player.on("requestFullScreen",handleRequestFullScreen);
-          player.on("cancelFullScreen",handleCancelFullScreen)
-          console.log("The player is created");
-        }
-      );
+      this.init();
     },
     methods: {
-      onSendTextMsg(message) {
-        this.player.getComponent("AliplayerDanmuComponent").sendDanmuHandle(message)
-      }
-    },
-    components: {
-      Test
+      dankamu(flag) {
+        this.flag = flag;
+      },
+      screenfull() {
+        this.$refs['fullscreen'].toggle()
+      },
+      fullscreenChange(fullscreen) {
+        this.fullscreen = fullscreen;
+      },
+      init() {
+        this.hd = new HuodeScene();
+        this.login();
+
+      },
+      login() {
+        console.log()
+        var options = this.$route.query;
+        this.catName = options.catName;
+        this.hd.login({
+          userId: this.getUserId,
+          roomId: options.catId,
+          viewerName: options.viewername,//用户名称
+          // viewerToken: options.viewertoken,
+          success: result => {
+            localStorage.setItem("viewerid", result.viewer.id);
+            console.log(result.viewer.id)
+            console.log("登录成功")
+          },
+          fail: error => {
+            console.log(error)
+            console.log("登录失败")
+          }
+        })
+      },
+      configPlayerAndDocument() {
+        this.hd.showControl(false);//	控制条显示隐藏
+      },
     }
-  };
+  }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   @import "~assets/css/mixin";
 
-  .live-vedio {
+  .live {
+    display: flex;
+    position: relative;
     width: 1570px;
+
     margin: 0 auto;
     margin-bottom: 30px;
-    display: flex;
 
+    .title-box {
+      @include wh(100%, 48px);
+      @include fj();
+      @include pa();
+      padding: 0 30px;
+      box-sizing: border-box;
+      background-color: $tcolor;
+      opacity: 0.7;
+      color: $fc;
+      font-family: "PingFangSC-Medium", "PingFang SC";
+      font-weight: 500;
+    }
   }
 
-  .vedio {
-    width: 1200px;
+  .danmaku {
+    position: absolute;
+    top: 48px;
+  }
+
+  .livePlayer {
     position: relative;
+    width: 1200px;
+    height: 675px;
     margin-right: 10px;
   }
 
-  .title-box {
-    @include wh(1200px,48px);
-    @include fj();
-    @include pa();
-    padding: 0 30px;
-    box-sizing: border-box;
-    background-color: $tcolor;
-    opacity: 0.7;
-    color: $fc;
-    font-family: "PingFangSC-Medium", "PingFang SC";
-    font-weight: 500;
-  }
-
-  /* 组件样式 */
-  .player-hidden {
-    display: none !important;
-  }
-
-  .rate-components {
-    float: right;
-    color: $fc;
-    height: 35px;
-    position: relative;
-    box-sizing: border-box;
-    margin-top: 5px;
-  }
-
-  .current-rate {
-    @include fj(center,center);
-    @include pa(70px,100%)
-   
-    cursor: pointer;
-  }
-
-  .rate-list {
+  .controls {
+    width: 100%;
+    height: 50px;
     position: absolute;
-    bottom: 46px;
-    display: none;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-
-    li {
-      text-align: center;
-      width: 70px;
-      line-height: 30px;
-      background-color: rgba(0, 0, 0, 0.6);
-      cursor: pointer;
-
-      &.current {
-        color: $tc;
-      }
-
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.5);
-      }
-    }
+    bottom: 0;
+    left: 0;
   }
-</style>
-
-<style scoped>
-  @import "https://g.alicdn.com/de/prismplayer/2.8.8/skins/default/aliplayer-min.css";
 </style>

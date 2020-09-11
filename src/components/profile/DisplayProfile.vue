@@ -142,7 +142,7 @@ export default {
   }
 
   .personal-icon {
-    @include pa(40px,0,60px)
+    /* @include pa(40px,0,60px) */
     position: absolute;
     top: 40px;
     right: 60px;

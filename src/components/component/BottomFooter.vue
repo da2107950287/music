@@ -27,7 +27,7 @@
 
     </div>
 </template>
-<script src='//192.168.199.157:8080/easemob.js'></script>
+<!-- <script src='//192.168.199.157:8080/easemob.js'></script> -->
 <script>
     import Chat from 'components/chat/Chat'
     export default {
@@ -70,11 +70,11 @@
                 //设置为您的网页插件页面显示的configId的值
               
                 //环信移动客服域，固定值，请按照示例配置
-                domain: '//kefu.easemob.com',
+                // domain: '//kefu.easemob.com',
                 //您网站上im.html文件的完整路径
-                path: '//192.168.199.157:8080/im.html',
+                // path: '//192.168.199.157:8080/im.html',
                 // //访客插件static的路径
-                staticPath: '//192.168.199.157:8080/static',
+                // staticPath: '//192.168.199.157:8080/static',
                 hide: true,
                 autoConnect: true,
                 hideKeyboard: true,

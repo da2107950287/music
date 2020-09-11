@@ -10,8 +10,8 @@
           <img v-else src="~assets/image/icon_check_sel.png" class="select-icon" />
         </div>
 
-        <div @click="readMsg" class="btn read">已读</div>
-        <img @click="deleteMsg" src="~assets/image/bnt_sc.png" class="btn delete" />
+        <div @click="readMsg" class="btn read">全部已读</div>
+        <!-- <img @click="deleteMsg" src="~assets/image/bnt_sc.png" class="btn delete" /> -->
       </div>
       <div v-for="(item,index) in arr" :key="index" class="list">
         <div class="table-body flex">
@@ -159,7 +159,7 @@
     background-color: #f7f7f7;
 
     .btn {
-      @include whl(60px, 28px, 28px);
+      @include whl(80px, 28px, 28px);
       text-align: center;
       border-radius: 2px;
       cursor: default;

@@ -49,12 +49,12 @@
             if (item.playstate == 1) {//直播未开始
               this.$message("直播未开始")
             } else if (item.playstate == 2) {//正在直播
-              this.$router.push({ path: '/index/liveVedio', query: { url: item.playurl, catName: item.catName, catId: item.catId } })
+              this.$router.push({ path: '/index/liveVedio', query: { catName: item.catName, catId: item.catId } })
             } else if (item.playstate == 3) {//直播已结束
-              this.$router.push({ path: '/index/vedio', query: { url: item.playback, catName: item.catName } })
+              this.$router.push({ path: '/index/vedio', query: { recordId: item.playback, catName: item.catName, catId: item.catId } })
             }
           } else {//录播
-            this.$router.push({ path: '/index/vedio', query: { url: item.catUrl, catName: item.catName } })
+            this.$router.push({ path: '/index/vedio', query: { recordId: item.playback, catName: item.catName, catId: item.catId } })
           }
         } else {
           this.$message("请购买后，再进行观看")
@@ -79,7 +79,7 @@
   .title::before {
     content: "";
     display: inline-block;
-    @include wh(4px,12px);
+    @include wh(4px, 12px);
     background-color: $tc;
     margin-right: 20px;
   }
@@ -100,13 +100,13 @@
         flex: 1;
 
         @include fj(flex-end);
-         span {
+
+        span {
           color: #6a6a6f;
         }
 
         .play {
-          @include wh(20px,20px)
-          margin: 0 10px;
+          @include wh(20px, 20px) margin: 0 10px;
           background-image: url(~assets/image/icon.png);
         }
 
@@ -153,7 +153,7 @@
     font-size: 14px;
 
     >div {
-      @include wh(16px,16px);
+      @include wh(16px, 16px);
       background-image: url(~assets/image/icon.png);
       background-position: -312px -92px;
 
