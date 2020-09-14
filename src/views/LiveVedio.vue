@@ -1,16 +1,19 @@
 <template>
   <div class="live">
     <fullscreen ref="fullscreen" @change="fullscreenChange" class="livePlayer">
-      <div id="livePlayer" class="livePlayer"></div>
+      <div id="livePlayer">
+
+      </div>
+      <danmu ref="danmu" class="danmaku"></danmu>
       <div class="title-box">
         <div>{{catName}}</div>
-        <div>用户ID：{{}}</div>
+        <div>用户ID：{{userId}}</div>
       </div>
-      <controls class="controls" :fullscreen="fullscreen" @dankamu="dankamu" @screenfull="screenfull">
+      <controls class="controls" :fullscreen="fullscreen" @screenfull="screenfull">
       </controls>
     </fullscreen>
     <!-- 聊天室 -->
-    <chat :flag="flag"></chat>
+    <chat @sendDanmaku="sendDanmaku"></chat>
   </div>
 </template>
 <script>
@@ -20,35 +23,34 @@
   import Chat from "components/live/Chat";
   import Mixins from "assets/js/mixins.js";
   import { mapGetters } from 'vuex'
-  // import FullScreen from "assets/js/fullscreen.js"
+  import Danmu from "components/live/Danmaku"
+  import flash from "assets/js/flash.js"
   export default {
     mixins: [Mixins],
     components: {
       Controls,
       Chat,
-      Fullscreen
-
+      Fullscreen,
+      Danmu
     },
     data() {
       return {
         catName: '',//课程名
+        nickName: '',//用户名
+        userId: '',//用户id
         fullscreen: false,
-        flag:false
+        hd:null,
       }
     },
     computed: {
       ...mapGetters([
         'getUserId'
       ]),
-     
     },
     mounted() {
       this.init();
     },
     methods: {
-      dankamu(flag) {
-        this.flag = flag;
-      },
       screenfull() {
         this.$refs['fullscreen'].toggle()
       },
@@ -58,21 +60,23 @@
       init() {
         this.hd = new HuodeScene();
         this.login();
-
+        flash.init("player")
+        this.userId = localStorage.getItem("uid");
       },
       login() {
-        console.log()
         var options = this.$route.query;
         this.catName = options.catName;
+        this.nickName = localStorage.getItem("nickName");
         this.hd.login({
           userId: this.getUserId,
           roomId: options.catId,
-          viewerName: options.viewername,//用户名称
-          // viewerToken: options.viewertoken,
+          viewerName: this.nickName,//用户名称
+          fastMode: true,
           success: result => {
+            console.log(result)
             localStorage.setItem("viewerid", result.viewer.id);
-            console.log(result.viewer.id)
             console.log("登录成功")
+           
           },
           fail: error => {
             console.log(error)
@@ -80,8 +84,12 @@
           }
         })
       },
+      sendDanmaku(message) {
+        
+        this.$refs.danmu.sendDanmaku(message)
+      },
       configPlayerAndDocument() {
-        this.hd.showControl(false);//	控制条显示隐藏
+        this.hd.showControl(true);//	控制条显示隐藏
       },
     }
   }
@@ -93,6 +101,7 @@
     display: flex;
     position: relative;
     width: 1570px;
+    background-color: #fff;
 
     margin: 0 auto;
     margin-bottom: 30px;
@@ -114,6 +123,7 @@
   .danmaku {
     position: absolute;
     top: 48px;
+    left: 0;
   }
 
   .livePlayer {

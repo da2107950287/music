@@ -1,13 +1,9 @@
 <template>
   <div class="chat">
     <div class="title">聊天室</div>
-    <div class="messagebox-content" ref="msgContent">
+    <div class="messagebox-content" ref="chat">
       <div v-for="(item,i) in messages" :key="i" class="msg-box" :style="{'float':item.type ? 'right':'left'}">
         <div :style="{'text-align':item.type ? 'right':'left'}" class="nickname">{{item.userName}}</div>
-        <!-- 图片消息 -->
-        <!-- <img :key="item.msg" v-lazy="item.msg?item.msg:''" v-if="item.type === 'img'" class="img-style" /> -->
-        <!-- 聊天消息 -->
-
         <div style="user-select: text" v-html="item.content" :class="{ 'byself': item.type}" class="text"></div>
       </div>
     </div>
@@ -15,12 +11,11 @@
       <div class="footer-icon">
         <!-- 表情组件 -->
         <ChatEmoji class="chatemoji" @selectEmoji="selectEmoji" :inpMessage="message" />
-        <!-- 上传图片组件 -->
-        <!-- <UpLoadImage :type="chatType" :chatId="chatId" /> -->
         <div @click="interaction">语音</div>
       </div>
       <div class="fotter-send">
-        <el-input v-model="message" equired placeholder="消息" class="sengTxt" ref="txtDom">
+        <el-input v-model="message" equired placeholder="消息" class="sengTxt" ref="txtDom"
+          @keypress.native.enter="SendTextMsg">
           <div slot="suffix" class="send" @click="SendTextMsg">发送</div>
         </el-input>
       </div>
@@ -32,10 +27,8 @@
   import HuodeScene from "assets/js/live.js";
   import Mixins from "assets/js/mixins.js";
   import { shieldEmoticon, showEm } from "assets/js/utils.js"
-  // import emoji from "assets/js/emoji";
   export default {
     mixins: [Mixins],
-    props: ["flag"],
     components: {
       ChatEmoji,
     },
@@ -43,19 +36,19 @@
       return {
         message: "",
         messages: [],
+        hd:null,
       };
     },
-
     mounted() {
       this.hd = new HuodeScene();
-      this.getMessages()
+      this.getMessages();
     },
     methods: {
+      // 接收公聊
       getMessages() {
-        this.hd.toggleBarrage(true);
-        //接收公共聊天
         this.hd.onPublicChatMessage((message) => {
           const _msg = JSON.parse(message);
+   
           const type = localStorage.getItem("viewerid") === _msg.userid;
           // 聊天信息数据结构
           const formatMsg = {
@@ -71,24 +64,15 @@
             chatId: _msg.chatId,
             type: type,
           };
-          // this.hd.toggleBarrage(true)
           // 发送弹幕
-          // this.hd.sendPublicChatMsg(formatMsg.content);
           
-            this.hd.sendBarrage(shieldEmoticon(formatMsg.content), "#000");
-            
-
-          
+console.log(message)
+          // this.$emit("sendDanmaku", formatMsg);
+          this.hd.sendBarrage(shieldEmoticon(formatMsg.content)); // 发送弹幕
+          formatMsg.content = showEm(formatMsg.content);
           // 将接收到的聊天信息数据添加到信息池中
-          formatMsg.content = showEm(formatMsg.content)
-          // console.log(this.showEm(formatMsg.content))
           this.messages.push(formatMsg);
-
-
-          // if (this.isScroll) {
-          //   // 聊天列表滚动到底部
-          //   this.emit("scrolltobottom");
-          // }
+          this.scrollBottom()
         });
       },
       //选择表情包
@@ -96,29 +80,31 @@
         this.message = v;
         this.$refs.txtDom.focus();
       },
-
-
-
+      scrollBottom() {
+        this.$nextTick(() => {
+          let msg = this.$refs.chat// 获取对象
+          msg.scrollTop = msg.scrollHeight // 滚动高度
+        })
+      },
       //发送文本消息
       SendTextMsg() {
         if (this.message == "" || this.message == "\n") {
           this.message = "";
           return;
         }
-
         this.hd.sendPublicChatMsg(this.message);
-        // this.hd.sendBarrage(this.message, "#000");
         this.message = "";
-        // this.getMessages();
+   
+
       },
-      interaction(){
-        console.log(88)
-        var isVideo=true;
-        var isAudio=false;
+      interaction() {
+        console.log(888)
+        var isVideo = true;
+        var isAudio = false;
         this.hd.requestInteraction({
-        video: isVideo,
-        audio: isAudio
-      })
+          video: isVideo,
+          audio: isAudio
+        })
       }
     },
   };
@@ -166,7 +152,7 @@
         padding: 10px 15px;
         border-bottom: 1px solid #eee;
         box-sizing: border-box;
-        display:flex;
+        display: flex;
 
         .chatemoji {
           margin-right: 10px;

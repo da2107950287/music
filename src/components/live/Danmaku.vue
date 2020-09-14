@@ -104,9 +104,10 @@ export default {
       this.danmakuPool.video = videoDanmuPool;
     },
     sendDanmaku(options) {
+      console.log(options)
       this.danmakuPool.msg.addMessage(
         new TextMessage({
-          mMsg: options.msg,
+          mMsg: options.content,
           color: options.color || "#808080",
           // strokeColor: options.strokeColor || "#000",
           fontSize: options.fontSize || 16,

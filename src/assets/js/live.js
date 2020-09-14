@@ -21,7 +21,9 @@ class HuodeScene {
       userid: options.userId,
       roomid: options.roomId,
       viewername: options.viewerName,
-      viewertoken: options.viewerToken,
+      // viewertoken: options.viewerToken,
+      viewercustomua: "web",
+      isH5play: false,// 是否是h5播放器,观看直播PC端使用flash，移动端使用h5播放器
       fastMode: true
     });
 
@@ -72,28 +74,27 @@ class HuodeScene {
   }
 
   toggleBarrage(isBarrage) {
-    // const _isBarrage = !!isBarrage;
-    console.log(isBarrage)
+    const _isBarrage = !!isBarrage;
+    console.log(isBarrage, _isBarrage)
     // 打开视频弹幕
-    DWLive.openBarrage && DWLive.openBarrage(isBarrage);
+    DWLive.openBarrage && DWLive.openBarrage(_isBarrage);
     // 打开关闭文档弹幕
-    // if (_isBarrage) {
-    //   DWLive.openDocBarrage && DWLive.openDocBarrage();
+    if (_isBarrage) {
+      DWLive.openDocBarrage && DWLive.openDocBarrage();
 
-    // } else {
-    //   DWLive.closeDocBarrage && DWLive.closeDocBarrage();
-    // }
+    } else {
+      DWLive.closeDocBarrage && DWLive.closeDocBarrage();
+    }
   }
 
-  sendBarrage(message = "", color = "") {
-    console.log(message)
+  sendBarrage(message = "", color = "0xffffff") {
     if (typeof message !== "string") {
       return false;
     }
     // 发送弹幕，color为十六进制颜色值(0xffffff)，仅支持PC端
-    // console.log(message)
+   console.log(message)
     DWLive.barrage && DWLive.barrage(message, color);
-    // DWLive.insertDocBarrage && DWLive.insertDocBarrage(message, color);
+
   }
 
   sendPublicChatMsg(message = "") {

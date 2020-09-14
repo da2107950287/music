@@ -44,25 +44,16 @@
       return {
         message: "",
         input: "",
-        flag: false,
+        flag: true,
       };
-    },
-    computed: {
-      getFlag() {
-        return this.flag;
-      },
     },
     watch: {
       flag() {
-
         this.hd.toggleBarrage(!this.flag)
-      
       }
     },
     mounted() {
       this.hd = new HuodeScene();
-      
-      
     },
     methods: {
       isflag() {
@@ -70,8 +61,12 @@
       },
       //发送弹幕
       onSendTextMsg() {
+        if (this.message == "" || this.message == "\n") {
+          this.message = "";
+          return;
+        }
         this.hd.sendPublicChatMsg(this.message);
-        // this.hd.sendBarrage(this.message, "#000");
+      
         this.message = "";
       },
       //全屏/小屏

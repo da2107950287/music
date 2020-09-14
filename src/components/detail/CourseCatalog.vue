@@ -18,7 +18,9 @@
           <!-- 直播 -->
           <div v-else-if="item.catType==1">
             <div v-if="item.playstate==1">未开播</div>
-            <div v-else-if="item.playstate==2" class="living"><div></div>直播中</div>
+            <div v-else-if="item.playstate==2" class="living">
+              <div></div>直播中
+            </div>
             <div v-else>{{item.catTime}}</div>
           </div>
           <!-- 录播 -->
@@ -45,8 +47,8 @@
     },
     methods: {
       go(item) {
-         //已购买或者免费试听
-         if (item.audition == 1 || this.buyState == 1) {
+        //已购买或者免费试听
+        if (item.audition == 1 || this.buyState == 1) {
           //直播
           if (item.catType == 1) {
             if (item.playstate == 1) {//直播未开始
@@ -55,10 +57,10 @@
             } else if (item.playstate == 2) {//正在直播
               this.$router.push({ path: '/index/liveVedio', query: { catName: item.catName, catId: item.catId } })
             } else if (item.playstate == 3) {//直播已结束
-              this.$router.push({ path: '/index/vedio', query: {recordId: item.playback,catName: item.catName,catId: item.catId  } })
+              this.$router.push({ path: '/index/vedio', query: { recordId: item.playback, catName: item.catName, catId: item.catId,couId:item.couId } })
             }
           } else {//录播
-            this.$router.push({ path: '/index/vedio', query: { recordId: item.playback,catName: item.catName,catId: item.catId  } })
+            this.$router.push({ path: '/index/vedio', query: { recordId: item.playback, catName: item.catName, catId: item.catId,couId:item.couId } })
           }
         } else {
           this.$message("请购买后，在进行观看")
@@ -68,7 +70,7 @@
   }
 </script>
 <style lang="scss" scoped>
-    @import "~assets/css/mixin";
+  @import "~assets/css/mixin";
 
   .course-catalog {
     padding: 30px;
@@ -121,11 +123,13 @@
           margin: 0 10px;
           background-image: url(~assets/image/icon.png);
         }
-        .live{
+
+        .live {
           background-position: -290px -193px;
 
         }
-        .record{
+
+        .record {
           background-position: -240px -193px;
 
         }
@@ -157,15 +161,17 @@
   .list:hover div {
     color: $tc !important;
   }
-  .living{
+
+  .living {
     color: #FB9715;
     font-size: 14px;
-    >div{
+
+    >div {
       width: 16px;
       height: 16px;
       background-image: url(~assets/image/icon.png);
       background-position: -312px -92px;
-      
+
     }
   }
 </style>

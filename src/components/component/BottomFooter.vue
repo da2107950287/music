@@ -29,7 +29,7 @@
 </template>
 <!-- <script src='//192.168.199.157:8080/easemob.js'></script> -->
 <script>
-    import Chat from 'components/chat/Chat'
+    // import Chat from 'components/chat/Chat'
     export default {
         data() {
             return {
@@ -119,7 +119,7 @@
             }
         },
         components: {
-            Chat
+            // Chat
         }
     }
 </script>
