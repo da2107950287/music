@@ -5,7 +5,7 @@
       <span v-if="!isShow" @click="editProfile">编辑</span>
     </div>
     <display-profile v-if="!isShow" :userinfo="userinfo" @showPhoneForm="showPhoneForm" @bindWeChat="bindWeChat"
-      @updateAvatar="updateAvatar" />
+      @updateAvatar="updateAvatar" @unBindWeChat="unBindWeChat" />
     <div v-else>
       <!-- 修改用户信息 -->
       <div class="profile-bottom edit-form">
@@ -37,13 +37,11 @@
     <!-- 扫描二维码绑定微信 -->
     <el-dialog :visible.sync="dialogVisible1" width="340px" :before-close="handleClose1" center>
       <div slot="title" class="popup-title">扫描二维码绑定微信</div>
-      <!-- <div id="qrcode" class="qrcode" ref="qrcode"></div> -->
       <div id="wxCode"></div>
-
-      <!-- <img src="~assets/image/img_qr.png" alt /> -->
     </el-dialog>
     <!-- 绑定、更换手机号 -->
     <bind-phone :isShowForm="isShowForm" @hidePhoneForm="hidePhoneForm"></bind-phone>
+    <div @click="get">获取openid</div>
   </div>
 </template>
 <script>
@@ -58,7 +56,9 @@
   import BindPhone from "components/profile/BindPhone";
   import DisplayProfile from "components/profile/DisplayProfile";
   import QRCode from "qrcodejs2";
-
+  import {mapGetters,mapActions } from "vuex"
+  import { getRequest } from "assets/js/utils.js";
+  import { wxpost } from "assets/js/axios.js";
   export default {
     inject: ['reload'],
     data() {
@@ -74,7 +74,15 @@
         selectedOptions: [],
         isShow: false,
         userinfo: {}, //用户信息
+        code: "",
+        openid: ''
       };
+    },
+    computed:{
+      ...mapGetters([
+        "getAppid",
+        "getSecret"
+      ])
     },
     created() {
       //查询用户信息
@@ -85,8 +93,25 @@
           this.selectedOptions.push(TextToCode[this.userinfo.province][this.userinfo.city].code)
         }
       });
+
     },
     methods: {
+      get() {
+        this.code = "011vQ10w3WzjXU2i0t0w34bI4N3vQ10E"
+
+        wxpost("", { appid: this.getAppid, secret: this.getSecret, code: this.code, grant_type: 'authorization_code' }).then(res => {
+          this.openid = res.openid;
+          if (this.openid) {
+            this.$post("/userinfo/bindWx", { openid: this.openid, type: 1 }).then(res => {
+              console.log(res)
+            })
+          }
+
+        })
+      },
+      unBindWeChat(){
+        this.reload()
+      },
       handleChange(arr) {
         this.userinfo.province = CodeToText[arr[0]];
         this.userinfo.city = CodeToText[arr[1]];
@@ -99,8 +124,10 @@
         this.isShowForm = false;
       },
       changeImg() { },
+      
       // 绑定微信
       bindWeChat() {
+        let that = this
         this.dialogVisible1 = true;
         const s = document.createElement('script')
         s.type = 'text/javascript'
@@ -109,9 +136,9 @@
         wxElement.onload = function () {
           var obj = new WxLogin({
             id: 'wxCode', // 需要显示的容器id
-            appid: 'wxf8f517e1de124d2b', // 公众号appid wx*******
+            appid: that.getAppid, // 公众号appid wx*******
             scope: 'snsapi_login', // 网页默认即可
-            redirect_uri: encodeURIComponent('http://127.0.0.1'), // 授权成功后回调的url
+            redirect_uri: encodeURIComponent('http://jammusic.art'), // 授权成功后回调的url
             state: Math.ceil(Math.random() * 1000), // 可设置为简单的随机数加session用来校验
             style: 'black', // 提供"black"、"white"可选。二维码的样式
             href: '' // 外部css文件url，需要https
@@ -140,11 +167,10 @@
           background: this.userinfo.background
         }).then(res => {
           if (res.code == 200) {
-            localStorage.setItem("nickName", this.userinfo.nickname)
+            localStorage.setItem("nickname", this.userinfo.nickname)
             localStorage.setItem("sex", this.userinfo.sex)
             this.reload()
             this.isShow = false;
-
           }
         })
       },
@@ -165,8 +191,8 @@
   @import "~assets/css/mixin";
 
   .profile {
-   
-    @include wh(950px,622px);
+
+    @include wh(950px, 622px);
     padding: 24px 60px;
     box-sizing: border-box;
     background-color: $fc;
@@ -193,7 +219,7 @@
   }
 
   .profile-bottom {
-    @include wh(830px,446px);
+    @include wh(830px, 446px);
     padding: 0 60px;
     position: relative;
     box-sizing: border-box;
@@ -231,7 +257,7 @@
       right: 60px;
 
       img:nth-child(1) {
-        @include wh(100px,100px)
+        @include wh(100px, 100px)
       }
 
       img:nth-child(2) {
@@ -252,7 +278,7 @@
 
     /deep/ .el-input__inner,
     /deep/ .el-input {
-      @include wh(400px,40px);
+      @include wh(400px, 40px);
     }
   }
 
@@ -262,7 +288,7 @@
     justify-content: center;
 
     .btn {
-      @include whl(100px,40px,40px);
+      @include whl(100px, 40px, 40px);
       border-radius: 3px;
       text-align: center;
       font-size: 14px;

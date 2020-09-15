@@ -35,15 +35,18 @@
     },
 
     created() {
-      this.accLeaTime = localStorage.getItem("accLeaTime")
+     this.getData();                                                                                                             
+    },
+    methods: {
+      getData(){
+        this.accLeaTime = localStorage.getItem("accLeaTime")
       this.$post('/course/getUserCourse', { PageNumber: this.currentPage, PageSize: this.pageSize }).then(res => {
         if (res.code == 200) {
           this.total=res.data.PageCount*this.pageSize;
           this.list = res.data.list;
         }
       })
-    },
-    methods: {
+      },
       toStudy(couId) {
         this.$router.push({ path: '/index/courseLearning', query: { couId } })
       },

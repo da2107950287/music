@@ -20,7 +20,7 @@ module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
   productionSourceMap: false,
   configureWebpack: {
-    
+
     performance: {
       hints: false
     },
@@ -81,12 +81,19 @@ module.exports = {
 
   // },
   devServer: {
+    host: 'jammusic.art',
     port: 8080,
     proxy: {
       "/mustard": {
         target: "http://47.111.244.224/mustard",
         changeOrigin: true,
         pathRewrite: { '^/mustard': '' }
+      },
+      "/access_token": {
+        target: "https://api.weixin.qq.com/sns/oauth2/access_token",
+        changeOrigin: true,
+        pathRewrite: { '^/access_token': '' }
+
       }
     }
   },

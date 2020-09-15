@@ -133,9 +133,9 @@ const routes = [
         meta: { title: "直播", requireAuth: true }
       },
       {
-        path: 'test',
-        component: () => import("views/test.vue"),
-        meta: { title: "直播", requireAuth: true }
+        path: 'playback',
+        component: () => import("views/PlayBack.vue"),
+        meta: { title: "直播回放", requireAuth: true }
       },
       {
         path: 'demo',

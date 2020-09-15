@@ -3,11 +3,11 @@
     <div class="user">
       <div class="user-left">
         <div class="left-top">
-          <img v-lazy="avatar" alt />
+          <img v-lazy="getHeadportrait" alt />
           <div>
-            <span class="nickname">{{nickName}}</span>
-            <div v-if="sex=='女'" class="sex-icon female"></div>
-            <div v-else-if="sex=='男'" class="sex-icon male"></div>
+            <span class="nickname">{{getNickname}}</span>
+            <div v-if="getSex=='女'" class="sex-icon female"></div>
+            <div v-else-if="getSex=='男'" class="sex-icon male"></div>
           </div>
         </div>
         <div class="left-bottom">
@@ -20,6 +20,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
   export default {
     inject: ['reload'],
     data() {
@@ -37,15 +38,11 @@
       };
     },
     computed: {
-      avatar() {
-        return localStorage.getItem("headportrait")
-      },
-      nickName() {
-        return localStorage.getItem("nickName")
-      },
-      sex() {
-        return localStorage.getItem("sex")
-      }
+      ...mapGetters([
+        'getHeadportrait',
+        'getNickname',
+        'getSex'
+      ]),
     },
     methods: {
       handleClick(item) {
@@ -90,11 +87,12 @@
 
       >img {
         @include wh(80px, 80px);
+        border-radius: 50%;
 
       }
 
       >div {
-        @include fj(center,center);
+        @include fj(center, center);
         margin-top: 10px;
         color: #6a6a6f;
         font-size: 16px;

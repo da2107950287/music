@@ -78,22 +78,46 @@
                     })
                 }
             })
+         
         },
         methods: {
             pay(payMethod) {
-                console.log(this.addressInfo)
-                this.$router.push({
-                    path: '/index/scanPay', query: {
-                        totalPrice: this.totalPrice,
+                if (payMethod == 1) {
+                    //微信支付
+                    this.$router.push({
+                        path: '/index/scanPay', query: {
+                            totalPrice: this.totalPrice,
+                            couId: this.couId,
+                            integral: this.integral,
+                            payMethod,
+                            couName: this.couName,
+                            fullname: this.addressInfo.fullname,
+                            address: this.addressInfo.addressinfo + this.addressInfo.detailed,
+                            mobile: this.addressInfo.mobile
+                        }
+                    });
+                } else {
+                    //支付宝支付
+                    this.$post("/alipay/buyCourse", {
                         couId: this.couId,
                         integral: this.integral,
-                        payMethod,
-                        couName: this.couName,
                         fullname: this.addressInfo.fullname,
-                        address:this.addressInfo.addressinfo+ this.addressInfo.detailed,
-                        mobile: this.addressInfo.mobile
-                    }
-                });
+                        address: this.addressInfo.addressinfo + this.addressInfo.detailed,
+                        mobile: this.addressInfo.mobile,
+                        type: 1,
+                    }).then((res) => {
+                        if (res.code == 200) {
+                            this.qrLink = res.data;
+                            console.log(this.qrLink)
+                            const div = document.createElement("divform");
+                            div.innerHTML = res.data;
+                            document.body.appendChild(div);
+                            // document.forms[0].acceptCharset = 'GBK'; //保持与支付宝默认编码格式一致，如果不一致将会出现：调试错误，请回到请求来源地，重新发起请求，错误代码 invalid-signature 错误原因: 验签出错，建议检查签名字符串或签名私钥与应用公钥是否匹配
+                            document.forms[0].submit();
+                        }
+                    });
+                }
+
             },
             showForm() {
                 this.isShow = true;

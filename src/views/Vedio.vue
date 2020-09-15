@@ -1,119 +1,146 @@
 <template>
   <div class="vedio">
-    <div class="playback" id="playbackPlayer"></div>
-    <!-- <div  id="player-con"></div> -->
+    <div class="prism-player" id="player-con"></div>
     <div class="title-box">
       <div>{{catName}}</div>
-      <div>用户ID：{{uid}}</div>
+      <div>用户ID：{{getUid}}</div>
     </div>
   </div>
 </template>
-
-
 <script>
-  import { mapGetters } from 'vuex'
-  import flash from "assets/js/flash.js"
+  import RateComponent from "components/vedio/RateComponent/index.js";
+  import { mapGetters } from "vuex"
   export default {
-    computed: {
-      ...mapGetters([
-        'getUserId'
-      ]),
-
-    },
     data() {
       return {
         url: "",
         catName: '',
-        uid: '',
-        startTime: '',
-        endTime: '',
+
       };
     },
+    computed: {
+      ...mapGetters([
+        'getUid'
+      ])
+    },
     mounted() {
-      this.options = this.$route.query;
-      console.log(this.options)
-      this.init()
-    },
-    methods: {
-      init() {
-        let that = this;
-        flash.init("player")
-
-        this.catName = this.options.catName;
-        this.uid = localStorage.getItem("uid")
-        console.log(this.options.recordId)
-        console.log(this.options)
-        $.DW.config({
-          userId: this.getUserId,
-          roomId: this.options.catId,
-          recordId: this.options.recordId,
+      var params = this.$route.query;
+      this.catName = params.catName;
+      this.url = params.url;
+      var player = new Aliplayer(
+        {
+          id: "player-con",
+          source: this.url,
+          width: "1200px",
+          height: "675px",
+          autoplay: true,
+          isLive: false,
+          rePlay: false,
+          playsinline: true,
+          preload: true,
+          controlBarVisibility: "hover",
+          useH5Prism: true,
+          skinLayout: [
+            {
+              name: "H5Loading",
+              align: "cc",
+            },
+            {
+              name: "errorDisplay",
+              align: "tlabs",
+              x: 0,
+              y: 0,
+            },
+            {
+              name: "infoDisplay",
+            },
+            {
+              name: "tooltip",
+              align: "blabs",
+              x: 0,
+              y: 56,
+            },
+            {
+              name: "thumbnail",
+            },
+            {
+              name: "tooltip",
+              align: "blabs",
+              x: 0,
+              y: 56,
+            },
+            {
+              name: "controlBar",
+              align: "blabs",
+              x: 0,
+              y: 0,
+              children: [
+                {
+                  name: "progress",
+                  align: "blabs",
+                  x: 0,
+                  y: 44,
+                },
+                {
+                  name: "playButton",
+                  align: "tl",
+                  x: 15,
+                  y: 12,
+                },
+                {
+                  name: "fullScreenButton",
+                  align: "tr",
+                  x: 10,
+                  y: 12,
+                },
+                {
+                  name: "timeDisplay",
+                  align: "tl",
+                  x: 10,
+                  y: 7,
+                },
+              ],
+            },
+          ],
+          components: [
+            {
+              name: "RateComponent",
+              type: RateComponent,
+            },
+          ],
         },
-
-        );
-        window.on_cc_login_error = function (err) {
-          console.log(err)
-          console.log("登录失败")
-        }
-        window.on_cc_login_success = function () {
-          console.log("登陆成功")
-          window.on_player_start = function () {
-            that.startTime = new Date().getTime();
-            console.log(that.startTime)
-          }
-        }
-
-        window.on_cc_live_player_load = function () {
-          console.log($.DW.getDuration()); // 获取视频总时长单位:秒
-          console.log($.DW.getPlayerTime());   // 获取当前播放时间)
-        }
-      }
+        function (player) {
+          console.log("The player is created");
+        },
+      );
+      player.on("ready", function () {
+        console.log(player.getDuration());//获取视频总时长
+        console.log(player.getCurrentTime())
+      })
     },
-    destroyed() {
-      var rateOfLearning;
-      window.on_cc_live_player_load = function () {
-        console.log($.DW.getPlayerTime(), $.DW.getDuration())
-        rateOfLearning = ($.DW.getPlayerTime() / $.DW.getDuration()).toFixed(2)
-        this.endTime = new Date().getTime();
-        console.log(rateOfLearning)
-        this.$post("/course/insertStudyTime", {
-          couId: this.options.couId,
-          catId: this.options.catId,
-          rateOfLearning: rateOfLearning,
-          accLeaTime: (this.endTime - this.startTime) / 60,
-        }).then(res => {
-          console.log(res)
-        })
-      }
-
-      // $.DW.destroy()
-    }
-
   };
 </script>
-<style lang="scss" scoped>
-  @import "~assets/css/mixin";
-
+<style lang="scss">
   .vedio {
     width: 1200px;
     margin: 0 auto;
     margin-bottom: 30px;
     position: relative;
-
-    .playback {
-      height: 675px;
-    }
   }
 
   .title-box {
-    @include wh(1200px, 48px);
-    @include fj();
-    @include pa();
-
+    width: 1200px;
+    height: 48px;
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 0 30px;
     box-sizing: border-box;
-    background-color: $tcolor;
+    background-color: #36363A;
     opacity: 0.7;
-    color: $fc;
+    color: #fff;
     font-family: "PingFangSC-Medium", "PingFang SC";
     font-weight: 500;
   }
@@ -125,7 +152,7 @@
 
   .rate-components {
     float: right;
-    color: $fc;
+    color: #fff;
     height: 35px;
     position: relative;
     box-sizing: border-box;
@@ -133,7 +160,12 @@
   }
 
   .current-rate {
-    @include fj(center, center) @include wh(70px, 100%) cursor: pointer;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    cursor: pointer;
   }
 
   .rate-list {
@@ -152,7 +184,7 @@
       cursor: pointer;
 
       &.current {
-        color: $tc;
+        color: #98b702;
       }
 
       &:hover {
@@ -160,4 +192,7 @@
       }
     }
   }
+</style>
+<style scoped>
+  @import "https://g.alicdn.com/de/prismplayer/2.8.8/skins/default/aliplayer-min.css";
 </style>

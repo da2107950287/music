@@ -1,5 +1,5 @@
 <template>
-    <div  class="order-list">
+    <div class="order-list">
         <div class="order-item" v-for="(item,index) in list" :key="index">
             <div class="title" v-show="item.olState==1">
                 <div>待支付</div>
@@ -42,7 +42,8 @@
                 </div>
                 <div class="btn-box">
                     <div class="cancel btn" v-show="item.olState==1" @click="cancelOrder(el.olId)">取消订单</div>
-                    <div class="pay btn" v-show="item.olState==1" @click="toPay(el.olId,item.payMethod,el.couName,item.cdyPrice)">去支付
+                    <div class="pay btn" v-show="item.olState==1"
+                        @click="toPay(el.olId,item.payMethod,el.couName,item.cdyPrice)">去支付
                     </div>
                     <div class="study btn" v-show="item.olState==5" @click="toStudy(el.couId)">去学习</div>
                     <div class="pay btn" v-show="item.olState==6" @click="buyAgain(el.couType,el.couId)">再次购买</div>
@@ -83,8 +84,28 @@
 
             },
             //去支付
-            toPay(olId,payMethod, couName, totalPrice) {
-                this.$router.push({ path: '/index/scanPay', query: { olId,payMethod, couName, totalPrice } });
+            toPay(olId, payMethod, couName, totalPrice) {
+                console.log(payMethod)
+                if (payMethod == 1) {
+                    //跳转到微信支付
+                    this.$router.push({ path: '/index/scanPay', query: { olId, couName, totalPrice } });
+                } else {
+                    //支付宝支付
+                    this.$post("/alipay/buyOrderlist", {
+                        olId: olId,
+                        type: 1,
+                    }).then((res) => {
+                        if (res.code == 200) {
+                            this.qrLink = res.data;
+                            console.log(this.qrLink)
+                            const div = document.createElement("divform");
+                            div.innerHTML = res.data;
+                            document.body.appendChild(div);
+                            // document.forms[0].acceptCharset = 'GBK'; //保持与支付宝默认编码格式一致，如果不一致将会出现：调试错误，请回到请求来源地，重新发起请求，错误代码 invalid-signature 错误原因: 验签出错，建议检查签名字符串或签名私钥与应用公钥是否匹配
+                            document.forms[0].submit();
+                        }
+                    });
+                }
             },
             //再次购买
             buyAgain(payMethod, couId) {
@@ -98,7 +119,7 @@
     }
 </script>
 <style lang="scss" scoped>
-  @import "~assets/css/mixin";
+    @import "~assets/css/mixin";
 
     .order-item {
         margin-top: 10px;
@@ -114,10 +135,10 @@
                 font-size: 20px;
                 font-weight: 500;
                 color: $tcolor;
-                font-family:"PingFangSC-Medium","PingFang SC";
+                font-family: "PingFangSC-Medium", "PingFang SC";
             }
 
-            .count-down{
+            .count-down {
                 margin-left: 10px;
                 font-size: 16px;
                 color: #ff4545;
@@ -126,10 +147,10 @@
 
         .title::before {
             content: "";
-            @include pa(5px,-26px);
-            @include wh(4px,12px);
+            @include pa(5px, -26px);
+            @include wh(4px, 12px);
             display: inline-block;
-            
+
             background-color: $tc;
             margin-right: 30px;
         }
@@ -142,7 +163,7 @@
                 @include fj();
                 height: 62px;
                 padding: 0 30px;
-                
+
                 background-color: #f7f7f7;
                 color: #9899a1;
                 cursor: default;
@@ -153,14 +174,14 @@
                 @include fj();
 
                 padding: 30px;
-               
+
                 cursor: default;
 
 
                 .left {
                     color: $tcolor;
                     font-weight: 500;
-                    font-family:"PingFangSC-Medium","PingFang SC";
+                    font-family: "PingFangSC-Medium", "PingFang SC";
                 }
 
                 .right {
@@ -175,7 +196,7 @@
 
         .total,
         .btn-box {
-         
+
             @include fj(flex-end);
 
             div {
@@ -200,9 +221,7 @@
         .btn-box {
 
             .btn {
-                @include whl(108px,32px,32px)
-               
-                text-align: center;
+                @include whl(108px, 32px, 32px) text-align: center;
                 border-radius: 2px;
                 margin-left: 15px;
                 font-size: 14px;

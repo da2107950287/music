@@ -110,7 +110,7 @@ export default {
           mMsg: options.content,
           color: options.color || "#808080",
           // strokeColor: options.strokeColor || "#000",
-          fontSize: options.fontSize || 16,
+          fontSize: options.fontSize || 18,
           fontFamily: options.fontFamily || "PingFang SC"
         })
       );
@@ -137,6 +137,7 @@ export default {
       this.danmaku.pause();
     },
     handleStart() {
+      console.log(99999)
       this.danmaku.start();
     }
   },

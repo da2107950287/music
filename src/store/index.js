@@ -1,79 +1,133 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 // import chat from "./chat";
-import login from "./login"
-import test from "./test"
+// import login from "./login"
+// import test from "./test"
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isShow:false,
+    isShow: false,
     accLeaTime: null,//累计学习时间 单位分钟
-    headportrait:'',
-    nickname:'',
-    token:'',
-    vip:'',
-    integral:null,
-    sex:'',
-    status:null,
-    // token:'',
-    userid:"81C632A3B425FBC2"
+    headportrait: '',//用户头像
+    nickname: '',//用户昵称
+    token: '',//token
+    vip: '',//是否是vip
+    integral: null,//用户积分
+    sex: '',//用户性别
+    status: null,
+    userid: "81C632A3B425FBC2",//直播用户id
+    configId: "6a6f3d22-243d-4b3c-9e7f-5598c1057842",//环信id
+    appid: "wx6dc461db685ab57c",
+    secret: "d87ee1a6c1f86ca963fa83e9afa7df4b",
+
   },
-  getters:{
-    getUserId(state){
+  getters: {
+    getUserId(state) {
       return state.userid;
     },
-    loading(state){
-      return state.isShow;
+    getConfigId(state) {
+      return state.configId;
     },
-    learnTime(state){
-    return state.accLeaTime;
+    getAppid(state){
+      return state.appid;
     },
-    token(state){
-      return state.token;
+    getSecret(state){
+      return state.secret;
     },
-    isShow(state){
+    getHeadportrait(state) {
+      //先从state里面获取用户登录信息
+      let headportrait = state.headportrait;
+      //如果 state 里面获取不到，那么从localStorage里面获取
+      if (!headportrait) {
+        headportrait = localStorage.getItem('headportrait')
+      }
+      return headportrait;
+    },
+    getNickname(state) {
+      let nickname = state.nickname;
+      if (!nickname) {
+        nickname = localStorage.getItem('nickname')
+      }
+      return nickname;
+    },
+    getSex(state) {
+      let sex = state.sex;
+      if (!sex) {
+        sex = localStorage.getItem('sex')
+      }
+      return sex;
+    },
+    getToken(state) {
+      let token = state.token;
+      if (!token) {
+        token = localStorage.getItem('token')
+      }
+      return token;
+    },
+    getUid(state) {
+      let uid = state.uid;
+      if (!uid) {
+        uid = localStorage.getItem('uid')
+      }
+      return uid;
+    },
+    // loading(state){
+    //   return state.isShow;
+    // },
+    // learnTime(state){
+    // return state.accLeaTime;
+    // },
+    // token(state){
+    //   return state.token;
+    // },
+    isShow(state) {
       return state.isShow
     }
   },
   mutations: {
-    showLoading(state){
-      state.isShow=true;
-
+    showLoading(state) {
+      state.isShow = true;
     },
-    hideLoading(state){
-      state.isShow=false;
+    hideLoading(state) {
+      state.isShow = false;
     },
-    setUserInfo(state,payload){
-      state.accLeaTime=payload.accLeaTime;
-      state.headportrait=payload.headportrait;
+    setUserInfo(state, payload) {
+      state.accLeaTime = payload.accLeaTime;
+      state.headportrait = payload.headportrait;
+      state.nickname = payload.nickname;
+      state.token = payload.token;
+      state.vip = payload.vip;
+      state.integral = payload.integral;
+      state.sex = payload.sex;
+      state.status = payload.status;
+      localStorage.setItem("accLeaTime", payload.accLeaTime);
+      localStorage.setItem("headportrait", payload.headportrait);
+      localStorage.setItem("token", payload.token);
+      localStorage.setItem("nickname", payload.nickname);
+      localStorage.setItem("vip", payload.vip);
+      localStorage.setItem("sex", payload.sex);
+      localStorage.setItem("state", payload.status);
+      localStorage.setItem("uid", payload.uid);
+    },
+    setNickname(state,payload){
       state.nickname=payload.nickname;
-      state.token=payload.token;
-      state.vip=payload.vip;
-      state.integral=payload.integral,
       state.sex=payload.sex;
-      state.status=payload.status;
-    },
-    setToken(state,payload){
-      state.token=payload.token;
     }
   },
   actions: {
-    showLoading({commit}){
-     
+    showLoading({ commit }) {
+
       commit('showLoading')
     },
-    hideLoading({commit}){
+    hideLoading({ commit }) {
       commit('hideLoading')
     },
-    // setToken(context,payload){
-    //   context.commit('setToken',payload)
-    // }
+    setNickname({commit},nickname,sex){
+      commit("setNickname",nickname,sex)
+    }
+
   },
   modules: {
-    // chat,
-    login,
-    test
-
   }
 })

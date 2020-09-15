@@ -43,6 +43,8 @@
 
   .about {
     width: 1200px;
+ 
+
     margin: 0 auto;
     background-color: $fc;
     margin-bottom: 30px;

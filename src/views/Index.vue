@@ -1,8 +1,8 @@
 <template>
     <div class="index">
-        <top-header></top-header>
-        <router-view />
-        <bottom-footer></bottom-footer>
+        <top-header class="header"></top-header>
+        <router-view class="middle"/>
+        <bottom-footer class="footer"></bottom-footer>
     </div>
 </template>
 <script>
@@ -15,9 +15,18 @@
         }
     }
 </script>
-<style scoped>
+<style lang="scss" scoped>
     .index {
         min-width: 1200px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
         background-color: #F5F5F5;
+        .header,.footer{
+            flex: 0;
+        }
+        .middle{
+           flex-grow:1
+        }
     }
 </style>

@@ -1,15 +1,13 @@
 <template>
   <div class="live">
     <fullscreen ref="fullscreen" @change="fullscreenChange" class="livePlayer">
-      <div id="livePlayer">
-
-      </div>
+      <div id="livePlayer" class="livePlayer"></div>
       <danmu ref="danmu" class="danmaku"></danmu>
       <div class="title-box">
         <div>{{catName}}</div>
-        <div>用户ID：{{userId}}</div>
+        <div>用户ID：{{getUid}}</div>
       </div>
-      <controls class="controls" :fullscreen="fullscreen" @screenfull="screenfull">
+      <controls  class="controls" :fullscreen="fullscreen" @isFlag="isFlag" @screenfull="screenfull">
       </controls>
     </fullscreen>
     <!-- 聊天室 -->
@@ -36,47 +34,52 @@
     data() {
       return {
         catName: '',//课程名
-        nickName: '',//用户名
-        userId: '',//用户id
+        nickname: '',//用户名
+     
         fullscreen: false,
         hd:null,
+        
       }
     },
     computed: {
       ...mapGetters([
-        'getUserId'
+        'getUserId',
+        "getUid",
+        "getNickname"
       ]),
     },
     mounted() {
       this.init();
+      this.hd.toggleBarrage(true)
     },
     methods: {
       screenfull() {
         this.$refs['fullscreen'].toggle()
       },
+      
       fullscreenChange(fullscreen) {
         this.fullscreen = fullscreen;
       },
       init() {
         this.hd = new HuodeScene();
         this.login();
-        flash.init("player")
-        this.userId = localStorage.getItem("uid");
+        flash.init("player");
+        this.$refs.danmu.handleStart()
       },
       login() {
         var options = this.$route.query;
         this.catName = options.catName;
-        this.nickName = localStorage.getItem("nickName");
+        // this.nickname = localStorage.getItem("nickname");
+        console.log(this.getNickname)
         this.hd.login({
           userId: this.getUserId,
           roomId: options.catId,
-          viewerName: this.nickName,//用户名称
-          fastMode: true,
+          viewerName: this.getNickname,//用户名称
+          // fastMode: true,
           success: result => {
             console.log(result)
             localStorage.setItem("viewerid", result.viewer.id);
             console.log("登录成功")
-           
           },
           fail: error => {
             console.log(error)
@@ -85,12 +88,19 @@
         })
       },
       sendDanmaku(message) {
-        
         this.$refs.danmu.sendDanmaku(message)
       },
-      configPlayerAndDocument() {
-        this.hd.showControl(true);//	控制条显示隐藏
-      },
+      isFlag(flag){
+        if(flag){
+        this.$refs.danmu.handleStart()
+
+        }else{
+          this.$refs.danmu.handlePause();
+          this.hd.toggleBarrage(flag)
+
+        }
+      }
+      
     }
   }
 </script>

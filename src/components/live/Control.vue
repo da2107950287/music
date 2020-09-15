@@ -47,17 +47,15 @@
         flag: true,
       };
     },
-    watch: {
-      flag() {
-        this.hd.toggleBarrage(!this.flag)
-      }
-    },
+    
     mounted() {
       this.hd = new HuodeScene();
     },
     methods: {
       isflag() {
-        return (this.flag = !this.flag);
+        this.flag = !this.flag;
+        this.$emit("isFlag",this.flag)
+        return this.flag;
       },
       //发送弹幕
       onSendTextMsg() {
@@ -66,7 +64,6 @@
           return;
         }
         this.hd.sendPublicChatMsg(this.message);
-      
         this.message = "";
       },
       //全屏/小屏

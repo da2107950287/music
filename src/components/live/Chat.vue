@@ -36,19 +36,21 @@
       return {
         message: "",
         messages: [],
-        hd:null,
+        hd: null,
       };
     },
     mounted() {
       this.hd = new HuodeScene();
       this.getMessages();
+
     },
     methods: {
       // 接收公聊
       getMessages() {
+        DWLive.openBarrage(true)
+        let that = this;
         this.hd.onPublicChatMessage((message) => {
           const _msg = JSON.parse(message);
-   
           const type = localStorage.getItem("viewerid") === _msg.userid;
           // 聊天信息数据结构
           const formatMsg = {
@@ -64,11 +66,15 @@
             chatId: _msg.chatId,
             type: type,
           };
+
           // 发送弹幕
-          
-console.log(message)
-          // this.$emit("sendDanmaku", formatMsg);
-          this.hd.sendBarrage(shieldEmoticon(formatMsg.content)); // 发送弹幕
+          var time = /([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])/;
+
+          if (time.test(formatMsg.time)) {
+            // this.$emit("sendDanmaku", formatMsg);
+            that.hd.sendBarrage(formatMsg.content); // 发送弹幕
+
+          }
           formatMsg.content = showEm(formatMsg.content);
           // 将接收到的聊天信息数据添加到信息池中
           this.messages.push(formatMsg);
@@ -93,12 +99,13 @@ console.log(message)
           return;
         }
         this.hd.sendPublicChatMsg(this.message);
+
+
         this.message = "";
-   
+
 
       },
       interaction() {
-        console.log(888)
         var isVideo = true;
         var isAudio = false;
         this.hd.requestInteraction({

@@ -69,4 +69,7 @@ export function  showEm(str) {
 
   return nmsg;
 }
-
+// 封装个公用方法，截取浏览器参数
+export default function getUrlKey (name) {
+  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
+}

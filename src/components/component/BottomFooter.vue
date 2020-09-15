@@ -6,16 +6,18 @@
                 <div class="common"></div>
                 <span @click="seeAgreement('A')">用户协议</span>
                 <div class="common"></div>
-                <span @click="dispalyQrCode">微信公众号</span>
+                <span class="wechat" @click="dispalyQrCode">微信公众号
+                    <div class="bg-qr" v-if="isShow">
+                        <img src="~assets/image/qr.png" alt="">
+                    </div>
+                </span>
             </div>
             <div class="right">
                 <span>芥末音乐教育有限公司 版权所有</span>
                 <span>ICP备 5467983486351337865号-1</span>
             </div>
         </div>
-        <div class="bg-qr" v-if="isShow">
-            <img src="~assets/image/qr.png" alt="">
-        </div>
+        
         <div class="btns">
             <div v-if="!isShowChat" class="consult1 btn" @click="showChat"></div>
             <div v-else class="consult2 btn"></div>
@@ -85,7 +87,7 @@
                 //     password: this.password,
                 // },
                 visitor: {
-                    userNickname: _this.username,
+                    usernickname: _this.username,
                     phone: _this.account
                 },
                 onready: function () {
@@ -164,6 +166,9 @@
             background: rgba(152, 153, 161, 1);
             margin: 0 15px;
         }
+        .wechat{
+            position: relative;
+        }
     }
 
     .right {
@@ -177,8 +182,8 @@
         width: 120px;
         height: 120px;
         position: absolute;
-        left: 508px;
-        bottom: 66px;
+        left: -20px;
+    bottom: 13px;
         /* background-image: url(~assets/image/bg_wxgzh.png); */
         /* background-size: 100%; */
         display: flex;

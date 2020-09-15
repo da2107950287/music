@@ -51,10 +51,10 @@
             } else if (item.playstate == 2) {//正在直播
               this.$router.push({ path: '/index/liveVedio', query: { catName: item.catName, catId: item.catId } })
             } else if (item.playstate == 3) {//直播已结束
-              this.$router.push({ path: '/index/vedio', query: { recordId: item.playback, catName: item.catName, catId: item.catId,couId:item.couId } })
+              this.$router.push({ path: '/index/play', query: { recordId: item.playback, catName: item.catName, catId: item.catId, couId: item.couId } })
             }
           } else {//录播
-            this.$router.push({ path: '/index/vedio', query: { recordId: item.playback, catName: item.catName, catId: item.catId,couId:item.couId } })
+            this.$router.push({ path: '/index/vedio', query: { url: item.catUrl, catName: item.catName} })
           }
         } else {
           this.$message("请购买后，再进行观看")

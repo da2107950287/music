@@ -18,14 +18,13 @@
         </div>
         <div v-if="isShow" class="login" @click="showLoginBox">
           <div class="login-icon"></div>
-
           <span class="login-text">点击登录</span>
         </div>
         <!-- 个人下拉菜单 -->
         <el-dropdown v-else @command="handleCommand" placement="bottom-end">
           <div class="login">
-            <img v-lazy="avatar" class="login-icon" />
-            <span class="login-text">{{nickName}}</span>
+            <img v-lazy="getHeadportrait" class="login-icon" />
+            <span class="login-text">{{getNickname}}</span>
           </div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item v-for="(item,index) in menu" :command="item.link" :key="index">{{item.title}}
@@ -43,14 +42,14 @@
 
   import LoginBox from "components/component/LoginBox";
   import TopMenu from "components/component/TopMenu";
+  import { mapGetters } from 'vuex'
+
   export default {
     inject: ["reload"],
     data() {
       return {
         dialogFormVisible: false, //登录弹窗开关
         isShowMenu: false,//菜单开关
-        avatar: "",//头像
-        nickName: "",//昵称
         notReadNum: 0,//未读消息数量
         list: [],
         menu: [
@@ -65,12 +64,15 @@
       };
     },
     computed: {
+      ...mapGetters([
+        'getToken',
+        'getHeadportrait',
+        'getNickname',
+      ]),
       isShow() {
-        if (localStorage.getItem("token") == null) {
+        if (this.getToken == null) {
           return true;
         } else {
-          this.avatar = localStorage.getItem('headportrait')
-          this.nickName = localStorage.getItem("nickName")
           return false;
         }
       },
@@ -98,13 +100,9 @@
           this.$router.push(link)
         }
       },
-      consult() { },
       //跳转到我的消息页面
       go(link) {
         this.$router.push(link);
-      },
-      showMenu() {
-        this.isShowMenu = !this.isShowMenu;
       },
       //隐藏登录框
       hideLoginBox() {
@@ -132,6 +130,7 @@
 </script>
 <style lang="scss" scoped>
   @import "~assets/css/mixin";
+
   .top-header-box {
     width: 100%;
     margin-bottom: 30px;

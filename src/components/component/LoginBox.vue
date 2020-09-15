@@ -66,8 +66,8 @@
                 codeMsg: "发送验证码",
                 totalTime: 60,
                 loginForm: {
-                    phone: "",
-                    smsCode: "",
+                    phone: "",//手机号
+                    smsCode: "",//验证码
                 },
                 rules: {
                     phone: [{ validator: validatorPhone, trigger: "blur" }],
@@ -136,16 +136,6 @@
                         }).then((res) => {
                             switch (res.code) {
                                 case "200":
-                                    this.avatar = res.data.headportrait;
-                                    this.nickName = res.data.nickname;
-                                    localStorage.setItem("accLeaTime", res.data.accLeaTime);
-                                    localStorage.setItem("headportrait", res.data.headportrait);
-                                    localStorage.setItem("token", res.data.token);
-                                    localStorage.setItem("nickName", res.data.nickname);
-                                    localStorage.setItem("vip", res.data.vip);
-                                    localStorage.setItem("sex", res.data.sex);
-                                    localStorage.setItem("state", res.data.state);
-                                    localStorage.setItem("uid", res.data.uid);
                                     this.$store.commit("setUserInfo", {
                                         accLeaTime: res.data.accLeaTime,
                                         headportrait: res.data.headportrait,
@@ -154,10 +144,9 @@
                                         vip: res.data.vip,
                                         integral: res.data.integral,
                                         sex: res.data.sex,
-                                        status: res.data.state,
+                                        status: res.data.status,
                                         uid: res.data.uid
                                     });
-
                                     this.$emit("hideLoginBox")
                                     this.reload()
                                 case 201:
