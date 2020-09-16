@@ -65,6 +65,7 @@
 <script>
 import { getRequest } from "assets/js/utils.js";
 export default {
+  name:"sharecircle",
   data() {
     return {
       dyId: "",

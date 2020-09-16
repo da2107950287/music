@@ -94,7 +94,14 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: { '^/access_token': '' }
 
+      },
+      "/image":{
+        target: "http://chatmaterial.csslcloud.net/image",
+        changeOrigin: true,
+        pathRewrite: { '^/access_token': '' }
       }
+      
+      
     }
   },
 

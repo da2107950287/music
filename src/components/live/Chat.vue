@@ -11,6 +11,7 @@
       <div class="footer-icon">
         <!-- 表情组件 -->
         <ChatEmoji class="chatemoji" @selectEmoji="selectEmoji" :inpMessage="message" />
+        <UpLoadImage />
         <div @click="interaction">语音</div>
       </div>
       <div class="fotter-send">
@@ -27,10 +28,12 @@
   import HuodeScene from "assets/js/live.js";
   import Mixins from "assets/js/mixins.js";
   import { shieldEmoticon, showEm } from "assets/js/utils.js"
+  import UpLoadImage from "components/live/UpLoadImage"
   export default {
     mixins: [Mixins],
     components: {
       ChatEmoji,
+      UpLoadImage
     },
     data() {
       return {
@@ -42,14 +45,18 @@
     mounted() {
       this.hd = new HuodeScene();
       this.getMessages();
-
+      window.on_cc_live_interaction_message = function (data) {
+        console.log(data)
+      }
     },
     methods: {
       // 接收公聊
       getMessages() {
-        DWLive.openBarrage(true)
+        // DWLive.openBarrage(true)
         let that = this;
         this.hd.onPublicChatMessage((message) => {
+          console.log(message)
+          // console.log(message)
           const _msg = JSON.parse(message);
           const type = localStorage.getItem("viewerid") === _msg.userid;
           // 聊天信息数据结构
@@ -66,16 +73,15 @@
             chatId: _msg.chatId,
             type: type,
           };
-
           // 发送弹幕
           var time = /([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])/;
-
-          if (time.test(formatMsg.time)) {
-            // this.$emit("sendDanmaku", formatMsg);
-            that.hd.sendBarrage(formatMsg.content); // 发送弹幕
+          var reg = new RegExp(/\[img_http(s)?:\/\/(.*?)\]/g);
+          if (time.test(formatMsg.time) && !reg.test(formatMsg.content)) {
+            that.hd.sendBarrage(shieldEmoticon(formatMsg.content)); // 发送弹幕
 
           }
           formatMsg.content = showEm(formatMsg.content);
+          // console.log(formatMsg)
           // 将接收到的聊天信息数据添加到信息池中
           this.messages.push(formatMsg);
           this.scrollBottom()
@@ -99,11 +105,7 @@
           return;
         }
         this.hd.sendPublicChatMsg(this.message);
-
-
         this.message = "";
-
-
       },
       interaction() {
         var isVideo = true;

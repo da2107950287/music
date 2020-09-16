@@ -33,7 +33,6 @@
         list: []
       };
     },
-
     created() {
      this.getData();                                                                                                             
     },
@@ -54,7 +53,6 @@
         this.currentPage = currentPage;
         this.getData()
       }
-
     },
     components: {
       ProfileHeader,

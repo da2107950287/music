@@ -65,11 +65,11 @@
 <style lang="scss" scoped>
     @import "~assets/css/mixin";
     .course-box {
-        @include wh(384px,306px);      
+        @include wh(384px,310px);      
         box-sizing: border-box;
         margin-top: 45px;
         background-color: $fc;
-        border: 1px solid rgba(238, 238, 238, 1);
+        border: 1px solid #eee;
     }
 
     .course-item {

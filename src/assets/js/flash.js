@@ -33,6 +33,7 @@ let FlashTip = {
 
   init: function (type) {
     if (!FlashTip.checkFlash()) {
+   
       FlashTip.show(type)
     }
   }

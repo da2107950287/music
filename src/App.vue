@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <!-- <keep-alive> -->
-      <!-- v-loading="loading" element-loading-text="拼命加载中"
+    <!-- v-loading="loading" element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" -->
-    <router-view v-if="isRouterAlive" ></router-view>
+    <router-view v-if="isRouterAlive"></router-view>
     <!-- </keep-alive> -->
-  
+
 
   </div>
 </template>
@@ -40,11 +40,19 @@
 </script>
 <style>
   @import "~assets/css/font.css";
-  html,
-  body,
+
+  html,body {
+    height: 100%;
+    width: 100%;
+    background-color: #f7f7f7;
+    font-family: "PingFangSC-Regular", "PingFang SC,sthupo";
+
+  }
+
+
   #app {
     min-width: 1200px;
-    background-color: #F5F5F5;
-    font-family:"PingFangSC-Regular","PingFang SC,sthupo";
+    /* height: 100%; */
+    /* background-color: #F5F5F5; */
   }
 </style>

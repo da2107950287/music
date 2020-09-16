@@ -90,39 +90,39 @@ const routes = [
       },
       {
         path: 'user',
-        component: () => import('views/User.vue'),
+        component: () => import('views/uc/User.vue'),
         children: [
           {
             path: "", redirect: "profile"
           },
           {
             path: 'profile',
-            component: () => import(/* webpackChunkName: "user" */ 'views/Profile.vue'),
+            component: () => import(/* webpackChunkName: "user" */ 'views/uc/Profile.vue'),
             meta: { title: '我的资料', requireAuth: true }
           },
           {
             path: 'course',
-            component: () => import(/* webpackChunkName: "user" */ 'views/Course.vue'),
+            component: () => import(/* webpackChunkName: "user" */ 'views/uc/Course.vue'),
             meta: { title: '我的课程', requireAuth: true }
           },
           {
             path: 'order',
-            component: () => import(/* webpackChunkName: "user" */ 'views/Order.vue'),
+            component: () => import(/* webpackChunkName: "user" */ 'views/uc/Order.vue'),
             meta: { title: '我的订单', requireAuth: true }
           },
           {
             path: 'collect',
-            component: () => import(/* webpackChunkName: "user" */ 'views/Collect.vue'),
+            component: () => import(/* webpackChunkName: "user" */ 'views/uc/Collect.vue'),
             meta: { title: '我的收藏', requireAuth: true }
           },
           {
             path: 'news',
-            component: () => import(/* webpackChunkName: "user" */ 'views/News.vue'),
+            component: () => import(/* webpackChunkName: "user" */ 'views/uc/News.vue'),
             meta: { title: '我的消息', requireAuth: true }
           },
           {
             path: 'integral',
-            component: () => import(/* webpackChunkName: "user" */ 'views/Integral.vue'),
+            component: () => import(/* webpackChunkName: "user" */ 'views/uc/Integral.vue'),
             meta: { title: '我的积分', requireAuth: true }
           },
         ]
@@ -130,17 +130,17 @@ const routes = [
       {
         path: 'liveVedio',
         component: () => import("views/LiveVedio.vue"),
-        meta: { title: "直播", requireAuth: true }
+        meta: { title: "直播", requireAuth: false }
       },
       {
         path: 'playback',
         component: () => import("views/PlayBack.vue"),
-        meta: { title: "直播回放", requireAuth: true }
+        meta: { title: "直播回放", requireAuth: false }
       },
       {
         path: 'demo',
         component: () => import("views/demo.vue"),
-        meta: { title: "直播", requireAuth: true }
+        meta: { title: "直播", requireAuth: false }
       },
     ]
   }

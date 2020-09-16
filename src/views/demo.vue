@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <Danmaku class="danmaku" ref="danmaku"></Danmaku>
 </template>
 <script>
@@ -43,4 +43,4 @@
     position: relative;
     width: 200px;
   }
-</style>
+</style> -->

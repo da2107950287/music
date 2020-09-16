@@ -21,9 +21,9 @@ class HuodeScene {
       userid: options.userId,
       roomid: options.roomId,
       viewername: options.viewerName,
-      viewertoken: options.viewerToken,
+      // viewertoken: options.viewerToken,
       fastMode: true
-     
+
     });
 
     DWLive.onLoginSuccess = function (result) {
@@ -34,6 +34,7 @@ class HuodeScene {
       options.fail && options.fail(error);
     };
   }
+
   liveStart(callback) {
 
     DWLive.onLiveStart = function (result) {
@@ -77,7 +78,7 @@ class HuodeScene {
     console.log(isBarrage, _isBarrage)
     // 打开视频弹幕
     // DWLive.openBarrage &&
-     DWLive.openBarrage(_isBarrage);
+    DWLive.openBarrage(_isBarrage);
     // 打开关闭文档弹幕
     if (_isBarrage) {
       DWLive.openDocBarrage && DWLive.openDocBarrage();
@@ -92,9 +93,8 @@ class HuodeScene {
       return false;
     }
     // 发送弹幕，color为十六进制颜色值(0xffffff)，仅支持PC端
-   console.log(message)
-    // DWLive.barrage &&
-     DWLive.barrage(message, color);
+    console.log(message)
+    DWLive.barrage &&DWLive.barrage(message, color);
 
   }
 

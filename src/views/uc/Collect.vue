@@ -23,7 +23,6 @@
     import ProfileHeader from "components/ProfileHeader.vue";
     import CourseItem from "components/CourseItem.vue"
     export default {
-
         data() {
             return {
                 currentPage: 1,//当前页码
@@ -33,7 +32,7 @@
             }
         },
         created() {
-            this.getData()
+            this.getData();
         },
         methods: {
             getData() {
@@ -61,7 +60,6 @@
 <style lang="scss" scoped>
     @import "~assets/css/pagination.css";
     @import "~assets/css/mixin";
-
 
     .collect {
         width: 950px;

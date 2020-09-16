@@ -74,6 +74,7 @@
 <script>
   import {getRequest} from "assets/js/utils.js"
 export default {
+  name:"sharegood",
   data() {
     return {
       cdyId: "",

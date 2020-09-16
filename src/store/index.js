@@ -117,7 +117,6 @@ export default new Vuex.Store({
   },
   actions: {
     showLoading({ commit }) {
-
       commit('showLoading')
     },
     hideLoading({ commit }) {
@@ -126,7 +125,6 @@ export default new Vuex.Store({
     setNickname({commit},nickname,sex){
       commit("setNickname",nickname,sex)
     }
-
   },
   modules: {
   }

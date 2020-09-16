@@ -73,6 +73,7 @@
 
     .common {
         display: flex;
+        align-items: center;
 
         >span:nth-child(2) {
             color: #9899A1;

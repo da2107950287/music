@@ -57,6 +57,7 @@
 <script>
   import {getRequest} from "assets/js/utils.js"
 export default {
+  name:"sharecourse",
   data() {
     return {
       couId: "",

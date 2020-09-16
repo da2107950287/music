@@ -77,7 +77,7 @@
 </script>
 <style lang="scss" scoped>
   .recommend {
-    background-color: #f7f7f7;
+    background-color: #fff;
     margin-top: 40px;
     padding-bottom: 20px;
   }

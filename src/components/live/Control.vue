@@ -54,7 +54,7 @@
     methods: {
       isflag() {
         this.flag = !this.flag;
-        this.$emit("isFlag",this.flag)
+        this.hd.toggleBarrage(this.flag)
         return this.flag;
       },
       //发送弹幕

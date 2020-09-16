@@ -41,7 +41,7 @@
     </el-dialog>
     <!-- 绑定、更换手机号 -->
     <bind-phone :isShowForm="isShowForm" @hidePhoneForm="hidePhoneForm"></bind-phone>
-    <div @click="get">获取openid</div>
+  
   </div>
 </template>
 <script>
@@ -56,7 +56,7 @@
   import BindPhone from "components/profile/BindPhone";
   import DisplayProfile from "components/profile/DisplayProfile";
   import QRCode from "qrcodejs2";
-  import {mapGetters,mapActions } from "vuex"
+  import { mapGetters, mapActions } from "vuex"
   import { getRequest } from "assets/js/utils.js";
   import { wxpost } from "assets/js/axios.js";
   export default {
@@ -78,7 +78,7 @@
         openid: ''
       };
     },
-    computed:{
+    computed: {
       ...mapGetters([
         "getAppid",
         "getSecret"
@@ -93,12 +93,10 @@
           this.selectedOptions.push(TextToCode[this.userinfo.province][this.userinfo.city].code)
         }
       });
-
-    },
-    methods: {
-      get() {
-        this.code = "011vQ10w3WzjXU2i0t0w34bI4N3vQ10E"
-
+      this.code = getRequest().code;
+      if(this.code){
+        
+        console.log(this.code)
         wxpost("", { appid: this.getAppid, secret: this.getSecret, code: this.code, grant_type: 'authorization_code' }).then(res => {
           this.openid = res.openid;
           if (this.openid) {
@@ -108,8 +106,11 @@
           }
 
         })
-      },
-      unBindWeChat(){
+      }
+    },
+    methods: {
+     
+      unBindWeChat() {
         this.reload()
       },
       handleChange(arr) {
@@ -124,7 +125,7 @@
         this.isShowForm = false;
       },
       changeImg() { },
-      
+
       // 绑定微信
       bindWeChat() {
         let that = this
@@ -138,7 +139,7 @@
             id: 'wxCode', // 需要显示的容器id
             appid: that.getAppid, // 公众号appid wx*******
             scope: 'snsapi_login', // 网页默认即可
-            redirect_uri: encodeURIComponent('http://jammusic.art'), // 授权成功后回调的url
+            redirect_uri: encodeURIComponent('http://jammusic.art/dist/index.html/index/user/profile'), // 授权成功后回调的url
             state: Math.ceil(Math.random() * 1000), // 可设置为简单的随机数加session用来校验
             style: 'black', // 提供"black"、"white"可选。二维码的样式
             href: '' // 外部css文件url，需要https

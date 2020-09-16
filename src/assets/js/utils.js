@@ -63,7 +63,7 @@ export function  showEm(str) {
 
     var sIndex = str.indexOf('_') + 1;
     nmsg = str.slice(sIndex, str.length - 1);
-    var imgTag = '<div class="chatImage" style="width: 100%" ><img src="' + nmsg + '"  style="width: 100%;cursor:pointer;" onclick="showMsgImage(event)"/></div>';
+    var imgTag = '<div class="chatImage" style="width: 100%" ><img src="' + nmsg + '"  style="width: 100%;cursor:pointer;" /></div>';
     return imgTag;
   }
 
