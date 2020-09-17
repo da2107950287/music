@@ -9,7 +9,6 @@
           <img v-if="!checkedAll" src="~assets/image/icon_check_normal.png" class="select-icon" />
           <img v-else src="~assets/image/icon_check_sel.png" class="select-icon" />
         </div>
-
         <div @click="readMsg" class="btn read">全部已读</div>
         <!-- <img @click="deleteMsg" src="~assets/image/bnt_sc.png" class="btn delete" /> -->
       </div>
@@ -19,7 +18,6 @@
             <img v-if="item.checked==false" src="~assets/image/icon_check_normal.png" class="select-icon" />
             <img v-else src="~assets/image/icon_check_sel.png" class="select-icon" />
           </div>
-
           <div class="flex td">
             <div class="td-left">
               <img src="~assets/image/icon_jyxx.png" />
@@ -67,7 +65,6 @@
     },
     created() {
       this.getData()
-
     },
     methods: {
       getData() {
@@ -86,7 +83,6 @@
           return item.checked === false;
         })
         if (isCheckedAll) {
-
           this.arr.forEach(item => {
             item.checked = true
           })
@@ -115,14 +111,12 @@
           return item.checked == false;
         })
         this.arr = arr
-
       },
       //点击页码
       handleCurrentChange(currentPage) {
         this.currentPage = currentPage;
         this.getData()
       }
-
     },
     components: {
       ProfileHeader,

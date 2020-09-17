@@ -10,13 +10,13 @@
       </div>
       <div class="table-body">
         <el-radio-group v-model="payMethod" fill="$tc">
-          <el-radio :label="1">
+          <el-radio :label="2">
             <div class="btns">
               <div class="btn wx"></div>
               <span>微信支付</span>
             </div>
           </el-radio>
-          <el-radio :label="2">
+          <el-radio :label="1">
             <div class="btns">
               <div class="btn zfb"></div>
               <span>支付宝支付</span>
@@ -38,7 +38,7 @@
   export default {
     data() {
       return {
-        payMethod: 1,
+        payMethod: 2,
       };
     },
     props: ["totalPrice"],

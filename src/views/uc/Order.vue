@@ -16,11 +16,10 @@
   export default {
     data() {
       return {
-        status: 0,
         currentIndex: "all",
         currentPage: 1,
         pageSize: 10,
-        total: null,
+        total: 0,
         type: 1,
         lists: [
           { name: "全部", olState: "all" },
@@ -31,14 +30,11 @@
         list: []
       };
     },
-
     created() {
       this.getData(this.currentIndex)
-
     },
     methods: {
       getData(olState) {
-
         this.$post('/orderlist/getOrderlist', { olState, type: this.type, PageNumber: this.currentPage, PageSize: this.pageSize }).then(res => {
           if (res.code == 200) {
             this.total = res.data.PageCount * this.pageSize;
@@ -57,6 +53,7 @@
                     let s = Math.floor(leftTime / 1000 % 60);
                     this.$set(item, "countTime", `请在${m}分${s}秒内完成支付，超时订单将被自动取消哦〜`)
                   } else {
+                    item.countTime=""
                     clearInterval(timer);
                   }
                 }, 1000);

@@ -9,7 +9,6 @@
         <div class="blank"></div>
         <div class="common">
             <div class="img-icon img2"></div>
-
             <span>有 效 期：</span>
             <span v-if="list.termOfValidity==0">长期有效</span>
             <span v-else>{{list.termOfValidity}}月</span>

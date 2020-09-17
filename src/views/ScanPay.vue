@@ -37,7 +37,7 @@
         couName: "",//课程名称
         couId: "",//课程id
         integral: "",//积分
-        payMethod: "",//支付方式
+        // payMethod: "",//支付方式
         qrLink: "",//生成二维码的链接
         olId: "",//订单号
         totalPrice: "",//总价 
@@ -69,7 +69,7 @@
         if (!this.$route.query.hasOwnProperty("olId")) {//第一次支付
           this.couId = this.$route.query.couId;
           this.integral = this.$route.query.integral;
-          this.payMethod = this.$route.query.payMethod;
+          // this.payMethod = this.$route.query.payMethod;
           // if (this.payMethod == 1) {
             this.wxPay();
           // } else {
@@ -77,7 +77,7 @@
           // }
         } else {//再次支付
           this.olId = this.$route.query.olId;
-          this.payMethod = this.$route.query.payMethod;
+          // this.payMethod = this.$route.query.payMethod;
           this.payAgain()
         }
       },
@@ -133,12 +133,12 @@
       refresh() {
         //刷新页面，拿到订单id，查询是否是待支付状态，如果是待支付，就调用再支付方法，如果订单状态已取消？？？
         this.olId = localStorage.getItem("olId");
-        this.payMethod = localStorage.getItem("payMethod")
+        // this.payMethod = localStorage.getItem("payMethod")
         this.$post("/orderlist/showOrderlist", { olId: this.olId }).then(res => {
           if (res.code == 200) {
             if (res.data.olState == 1) {//订单状态待支付
               this.couId = res.data.olId;
-              this.payMethod = res.data.payMethod;
+              // this.payMethod = res.data.payMethod;
               this.couName = res.data.orderlistCourse[0].couName;
               this.totalPrice = res.data.payPrice;
               this.payAgain();

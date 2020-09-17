@@ -1,6 +1,6 @@
 <template>
   <div class="banner">
-    <el-carousel height="480px" trigger="click" loop>
+    <el-carousel :interval="5000" height="480px" trigger="click" loop>
       <el-carousel-item v-for="(item,index) in banners" :key="index">
         <img v-lazy="item.pcurl" class="banner-img" />
       </el-carousel-item>

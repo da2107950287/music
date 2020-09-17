@@ -30,7 +30,6 @@
       addressInfo(){
         if(this.addressInfo.addressinfo){
           this.address=this.addressInfo.addressinfo.replace(/\s+/g, "")+this.addressInfo.detailed.replace(/\s+/g, "")
-
         }else{
           this.address=this.addressInfo.detailed.replace(/\s+/g, "")
         }

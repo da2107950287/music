@@ -68,12 +68,10 @@
       login() {
         var options = this.$route.query;
         this.catName = options.catName;
-       
         this.hd.login({
           userId: this.getUserId,
           roomId: options.catId,
           viewerName: this.getNickname,//用户名称
-   
           success: result => {
             console.log(result)
             localStorage.setItem("viewerid", result.viewer.id);

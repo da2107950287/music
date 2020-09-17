@@ -27,7 +27,7 @@
                         <div class="left">{{el.couName}}</div>
                         <div class="right">
                             <span>总课时：{{el.totalHours}}</span>
-                            <span v-if="el.isnotVip==0">&yen;{{el.price}}</span>
+                            <span v-if="el.isnotvip==0">&yen;{{el.price}}</span>
                             <span v-else>&yen;{{el.pricevip}}</span>
                             <span>&times;{{el.number}}</span>
                         </div>
@@ -85,11 +85,7 @@
             },
             //去支付
             toPay(olId, payMethod, couName, totalPrice) {
-                console.log(payMethod)
                 if (payMethod == 1) {
-                    //跳转到微信支付
-                    this.$router.push({ path: '/index/scanPay', query: { olId, couName, totalPrice } });
-                } else {
                     //支付宝支付
                     this.$post("/alipay/buyOrderlist", {
                         olId: olId,
@@ -105,6 +101,9 @@
                             document.forms[0].submit();
                         }
                     });
+                }else if (payMethod == 2) {
+                    //跳转到微信支付
+                    this.$router.push({ path: '/index/scanPay', query: { olId, couName, totalPrice } });
                 }
             },
             //再次购买

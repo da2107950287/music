@@ -7,8 +7,9 @@
             <div class="audition-icon"></div>
         </div>
         <div class="content">
-            <course-description v-show="currentIndex==0" :courseDes="couresDetail"></course-description>
-            <course-catalog v-show="currentIndex==1" :catalogue="catalogue" :buyState="buyState"></course-catalog>
+            <!-- <CourseDescription v-show="currentIndex==0" :courseDes="couresDetail"/> -->
+            <div v-show="currentIndex==0" v-html="couresDetail.intro"></div>
+            <CourseCatalog v-show="currentIndex==1" :catalogue="catalogue" :buyState="buyState"/>
             <div v-show="currentIndex==2" v-html="couresDetail.lecturerIntro"></div>
             <!-- <teacher-intro v-show="currentIndex==2"  :teacherList="couresDetail.list"></teacher-intro> -->
         </div>

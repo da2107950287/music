@@ -43,20 +43,17 @@
       };
     },
     mounted() {
-      this.hd = new HuodeScene();
-      this.getMessages();
-      window.on_cc_live_interaction_message = function (data) {
-        console.log(data)
-      }
+      this.init()
     },
     methods: {
+      init() {
+        this.hd = new HuodeScene();
+        this.getMessages();
+      },
       // 接收公聊
       getMessages() {
-        // DWLive.openBarrage(true)
         let that = this;
         this.hd.onPublicChatMessage((message) => {
-          console.log(message)
-          // console.log(message)
           const _msg = JSON.parse(message);
           const type = localStorage.getItem("viewerid") === _msg.userid;
           // 聊天信息数据结构
@@ -81,7 +78,6 @@
 
           }
           formatMsg.content = showEm(formatMsg.content);
-          // console.log(formatMsg)
           // 将接收到的聊天信息数据添加到信息池中
           this.messages.push(formatMsg);
           this.scrollBottom()

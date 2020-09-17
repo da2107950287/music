@@ -17,10 +17,10 @@
                 <span>ICP备 5467983486351337865号-1</span>
             </div>
         </div>
-        
+
         <div class="btns">
-            <div v-if="!isShowChat" class="consult1 btn" @click="showChat"></div>
-            <div v-else class="consult2 btn"></div>
+            <div class="consult1 btn" @click="showChat"></div>
+            <!-- <div v-else class="consult2 btn"></div> -->
             <div class="top btn" @click="toTop"></div>
             <!-- <chat v-if="isShowChat" @hideChat="hideChat" class="chat"></chat> -->
 
@@ -29,85 +29,46 @@
 
     </div>
 </template>
-<!-- <script src='//192.168.199.157:8080/easemob.js'></script> -->
 <script>
-    // import Chat from 'components/chat/Chat'
+    import { mapGetters } from "vuex"
     export default {
         data() {
             return {
                 isShow: false,
-                isShowChat: false,
-                uid: "",
-                password: '123456',
-                nickname: '',
-                account: '',
-                configId: "6a6f3d22-243d-4b3c-9e7f-5598c1057842"
             }
         },
-
+        computed: {
+            ...mapGetters([
+                "getConfigId"
+            ])
+        },
         watch: {
             $route(to, from) {
                 this.isShow = false
             }
         },
-        created() {
-            let _this = this
-            window.easemobim = window.easemobim || {};
-            if (localStorage.getItem("token")) {
-                this.$post("/userinfo/showUserinfo").then(res => {
-                    if (res.code == 200) {
-                        this.uid = res.data.userinfo.uid;
-                        this.nickname = res.data.userinfo.nickname;
-                        this.account = res.data.userinfo.account;
-
-                    }
-                })
-            }
-        },
         mounted() {
-            let _this = this;
-
-            easemobim.config = {
-                configId: _this.configId,
-                //设置为您的网页插件页面显示的configId的值
-              
-                //环信移动客服域，固定值，请按照示例配置
-                // domain: '//kefu.easemob.com',
-                //您网站上im.html文件的完整路径
-                // path: '//192.168.199.157:8080/im.html',
-                // //访客插件static的路径
-                // staticPath: '//192.168.199.157:8080/static',
-                hide: true,
-                autoConnect: true,
-                hideKeyboard: true,
-                // dialogPosition: { x: '30px', y: '100px' },
-                // user: {
-                //     // username 必填，password 和 token 任选一项填写
-                //     username: this.uid,
-                //     password: this.password,
-                // },
-                visitor: {
-                    usernickname: _this.username,
-                    phone: _this.account
-                },
-                onready: function () {
-                    console.log(88812)
-         
-                },
-                onsessionclosed: function () {
-                    console.log("close")
-                }
-            }
-        
+            this.init()
         },
         methods: {
-            showChat() {
-
-                this.isShowChat = true;
-                easemobim.bind({ configId: this.configId })
+            init() {
+                let that = this;
+                window.easemobim = window.easemobim || {};
+                easemobim.config = {
+                    configId: that.getConfigId,
+                    hide: true,
+                    autoConnect: true,
+                    hideKeyboard: true,
+                    onready: function () {
+                        console.log("eamsembim")
+                    },
+                    onsessionclosed: function () {
+                        console.log("close")
+                    }
+                }
             },
-            hideChat() {
-                this.isShowChat = false;
+            showChat() {
+                easemobim.bind({ configId: this.getConfigId })
             },
             dispalyQrCode() {
                 this.isShow = !this.isShow;
@@ -120,9 +81,7 @@
                 window.scrollTo(0, 0);
             }
         },
-        components: {
-            // Chat
-        }
+
     }
 </script>
 <style>
@@ -166,7 +125,8 @@
             background: rgba(152, 153, 161, 1);
             margin: 0 15px;
         }
-        .wechat{
+
+        .wechat {
             position: relative;
         }
     }
@@ -183,7 +143,7 @@
         height: 120px;
         position: absolute;
         left: -20px;
-    bottom: 13px;
+        bottom: 13px;
         /* background-image: url(~assets/image/bg_wxgzh.png); */
         /* background-size: 100%; */
         display: flex;

@@ -26,7 +26,7 @@
                 olId: '',
                 detail: {},
                 countTime: '',
-                addressInfo:{}
+                addressInfo: {}
             }
         },
         created() {
@@ -34,11 +34,11 @@
             this.$post('/orderlist/showOrderlist', { olId: this.olId }).then(res => {
                 if (res.code == 200) {
                     this.detail = res.data;
-                    this.addressInfo={
-                        fullname:this.detail.fullname,
-                        mobile:this.detail.mobile,
-                        detailed:this.detail.address,
-                        
+                    this.addressInfo = {
+                        fullname: this.detail.fullname,
+                        mobile: this.detail.mobile,
+                        detailed: this.detail.address,
+
                     }
                     if (this.detail.olState == 1) {
                         //待支付倒计时
@@ -53,6 +53,10 @@
                                 let m = Math.floor(leftTime / 1000 / 60 % 60);
                                 let s = Math.floor(leftTime / 1000 % 60);
                                 this.countTime = `请在${m}分${s}秒内完成支付，超时订单将被自动取消哦〜`
+                            } else {
+                                this.countTime = "";
+                                clearInterval(timer);
+
                             }
                         }, 1000);
                     }
@@ -73,6 +77,6 @@
         width: 1200px;
         margin: 0 auto 30px;
 
-        
+
     }
 </style>

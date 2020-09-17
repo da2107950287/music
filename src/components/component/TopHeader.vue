@@ -35,13 +35,12 @@
       </div>
     </div>
     <!-- 登录弹窗 -->
-    <login-box :dialogFormVisible="dialogFormVisible" @hideLoginBox="hideLoginBox"></login-box>
+    <LoginBox :dialogFormVisible="dialogFormVisible" @hideLoginBox="hideLoginBox"/>
   </div>
 </template>
 <script>
 
   import LoginBox from "components/component/LoginBox";
-  import TopMenu from "components/component/TopMenu";
   import { mapGetters } from 'vuex'
 
   export default {
@@ -124,7 +123,6 @@
     },
     components: {
       LoginBox,
-      TopMenu
     },
   };
 </script>

@@ -41,7 +41,7 @@
     </el-dialog>
     <!-- 绑定、更换手机号 -->
     <bind-phone :isShowForm="isShowForm" @hidePhoneForm="hidePhoneForm"></bind-phone>
-  
+
   </div>
 </template>
 <script>
@@ -85,31 +85,25 @@
       ])
     },
     created() {
-      //查询用户信息
-      this.$post("/userinfo/showUserinfo", {}).then((res) => {
-        if (res.code == 200) {
-          this.userinfo = res.data.userinfo;
-          this.selectedOptions.push(TextToCode[this.userinfo.province].code);
-          this.selectedOptions.push(TextToCode[this.userinfo.province][this.userinfo.city].code)
-        }
-      });
-      this.code = getRequest().code;
-      if(this.code){
-        
-        console.log(this.code)
-        wxpost("", { appid: this.getAppid, secret: this.getSecret, code: this.code, grant_type: 'authorization_code' }).then(res => {
-          this.openid = res.openid;
-          if (this.openid) {
-            this.$post("/userinfo/bindWx", { openid: this.openid, type: 1 }).then(res => {
-              console.log(res)
-            })
-          }
-
-        })
-      }
+      this.init();
     },
     methods: {
-     
+      init() {
+        //查询用户信息
+        this.$post("/userinfo/showUserinfo", {}).then((res) => {
+          if (res.code == 200) {
+            this.userinfo = res.data.userinfo;
+            this.selectedOptions.push(TextToCode[this.userinfo.province].code);
+            this.selectedOptions.push(TextToCode[this.userinfo.province][this.userinfo.city].code)
+          }
+        });
+        this.code = getRequest().code;
+        if (this.code) {
+          this.$post("/userinfo/bindWx", { code: this.code, type: 1 }).then(res => {
+            console.log(res)
+          })
+        }
+      },
       unBindWeChat() {
         this.reload()
       },
@@ -139,7 +133,7 @@
             id: 'wxCode', // 需要显示的容器id
             appid: that.getAppid, // 公众号appid wx*******
             scope: 'snsapi_login', // 网页默认即可
-            redirect_uri: encodeURIComponent('http://jammusic.art/dist/index.html/index/user/profile'), // 授权成功后回调的url
+            redirect_uri: encodeURIComponent('http://jammusic.art/dist/index.html#/index/user/profile'), // 授权成功后回调的url
             state: Math.ceil(Math.random() * 1000), // 可设置为简单的随机数加session用来校验
             style: 'black', // 提供"black"、"white"可选。二维码的样式
             href: '' // 外部css文件url，需要https

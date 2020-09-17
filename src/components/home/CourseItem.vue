@@ -6,14 +6,12 @@
                 <div class="course-name">{{course.couName}}</div>
                 <div class="common">
                     <div class="img-icon img1"></div>
-
                     <span>总 课 时：</span>
                     <span>{{course.totalHours}}</span>
                 </div>
                 <div class="blank"></div>
                 <div class="common">
                     <div class="img-icon img2"></div>
-
                     <span>有 效 期：</span>
                     <span v-if="course.termOfValidity!=0">{{course.termOfValidity}}月</span>
                     <span v-else>长期有效</span>
@@ -21,7 +19,6 @@
                 <div class="blank"></div>
                 <div class="common">
                     <div class="img-icon img3"></div>
-
                     <span>授课老师：</span>
                     <span>{{course.lecturer}}</span>
                 </div>

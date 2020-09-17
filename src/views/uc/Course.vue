@@ -8,15 +8,15 @@
       <course-item v-for="(item,index) in list" :key="index" :list="item.courseEntity">
         <img slot="img" v-lazy="item.courseEntity.cover" alt />
         <div slot="progress" class="bg-progress">
-          <el-progress type="circle" :percentage="item.rateOfLearning" :width="100" color="$fc" class="progress">
+          <el-progress type="circle" :percentage="item.rateOfLearning" :width="100" color="#FFFFFF" class="progress">
           </el-progress>
           <div class="progress-text">已学习</div>
         </div>
         <div slot="last" class="btn" @click="toStudy(item.couId)">去学习</div>
       </course-item>
     </div>
-    <el-pagination v-if="total>pageSize" @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize" background
-      layout="prev, pager, next" :total="total" class="pagination">
+    <el-pagination v-if="total>pageSize" @current-change="handleCurrentChange" :current-page="currentPage"
+      :page-size="pageSize" background layout="prev, pager, next" :total="total" class="pagination">
     </el-pagination>
   </div>
 </template>
@@ -28,23 +28,23 @@
       return {
         currentPage: 1,
         pageSize: 5,
-        total:0,
+        total: 0,
         accLeaTime: null,//累计时间
         list: []
       };
     },
     created() {
-     this.getData();                                                                                                             
+      this.getData();
     },
     methods: {
-      getData(){
-        this.accLeaTime = localStorage.getItem("accLeaTime")
-      this.$post('/course/getUserCourse', { PageNumber: this.currentPage, PageSize: this.pageSize }).then(res => {
-        if (res.code == 200) {
-          this.total=res.data.PageCount*this.pageSize;
-          this.list = res.data.list;
-        }
-      })
+      getData() {
+        this.$post('/course/getUserCourse', { PageNumber: this.currentPage, PageSize: this.pageSize }).then(res => {
+          if (res.code == 200) {
+            this.total = res.data.PageCount * this.pageSize;
+            this.list = res.data.list;
+            this.accLeaTime = res.data.accLeaTime;
+          }
+        })
       },
       toStudy(couId) {
         this.$router.push({ path: '/index/courseLearning', query: { couId } })
@@ -76,21 +76,21 @@
     }
 
     .bg-progress {
- 
-      @include wh(282px,185px);
-     @include pa();
+
+      @include wh(282px, 185px);
+      @include pa();
       background-color: rgba(54, 54, 58, 0.3);
 
       .progress {
         width: 100px;
         height: 100px;
-        @include pa(50%,50%);
+        @include pa(50%, 50%);
 
         transform: translate(-50px, -50px);
       }
 
       .progress-text {
-        @include pa(50%,50%);
+        @include pa(50%, 50%);
 
         transform: translate(-22px, 10px);
         font-size: 14px;
@@ -101,9 +101,8 @@
   }
 
   .btn {
-    @include whl(88px,32px,32px)
-    border-radius: 2px;
-    
+    @include whl(88px, 32px, 32px) border-radius: 2px;
+
     text-align: center;
     color: $fc;
     background-color: #fb9715;

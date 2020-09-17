@@ -3,8 +3,8 @@
     <div class="playback" id="playbackPlayer"></div>
     <!-- <div  id="player-con"></div> -->
     <div class="title-box">
-      <div>{{catName}}</div>
-      <div>用户ID：{{uid}}</div>
+      <div>{{options.catName}}</div>
+      <div>用户ID：{{getUid}}</div>
     </div>
   </div>
 </template>
@@ -16,74 +16,65 @@
   export default {
     computed: {
       ...mapGetters([
-        'getUserId'
+        "getUserId",
+        "getUid"
       ]),
     },
     data() {
       return {
-        url: "",
-        catName: '',
-        uid: '',
+        options: {},
         startTime: '',
-        endTime: '',
+        totalTime: ''
       };
     },
     mounted() {
       this.options = this.$route.query;
-      console.log(this.options)
       this.init()
     },
     methods: {
       init() {
         let that = this;
         flash.init("player")
-        this.catName = this.options.catName;
-        this.uid = localStorage.getItem("uid")
-        console.log(this.options.recordId)
-        console.log(this.options)
         $.DW.config({
           userId: this.getUserId,
           roomId: this.options.catId,
           recordId: this.options.recordId,
-        },
-
-        );
+        });
         window.on_cc_login_error = function (err) {
           console.log(err)
           console.log("登录失败")
         }
         window.on_cc_login_success = function () {
           console.log("登陆成功")
-          window.on_player_start = function () {
-            that.startTime = new Date().getTime();
-            console.log(that.startTime)
-          }
+          that.startTime = new Date().getTime();
         }
-
         window.on_cc_live_player_load = function () {
-          console.log($.DW.getDuration()); // 获取视频总时长单位:秒
-          console.log($.DW.getPlayerTime());   // 获取当前播放时间)
+          this.totalTime = $.DW.getDuration()// 获取视频总时长单位:秒
         }
       }
     },
-    destroyed() {
-      var rateOfLearning;
-      window.on_cc_live_player_load = function () {
-        console.log($.DW.getPlayerTime(), $.DW.getDuration())
-        rateOfLearning = ($.DW.getPlayerTime() / $.DW.getDuration()).toFixed(2)
-        this.endTime = new Date().getTime();
-        console.log(rateOfLearning)
+    beforeDestroy() {
+      var rateOfLearning = ((($.DW.getPlayerTime() / this.totalTime).toFixed(2)) * 100);
+      if (this.options.rateOfLearning > rateOfLearning) {
+        var endTime = new Date().getTime();
+        var accLeaTime = ((endTime - this.startTime) / 60000).toFixed(0)
         this.$post("/course/insertStudyTime", {
           couId: this.options.couId,
           catId: this.options.catId,
-          rateOfLearning: rateOfLearning,
-          accLeaTime: (this.endTime - this.startTime) / 60,
+          rateOfLearning,
+          accLeaTime
         }).then(res => {
-          console.log(res)
+          if (res.code == 200) {
+            console.log(res)
+
+          }
         })
       }
 
-      // $.DW.destroy()
+
+
+
+
     }
 
   };

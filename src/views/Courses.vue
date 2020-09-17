@@ -1,18 +1,17 @@
 <template>
     <div>
-        <banner :banners="banners" />
-        <courses :courses="list" :style="{'margin-bottom':total<=pageSize?'30px':''}"/>
-        <el-pagination v-if="total>pageSize" @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
-            background layout="prev, pager, next" :total="total" class="pagination">
+        <Banner :banners="banners" />
+        <Courses :courses="list" :style="{'margin-bottom':total<=pageSize?'30px':''}" />
+        <el-pagination v-if="total>pageSize" @current-change="handleCurrentChange" :current-page="currentPage"
+            :page-size="pageSize" background layout="prev, pager, next" :total="total" class="pagination">
         </el-pagination>
-        <download-app />
+        <DownloadApp />
     </div>
 </template>
 <script>
     import Banner from 'components/home/Banner'
     import Courses from 'components/home/Courses'
     import DownloadApp from 'components/home/DownloadApp'
-
     export default {
         data() {
             return {
@@ -26,26 +25,29 @@
         },
         watch: {
             $route() {
-                this.currentPage=1;
+                this.currentPage = 1;
                 this.couType = this.$route.query.couType
                 this.getData()
             }
         },
         created() {
-            this.$post('/other/getBanner', { positions: "1" }).then((res) => {
-                if (res.code == 200) {
-                    this.banners = res.data
-                }
-            })
-            this.getData();
+            this.init()
         },
         methods: {
+            init() {
+                this.$post('/other/getBanner', { positions: "1" }).then((res) => {
+                    if (res.code == 200) {
+                        this.banners = res.data
+                    }
+                })
+                this.getData();
+            },
             getData() {
                 this.couType = this.$route.query.couType
                 this.$post("/course/getCourse", { couType: this.couType, PageNumber: this.currentPage, PageSize: this.pageSize }).then(res => {
                     if (res.code == 200) {
                         this.list = res.data.list;
-                        this.total = res.data.PageCount*this.pageSize;
+                        this.total = res.data.PageCount * this.pageSize;
                     }
                 })
             },

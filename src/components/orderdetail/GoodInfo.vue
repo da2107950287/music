@@ -1,6 +1,5 @@
 <template>
   <div class="good-info">
-
     <div class="title">
       <div>商品信息</div>
     </div>
@@ -48,20 +47,15 @@
           return ''
         }
       },
-      payPrice:{
-     
-      },
-      payMethod:{
-   
-      }
+      payPrice: {},
+      payMethod: {}
     },
-    
+
     methods: {
       cancelOrder(olId) {
         this.$confirm('你确定要取消该订单?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-
         }).then(() => {
           this.$post("/orderlist/updateOrderlist", { olId, olState: 6 }).then(res => {
             if (res.code == 200) {
@@ -69,11 +63,28 @@
             }
           })
         })
-      
-
       },
-      toPay(olId,couName) {
-        this.$router.push({ path: '/index/scanPay', query: { olId,payMethod:this.payMethod, couName, totalPrice:this.payPrice } });
+      toPay(olId, couName) {
+        if(this.payMethod==1) {
+          //支付宝支付
+          this.$post("/alipay/buyOrderlist", {
+            olId: olId,
+            type: 1,
+          }).then((res) => {
+            if (res.code == 200) {
+              this.qrLink = res.data;
+              console.log(this.qrLink)
+              const div = document.createElement("divform");
+              div.innerHTML = res.data;
+              document.body.appendChild(div);
+              // document.forms[0].acceptCharset = 'GBK'; //保持与支付宝默认编码格式一致，如果不一致将会出现：调试错误，请回到请求来源地，重新发起请求，错误代码 invalid-signature 错误原因: 验签出错，建议检查签名字符串或签名私钥与应用公钥是否匹配
+              document.forms[0].submit();
+            }
+          });
+        }else if (this.payMethod == 2) {
+          //跳转到微信支付
+          this.$router.push({ path: '/index/scanPay', query: { olId, couName, totalPrice:this.payPrice } });
+        } // this.$router.push({ path: '/index/scanPay', query: { olId,payMethod:this.payMethod, couName, totalPrice:this.payPrice } });
 
       },
       toStudy() {
@@ -107,7 +118,7 @@
         font-size: 20px;
         font-weight: 500;
         color: $tcolor;
-        font-family:"PingFangSC-Medium","PingFang SC";
+        font-family: "PingFangSC-Medium", "PingFang SC";
       }
 
       div:nth-child(2) {
@@ -119,10 +130,8 @@
 
     .title::before {
       content: "";
-      @include pa(5px,-26px)
-      @include wh(4px,12px)
-      display: inline-block;
-  
+      @include pa(5px, -26px) @include wh(4px, 12px) display: inline-block;
+
       background-color: $tc;
       margin-right: 30px;
     }
@@ -138,7 +147,7 @@
         .left {
           color: $tcolor;
           font-weight: 500;
-          font-family:"PingFangSC-Medium","PingFang SC";
+          font-family: "PingFangSC-Medium", "PingFang SC";
         }
 
         .right {
@@ -157,8 +166,9 @@
 
     .total,
     .btn-box {
-      
-      @include fj(flex-end,center);
+
+      @include fj(flex-end, center);
+
       div {
         cursor: default;
       }
@@ -173,15 +183,15 @@
 
         .price {
           color: $tcolor;
-          font-family:"PingFangSC-Medium","PingFang SC";
+          font-family: "PingFangSC-Medium", "PingFang SC";
         }
       }
     }
 
     .btn-box {
       .btn {
-        @include whl(108px,32px,32px);
-        
+        @include whl(108px, 32px, 32px);
+
         text-align: center;
         border-radius: 2px;
         margin-left: 15px;

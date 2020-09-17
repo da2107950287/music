@@ -170,7 +170,6 @@
             seeUserAgreement() {
                 this.$emit("hideLoginBox")
                 this.$router.push({ path: "/index/about", query: { type: "A" } });
-
             },
         }
     }

@@ -19,9 +19,6 @@
                 }
             }
         },
-        created() {
-
-        },
         components: {
             CourseItem
         }

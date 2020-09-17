@@ -1,5 +1,6 @@
 <template>
   <div class="course-catalog">
+    <div v-show="catalogue.length==0" class="none">暂无数据</div>
     <div v-for="(item,index) in catalogue" :key="index">
       <!-- <div class="title">第 1 章 ：基础夯实</div> -->
       <div class="lists">
@@ -43,22 +44,22 @@
     methods: {
       go(item) {
         //已购买或者免费试听
-        if (item.audition == 1 || this.buyState == 1) {
-          //直播
-          if (item.catType == 1) {
-            if (item.playstate == 1) {//直播未开始
-              this.$message("直播未开始")
-            } else if (item.playstate == 2) {//正在直播
-              this.$router.push({ path: '/index/liveVedio', query: { catName: item.catName, catId: item.catId } })
-            } else if (item.playstate == 3) {//直播已结束
-              this.$router.push({ path: '/index/play', query: { recordId: item.playback, catName: item.catName, catId: item.catId, couId: item.couId } })
-            }
-          } else {//录播
-            this.$router.push({ path: '/index/vedio', query: { url: item.catUrl, catName: item.catName} })
+        // if (item.audition == 1 || this.buyState == 1) {
+        //直播
+        if (item.catType == 1) {
+          if (item.playstate == 1) {//直播未开始
+            this.$message("直播未开始")
+          } else if (item.playstate == 2) {//正在直播
+            this.$router.push({ path: '/index/liveVedio', query: { catName: item.catName, catId: item.catId } })
+          } else if (item.playstate == 3) {//直播已结束,回放
+            this.$router.push({ path: '/index/playback', query: { recordId: item.playback, catName: item.catName, couId: item.couId, catId: item.catId, rateOfLearning: item.rateOfLearning } })
           }
-        } else {
-          this.$message("请购买后，再进行观看")
+        } else {//录播
+          this.$router.push({ path: '/index/vedio', query: { url: item.catUrl, catName: item.catName, couId: item.couId, catId: item.catId, rateOfLearning: item.rateOfLearning } })
         }
+        // } else {
+        //   this.$message("请购买后，再进行观看")
+        // }
       }
     }
   }
@@ -68,6 +69,12 @@
 
   .course-catalog {
     padding: 30px;
+    .none{
+      text-align: center;
+      color: #6a6a6f;
+      font-size:14px;
+
+    }
   }
 
   .title {

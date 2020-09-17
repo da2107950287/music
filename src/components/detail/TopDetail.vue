@@ -41,13 +41,15 @@
       </div>
       <div class="btn-box">
         <div v-if="topDetail.buyState==0" @click="buy">立即购买</div>
-        <div v-else>已购买</div>
+        <div v-else-if="topDetail.buyState==1">已购买</div>
         <div @click="audition">免费试听</div>
       </div>
     </div>
   </div>
 </template>
 <script>
+    import { mapGetters } from "vuex"
+
 export default {
   props: {
     topDetail: {
@@ -63,18 +65,21 @@ export default {
       },
     },
   },
+  computed:{
+...mapGetters([
+  "getToken"
+])
+  },
   methods: {
     collectCourse() {
-      if (localStorage.getItem("token")) {
+      if (this.getToken) {
         this.$emit("collectCourse");
       } else {
         this.$message.warning("对不起，请登录后再进行操作！");
       }
     },
     buy() {
-    
         this.$emit("buy");
-     
     },
     //试听
     audition() {

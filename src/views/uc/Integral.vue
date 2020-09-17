@@ -13,7 +13,9 @@
         </ul>
         <ol class="table-body" v-for="(item,index) in list" :key="index">
           <li>{{item.describes}}</li>
-          <li><span v-if="item.irSort==0">&#43;</span><span v-else>&#45;</span>{{item.number}}</li>
+          <li>
+            <span v-if="item.irSort==1">&#43;</span><span v-else>&#45;</span>
+            {{item.number}}</li>
           <li>{{item.irTime}}</li>
         </ol>
       </div>
@@ -36,11 +38,6 @@
       };
     },
     created() {
-      this.$post('/userinfo/showUserinfo', {}).then(res => {
-        if (res.code == 200) {
-          this.integral = res.data.userinfo.integral;
-        }
-      })
       this.getData()
     },
     methods: {
@@ -49,6 +46,7 @@
           if (res.code == 200) {
             this.total = res.data.PageCount * this.pageSize;
             this.list = res.data.list;
+            this.integral=res.data.integral;
           }
         })
       },

@@ -2,7 +2,7 @@
   <div class="vedio">
     <div class="prism-player" id="player-con"></div>
     <div class="title-box">
-      <div>{{catName}}</div>
+      <div>{{option .catName}}</div>
       <div>用户ID：{{getUid}}</div>
     </div>
   </div>
@@ -13,9 +13,9 @@
   export default {
     data() {
       return {
-        url: "",
-        catName: '',
-
+        totalTime: '',
+        startTime: '',
+        option: {}
       };
     },
     computed: {
@@ -24,13 +24,13 @@
       ])
     },
     mounted() {
-      var params = this.$route.query;
-      this.catName = params.catName;
-      this.url = params.url;
-      var player = new Aliplayer(
+
+      let that = this;
+      this.option = this.$route.query;
+      this.player = new Aliplayer(
         {
           id: "player-con",
-          source: this.url,
+          source: this.option.url,
           width: "1200px",
           height: "675px",
           autoplay: true,
@@ -110,14 +110,26 @@
           ],
         },
         function (player) {
+          that.startTime = new Date().getTime();
           console.log("The player is created");
         },
       );
-      player.on("ready", function () {
-        console.log(player.getDuration());//获取视频总时长
-        console.log(player.getCurrentTime())
+      that.player.on("ready", function () {
+        that.totalTime = that.player.getDuration();//获取视频总时长
       })
     },
+    beforeDestroy() {
+      var rateOfLearning = (((this.player.getCurrentTime() / this.totalTime).toFixed(2)) * 100);
+      var endTime = new Date().getTime();
+      var accLeaTime = ((endTime - this.startTime) / 60000).toFixed(0)
+      if (this.option.rateOfLearning < rateOfLearning) {
+        this.$post("/course/insertStudyTime", { couId: this.option.couId, catId: this.option.catId, rateOfLearning, accLeaTime }).then(res => {
+          if (res.code == 200) {
+            console.log(res)
+          }
+        })
+      }
+    }
   };
 </script>
 <style lang="scss">

@@ -78,18 +78,18 @@
                     })
                 }
             })
-         
+
         },
         methods: {
             pay(payMethod) {
-                if (payMethod == 1) {
+                if (payMethod == 2) {
                     //微信支付
                     this.$router.push({
                         path: '/index/scanPay', query: {
                             totalPrice: this.totalPrice,
                             couId: this.couId,
                             integral: this.integral,
-                            payMethod,
+                            // payMethod,
                             couName: this.couName,
                             fullname: this.addressInfo.fullname,
                             address: this.addressInfo.addressinfo + this.addressInfo.detailed,

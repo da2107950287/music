@@ -11,8 +11,8 @@ export function getRequest() {
   var url;
   if (window.location.hash) {
     url = window.location.hash;
-    url = "?"+url.split("?")[1];
-    
+    url = "?" + url.split("?")[1];
+
   } else {
     url = window.location.search; //获取url中"?"符后的字串
   }
@@ -33,7 +33,7 @@ export function shieldEmoticon(message) {
   msg = msg.replace(/\[em2_(20[1-9]|2[1-9][0-9]|300)\]/ig, " ");
   return msg;
 }
-export function  showEm(str) {
+export function showEm(str) {
   if (!$.trim(str)) {
     return '';
   }
@@ -68,8 +68,4 @@ export function  showEm(str) {
   }
 
   return nmsg;
-}
-// 封装个公用方法，截取浏览器参数
-export default function getUrlKey (name) {
-  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null
 }
