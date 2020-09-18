@@ -33,6 +33,8 @@
   </div>
 </template>
 <script>
+  import { mapGetters } from "vuex"
+
   export default {
     props: {
       catalogue: {
@@ -45,6 +47,12 @@
         type: Number
       }
     },
+    computed: {
+      ...mapGetters([
+        "getUserId",
+        "getNickname"
+      ])
+    },
     methods: {
       go(item) {
         //已购买或者免费试听
@@ -55,6 +63,8 @@
               console.log("直播未开始")
               this.$message("直播未开始")
             } else if (item.playstate == 2) {//正在直播
+              console.log(this.getUserId)
+            // window.location.href = `https://view.csslcloud.net/api/view/index?roomid=${item.catId}&userid=${this.getUserId}&autoLogin=true&viewername=${this.getNickname}`
               this.$router.push({ path: '/index/liveVedio', query: { catName: item.catName, catId: item.catId } })
             } else if (item.playstate == 3) {//直播已结束
             this.$router.push({ path: '/index/playback', query: { recordId: item.playback, catName: item.catName, couId: item.couId, catId: item.catId, rateOfLearning: item.rateOfLearning } })

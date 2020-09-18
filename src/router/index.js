@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import store from "../store/index"
 import VueRouter from 'vue-router'
 import { Message } from 'element-ui'
 Vue.use(VueRouter)
@@ -150,7 +151,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) {
-    if (localStorage.getItem("token")) {
+    if (store.getters.getToken) {
       next();
     } else {
       Message({
@@ -158,6 +159,10 @@ router.beforeEach((to, from, next) => {
         type: 'warning',
         duration: 1000
       });
+      // store.commit('setForm',{status:true})
+      next("/index");
+      
+   
     }
   } else {
     next()

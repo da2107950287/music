@@ -24,8 +24,10 @@
             return {
                 couId: '',
                 detail: {},
+                deduction:0,
                 isVip: 0,
                 integral: 0,
+                totalPrice: 0,
                 pricevip: null,
                 price: null,
                 couName: "",
@@ -34,15 +36,7 @@
                 aa: {}
             }
         },
-        computed: {
-            totalPrice() {
-                if (this.vip == 0) {
-                    return this.price
-                } else {
-                    return this.pricevip
-                }
-            }
-        },
+     
         created() {
             this.couId = this.$route.query.couId;
             //获取地址
@@ -66,14 +60,15 @@
                     //获取课程相关信息
                     this.$post('/course/showCourse', { couId: this.couId }).then(res => {
                         if (res.code == 200) {
+                            this.couName = res.data.couName;
+                            this.pricevip = res.data.pricevip;
+                            this.price = res.data.price
+                            this.getPrice()
                             this.$set(this.detail, "couName", res.data.couName);
                             this.$set(this.detail, "lecturer", res.data.lecturer);
                             this.$set(this.detail, "totalHours", res.data.totalHours);
                             this.$set(this.detail, "pricevip", res.data.pricevip);
                             this.$set(this.detail, "price", res.data.price);
-                            this.couName = res.data.couName;
-                            this.pricevip = res.data.pricevip;
-                            this.price = res.data.price
                         }
                     })
                 }
@@ -88,7 +83,7 @@
                         path: '/index/scanPay', query: {
                             totalPrice: this.totalPrice,
                             couId: this.couId,
-                            integral: this.integral,
+                            integral: this.deduction,
                             // payMethod,
                             couName: this.couName,
                             fullname: this.addressInfo.fullname,
@@ -100,7 +95,7 @@
                     //支付宝支付
                     this.$post("/alipay/buyCourse", {
                         couId: this.couId,
-                        integral: this.integral,
+                        integral: this.deduction,
                         fullname: this.addressInfo.fullname,
                         address: this.addressInfo.addressinfo + this.addressInfo.detailed,
                         mobile: this.addressInfo.mobile,
@@ -117,6 +112,36 @@
                         }
                     });
                 }
+
+            },
+            getPrice() {
+                if (this.vip == 0) {
+                    this.get(this.price)
+                } else {
+                    this.get(this.pricevip)
+                }
+            },
+            get(price) {
+                var max, deduction,totalPrice;
+                if (this.integral >= 10) {
+                    max = (price * 0.05);
+                    deduction = (this.integral / 1000)
+                    console.log(deduction, max)
+                    console.log(deduction >= max)
+                    if (deduction >= max) {
+                        totalPrice = price - max;
+                        deduction = max;
+                    } else {
+                        totalPrice = price - deduction;
+                    }
+                } else {
+                    deduction = 0;
+                    totalPrice = price;
+                }
+                this.totalPrice=totalPrice.toFixed(2);
+                this.deduction=deduction*1000;
+                this.$set(this.detail, "deduction", deduction.toFixed(2));
+                this.$set(this.detail, "totalPrice", totalPrice);
 
             },
             showForm() {

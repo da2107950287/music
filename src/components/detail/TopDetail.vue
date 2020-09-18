@@ -48,7 +48,7 @@
   </div>
 </template>
 <script>
-    import { mapGetters } from "vuex"
+    import { mapGetters,mapActions } from "vuex"
 
 export default {
   props: {
@@ -71,11 +71,16 @@ export default {
 ])
   },
   methods: {
+    ...mapActions([
+      "setForm"
+    ]),
     collectCourse() {
       if (this.getToken) {
         this.$emit("collectCourse");
       } else {
+        // this.setForm(true)
         this.$message.warning("对不起，请登录后再进行操作！");
+       
       }
     },
     buy() {

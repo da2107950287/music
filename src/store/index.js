@@ -8,7 +8,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     isShow: false,
-    accLeaTime: null,//累计学习时间 单位分钟
+    dialogFormVisible: false,//登录框
     headportrait: '',//用户头像
     nickname: '',//用户昵称
     token: '',//token
@@ -20,7 +20,6 @@ export default new Vuex.Store({
     configId: "6a6f3d22-243d-4b3c-9e7f-5598c1057842",//环信id
     appid: "wx6dc461db685ab57c",
     secret: "d87ee1a6c1f86ca963fa83e9afa7df4b",
-
   },
   getters: {
     getUserId(state) {
@@ -29,10 +28,14 @@ export default new Vuex.Store({
     getConfigId(state) {
       return state.configId;
     },
-    getAppid(state){
+    getAppid(state) {
       return state.appid;
     },
-    getSecret(state){
+    getForm(state) {
+
+      return state.dialogFormVisible;
+    },
+    getSecret(state) {
       return state.secret;
     },
     getHeadportrait(state) {
@@ -92,8 +95,11 @@ export default new Vuex.Store({
     hideLoading(state) {
       state.isShow = false;
     },
+    setForm(state, payload) {
+      console.log(payload)
+      state.dialogFormVisible = payload.status;
+    },
     setUserInfo(state, payload) {
-      state.accLeaTime = payload.accLeaTime;
       state.headportrait = payload.headportrait;
       state.nickname = payload.nickname;
       state.token = payload.token;
@@ -101,7 +107,6 @@ export default new Vuex.Store({
       state.integral = payload.integral;
       state.sex = payload.sex;
       state.status = payload.status;
-      localStorage.setItem("accLeaTime", payload.accLeaTime);
       localStorage.setItem("headportrait", payload.headportrait);
       localStorage.setItem("token", payload.token);
       localStorage.setItem("nickname", payload.nickname);
@@ -110,9 +115,9 @@ export default new Vuex.Store({
       localStorage.setItem("state", payload.status);
       localStorage.setItem("uid", payload.uid);
     },
-    setNickname(state,payload){
-      state.nickname=payload.nickname;
-      state.sex=payload.sex;
+    setNickname(state, payload) {
+      state.nickname = payload.nickname;
+      state.sex = payload.sex;
     }
   },
   actions: {
@@ -122,8 +127,11 @@ export default new Vuex.Store({
     hideLoading({ commit }) {
       commit('hideLoading')
     },
-    setNickname({commit},nickname,sex){
-      commit("setNickname",nickname,sex)
+    setNickname({ commit }, nickname, sex) {
+      commit("setNickname", nickname, sex)
+    },
+    setForm({ commit }, status) {
+      commit("setForm", {status})
     }
   },
   modules: {

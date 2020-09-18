@@ -1,8 +1,7 @@
 <template>
     <div>
         <div class="main-detail">
-            <TopDetail  :topDetail="topDetail" @collectCourse="collectCourse" @buy="buy"
-                :collected="collected" />
+            <TopDetail :topDetail="topDetail" @collectCourse="collectCourse" @buy="buy" :collected="collected" />
             <CourseDetail :couresDetail="couresDetail" :catalogue="catalogue" :buyState="buyState" class="margin30" />
         </div>
     </div>
@@ -10,6 +9,8 @@
 <script>
     import TopDetail from 'components/detail/TopDetail'
     import CourseDetail from 'components/detail/CourseDetail'
+    import { mapGetters,mapActions } from "vuex"
+
     export default {
         data() {
             return {
@@ -23,10 +24,18 @@
                 isRouterAlive: true,
             }
         },
+        computed: {
+            ...mapGetters([
+                "getToken"
+            ])
+        },
         created() {
             this.init()
         },
         methods: {
+            ...mapActions([
+                "setForm"
+            ]),
             init() {
                 this.couId = this.$route.query.couId
                 this.getCourse()
@@ -37,7 +46,7 @@
                     }
                 })
             },
-              //获取课程详情
+            //获取课程详情
             getCourse() {
                 this.$post('/course/showCourse', { couId: this.couId }).then(res => {
                     if (res.code == 200) {
@@ -58,18 +67,26 @@
                     }
                 })
             },
-          
+
             //收藏课程
             collectCourse() {
                 this.$post('/course/setCourseColl', { couId: this.couId }).then(res => {
                     if (res.code == 200) {
                         this.getCourse();
+                        this.$message.success("收藏成功")
+                    } else {
+                        this.$message.error("收藏失败");
                     }
                 })
             },
             //立即购买
             buy() {
-                this.$router.push({ path: '/index/submitOrder', query: { couId: this.couId } })
+                if (this.getToken) {
+                    this.$router.push({ path: '/index/submitOrder', query: { couId: this.couId } })
+                } else {
+                    this.$message.warning("对不起，请登录后再进行操作！");
+                    this.setForm(true)
+                }
             }
         },
         components: {

@@ -1,5 +1,6 @@
 import originAxios from 'axios'
 import store from '../../store/index'
+import { Message } from 'element-ui'
 export function post(url, params,) {
 	let option = {
 		url,

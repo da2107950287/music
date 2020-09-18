@@ -35,13 +35,13 @@
       </div>
     </div>
     <!-- 登录弹窗 -->
-    <LoginBox :dialogFormVisible="dialogFormVisible" @hideLoginBox="hideLoginBox"/>
+    <LoginBox :dialogFormVisible="dialogFormVisible" @hideLoginBox="hideLoginBox" />
   </div>
 </template>
 <script>
 
   import LoginBox from "components/component/LoginBox";
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapActions } from 'vuex'
 
   export default {
     inject: ["reload"],
@@ -67,6 +67,7 @@
         'getToken',
         'getHeadportrait',
         'getNickname',
+        "getForm"
       ]),
       isShow() {
         if (this.getToken == null) {
@@ -87,10 +88,14 @@
       this.$post('/other/getNotReadNumber', {}).then(res => {
         if (res.code == 200) {
           this.notReadNum = res.data;
+
         }
       })
     },
     methods: {
+      ...mapActions([
+        "setForm"
+      ]),
       //选择课程类型
       select(link, couType) {
         if (couType) {
@@ -101,14 +106,23 @@
       },
       //跳转到我的消息页面
       go(link) {
-        this.$router.push(link);
+        if(this.getToken){
+          this.$router.push(link);
+        }else{
+        this.$message.warning("对不起，请登录后再进行操作！");
+          
+        }
       },
       //隐藏登录框
       hideLoginBox() {
         this.dialogFormVisible = false;
+        // this.setForm(false)
+
       },
       //显示登录框
       showLoginBox() {
+      
+        // this.setForm(true)
         this.dialogFormVisible = true;
       },
       handleCommand(command) {
@@ -131,6 +145,7 @@
 
   .top-header-box {
     width: 100%;
+    height: 100px;
     margin-bottom: 30px;
     background-color: $fc;
     box-shadow: 1px 1px 1px #e8e8e8;
@@ -200,9 +215,10 @@
     }
 
     .red-box {
-      @include whl(14px, 14px, 14px) background-color: #FF4545;
+      @include whl(14px, 14px, 14px);
+      background-color: #FF4545;
       border-radius: 50%;
-      @include pa(15px, -5px);
+      @include pa(-5px, 15px);
       font-size: 10px;
       text-align: center;
       color: $fc;

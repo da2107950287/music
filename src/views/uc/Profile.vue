@@ -84,28 +84,44 @@
         "getSecret"
       ])
     },
+    watch: {
+      $route(to, from) {
+        this.code = getRequest().code;
+        if (this.code && !this.userinfo.wx) {
+          this.dialogVisible1 = false;
+          this.$post("/userinfo/bindWx", { code: this.code, type: 1 }).then(res => {
+            if (res.code == 200) {
+              this.getUserinfo()
+              this.$message.success("微信绑定成功")
+            }else{
+              this.$message.error("微信绑定失败")
+            }
+          })
+        }
+      }
+    },
     created() {
       this.init();
+      console.log("cre")
     },
     methods: {
       init() {
+        this.getUserinfo()
+
+      },
+      getUserinfo() {
         //查询用户信息
         this.$post("/userinfo/showUserinfo", {}).then((res) => {
           if (res.code == 200) {
             this.userinfo = res.data.userinfo;
             this.selectedOptions.push(TextToCode[this.userinfo.province].code);
-            this.selectedOptions.push(TextToCode[this.userinfo.province][this.userinfo.city].code)
+            this.selectedOptions.push(TextToCode[this.userinfo.province][this.userinfo.city].code);
+            console.log(!this.userinfo.wx)
           }
         });
-        this.code = getRequest().code;
-        if (this.code) {
-          this.$post("/userinfo/bindWx", { code: this.code, type: 1 }).then(res => {
-            console.log(res)
-          })
-        }
       },
       unBindWeChat() {
-        this.reload()
+        this.getUserinfo()
       },
       handleChange(arr) {
         this.userinfo.province = CodeToText[arr[0]];
@@ -133,7 +149,7 @@
             id: 'wxCode', // 需要显示的容器id
             appid: that.getAppid, // 公众号appid wx*******
             scope: 'snsapi_login', // 网页默认即可
-            redirect_uri: encodeURIComponent('http://jammusic.art/dist/index.html#/index/user/profile'), // 授权成功后回调的url
+            redirect_uri: encodeURIComponent('http://music.dragonworld.top/dist/index.html#/index/user/profile'), // 授权成功后回调的url
             state: Math.ceil(Math.random() * 1000), // 可设置为简单的随机数加session用来校验
             style: 'black', // 提供"black"、"white"可选。二维码的样式
             href: '' // 外部css文件url，需要https
@@ -164,7 +180,7 @@
           if (res.code == 200) {
             localStorage.setItem("nickname", this.userinfo.nickname)
             localStorage.setItem("sex", this.userinfo.sex)
-            this.reload()
+            this.getUserinfo()
             this.isShow = false;
           }
         })

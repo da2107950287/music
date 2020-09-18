@@ -17,15 +17,15 @@
     </div>
     <div class="total">
       <div class="total-left">
-        <div>积分抵扣：共{{detail.integral}}积分 可抵扣{{detail.integral/100}}</div>
+        <div>积分抵扣：共{{detail.integral}}积分 可抵扣{{detail.deduction}}</div>
         <div class="select"></div>
       </div>
       <div class="total-right">
         <span>合计：1件商品</span>
         <div>
           <span>共计：</span>
-          <span v-if="detail.vip==0" class="price">&yen;{{detail.price}}</span>
-          <span v-else class="price">{{detail.pricevip}}</span>
+          <span class="price">&yen;{{detail.totalPrice}}</span>
+
         </div>
       </div>
     </div>
@@ -40,8 +40,37 @@
           return {}
         }
       }
-    }
+    },
+  
+    created() {
+      console.log(this.detail)
+    },
+    // methods: {
+    //   init() {
+    //     if (this.detail.vip == 0) {
+    //       this.get(this.detail.price)
+    //     } else {
+    //       this.get(this.detail.pricevip)
+    //     }
+    //   },
+    //   get(price) {
+    //     var max;
+    //     if (this.detail.integral >= 10) {
+    //       max = price * 1.15
+    //       this.deduction = (this.detail.integral / 1000).toFixed(2)
+    //       if (this.deduction >= max) {
+    //         this.price = price - max;
+    //       } else {
+    //         this.price = price - this.deduction;
+    //       }
+    //     } else {
+    //       this.deduction = 0;
+    //       this.price = price;
+    //     }
+    //   }
+    // }
   }
+
 </script>
 <style lang="scss" scoped>
   @import "~assets/css/mixin";
