@@ -11,7 +11,7 @@
 </template>
 <script>
 
-  import { mapGetter } from 'vuex';
+  import { mapGetters } from 'vuex';
   export default {
     provide() {
       return {
@@ -24,9 +24,10 @@
       }
     },
     computed: {
-      loading() {
-        return this.$store.getters.loading;
-      }
+      ...mapGetters(["loading"])
+      // loading() {
+      //   return this.$store.getters.loading;
+      // }
     },
     methods: {
       reload() {
@@ -43,7 +44,7 @@
 
   html,body {
     height: 100%;
-    width: 100%;
+    /* width: 100%; */
     background-color: #f7f7f7;
     font-family: "PingFangSC-Regular", "PingFang SC,sthupo";
 

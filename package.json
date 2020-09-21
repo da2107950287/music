@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "better-scroll": "^2.0.3",
     "comment-core-library": "^0.9.3",
     "core-js": "^3.6.5",
     "danmaku-plus": "^1.0.10",
@@ -20,7 +19,6 @@
     "screenfull": "^5.0.2",
     "size-sensor": "^1.0.1",
     "swiper": "^6.2.0",
-    "vant": "^2.10.2",
     "vue": "^2.6.11",
     "vue-aliplayer": "^1.0.0",
     "vue-awesome-swiper": "^2.6.7",

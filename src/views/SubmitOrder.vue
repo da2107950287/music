@@ -73,7 +73,6 @@
                     })
                 }
             })
-
         },
         methods: {
             pay(payMethod) {
@@ -139,8 +138,8 @@
                     totalPrice = price;
                 }
                 this.totalPrice=totalPrice.toFixed(2);
-                this.deduction=deduction*1000;
-                this.$set(this.detail, "deduction", deduction.toFixed(2));
+                this.deduction=(deduction*1000).toFixed(0);
+                this.$set(this.detail, "deduction", this.deduction);
                 this.$set(this.detail, "totalPrice", totalPrice);
 
             },
