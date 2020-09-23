@@ -2,7 +2,7 @@
   <div class="banner">
     <el-carousel :interval="5000" height="480px" trigger="click" loop>
       <el-carousel-item v-for="(item,index) in banners" :key="index">
-        <img v-lazy="item.pcurl" class="banner-img" />
+        <img v-lazy="item.pcurl" class="banner-img" @click="go(item.banType,item.content,item.banId)" />
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -16,6 +16,16 @@
           return []
         }
       }
+    },
+    methods: {
+      go(banType, content,banId) {
+        if (banType == 1) {
+          this.$router.push({ path: '/index/detail', query: { couId: content } })
+        } else if(banType==3){
+          this.$router.push({ path: '/index/about', query: {banId} })
+          
+        }
+      }
     }
   };
 </script>
@@ -23,7 +33,7 @@
   @import "~assets/css/mixin";
 
   .banner-img {
-    @include wh(100%,480px)
+    @include wh(100%, 480px)
   }
 
   .banner {

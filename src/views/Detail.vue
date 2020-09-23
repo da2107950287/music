@@ -73,7 +73,7 @@
                 this.$post('/course/setCourseColl', { couId: this.couId }).then(res => {
                     if (res.code == 200) {
                         this.getCourse();
-                        this.$message.success("收藏成功")
+                       
                     } else {
                         this.$message.error("收藏失败");
                     }

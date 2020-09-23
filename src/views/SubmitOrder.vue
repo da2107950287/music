@@ -24,7 +24,7 @@
             return {
                 couId: '',
                 detail: {},
-                deduction:0,
+                maxIntegral: 0,
                 isVip: 0,
                 integral: 0,
                 totalPrice: 0,
@@ -36,7 +36,7 @@
                 aa: {}
             }
         },
-     
+
         created() {
             this.couId = this.$route.query.couId;
             //获取地址
@@ -67,8 +67,8 @@
                             this.$set(this.detail, "couName", res.data.couName);
                             this.$set(this.detail, "lecturer", res.data.lecturer);
                             this.$set(this.detail, "totalHours", res.data.totalHours);
-                            this.$set(this.detail, "pricevip", res.data.pricevip);
-                            this.$set(this.detail, "price", res.data.price);
+                            this.$set(this.detail, "pricevip", res.data.pricevip.toFixed(2));
+                            this.$set(this.detail, "price", res.data.price.toFixed(2));
                         }
                     })
                 }
@@ -82,7 +82,7 @@
                         path: '/index/scanPay', query: {
                             totalPrice: this.totalPrice,
                             couId: this.couId,
-                            integral: this.deduction,
+                            integral: this.maxIntegral,
                             // payMethod,
                             couName: this.couName,
                             fullname: this.addressInfo.fullname,
@@ -94,7 +94,7 @@
                     //支付宝支付
                     this.$post("/alipay/buyCourse", {
                         couId: this.couId,
-                        integral: this.deduction,
+                        integral: this.maxIntegral,
                         fullname: this.addressInfo.fullname,
                         address: this.addressInfo.addressinfo + this.addressInfo.detailed,
                         mobile: this.addressInfo.mobile,
@@ -121,27 +121,36 @@
                 }
             },
             get(price) {
-                var max, deduction,totalPrice;
+                var maxPrice, maxIntegral, totalPrice;
                 if (this.integral >= 10) {
-                    max = (price * 0.05);
-                    deduction = (this.integral / 1000)
-                    console.log(deduction, max)
-                    console.log(deduction >= max)
-                    if (deduction >= max) {
-                        totalPrice = price - max;
-                        deduction = max;
+                    maxPrice = price * 0.05;
+                    maxIntegral = price * 0.05 * 1000;
+                    if (this.integral >= maxIntegral) {
+                        if (maxIntegral % 10 == 0) {
+                            totalPrice = price - maxPrice;
+                          
+                        } else {
+                            maxIntegral = maxIntegral - (maxIntegral % 10);
+                            maxPrice = maxIntegral / 1000;
+                            totalPrice = price - maxPrice;
+                 
+                        }
+
+
                     } else {
-                        totalPrice = price - deduction;
+                        maxIntegral = this.integral - (this.integral % 10);
+                        maxPrice = maxIntegral / 1000;
+                        totalPrice = price - maxPrice;
                     }
                 } else {
-                    deduction = 0;
+                    maxPrice = 0;
                     totalPrice = price;
                 }
-                this.totalPrice=totalPrice.toFixed(2);
-                this.deduction=(deduction*1000).toFixed(0);
-                this.$set(this.detail, "deduction", this.deduction);
-                this.$set(this.detail, "totalPrice", totalPrice);
-
+                this.totalPrice = totalPrice.toFixed(2);
+                this.maxIntegral = maxIntegral;
+                this.$set(this.detail, "maxPrice", maxPrice.toFixed(2));
+                this.$set(this.detail, "totalPrice", this.totalPrice);
+                console.log(this.maxIntegral)
             },
             showForm() {
                 this.isShow = true;

@@ -89,18 +89,18 @@ module.exports = {
         changeOrigin: true,
         pathRewrite: { '^/mustard': '' }
       },
-      "/access_token": {
-        target: "https://api.weixin.qq.com/sns/oauth2/access_token",
-        changeOrigin: true,
-        pathRewrite: { '^/access_token': '' }
+      // "/access_token": {
+      //   target: "https://api.weixin.qq.com/sns/oauth2/access_token",
+      //   changeOrigin: true,
+      //   pathRewrite: { '^/access_token': '' }
 
-      },
-      "/image":{
-        target: "http://chatmaterial.csslcloud.net/image",
-        changeOrigin: true,
-        pathRewrite: { '^/access_token': '' }
-      }
-      
+      // },
+      // "/image":{
+      //   target: "http://chatmaterial.csslcloud.net/image",
+      //   changeOrigin: true,
+      //   pathRewrite: { '^/access_token': '' }
+      // }
+   
       
     }
   },

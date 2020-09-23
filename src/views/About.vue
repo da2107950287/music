@@ -14,24 +14,45 @@
       return {
         text: null,
         type: "",
-        title:''
+        title: '',
+        banId: ''
       }
     },
     watch: {
       $route() {
-        this.getAgreement()
+        this.type = this.$route.query.type;
+        console.log(111)
+        if(this.type){
+          this.getAgreement()
+        }
       }
     },
     created() {
-      this.getAgreement()
+      this.type = this.$route.query.type;
+
+      this.banId = this.$route.query.banId;
+      if (this.type) {
+        this.getAgreement()
+      }
+      if (this.banId) {
+        this.getContent()
+      }
     },
     methods: {
       getAgreement() {
-        this.type = this.$route.query.type;
+      
         this.$post('/other/getAgreement', { type: this.type }).then(res => {
           if (res.code == 200) {
             this.text = res.data.content;
-            this.title=res.data.title
+            this.title = res.data.title
+          }
+        })
+      },
+      getContent() {
+        this.$post('/other/showBanner', { banId: this.banId }).then(res => {
+          if (res.code == 200) {
+            this.text = res.data.content;
+            this.title = res.data.title
           }
         })
       }
@@ -39,12 +60,10 @@
   }
 </script>
 <style lang="scss" scoped>
-    @import "~assets/css/mixin";
+  @import "~assets/css/mixin";
 
   .about {
     width: 1200px;
- 
-
     margin: 0 auto;
     background-color: $fc;
     margin-bottom: 30px;
@@ -65,7 +84,7 @@
 
   .blank {
     margin: 30px 0;
-    @include wh(1140px,1px);
+    @include wh(1140px, 1px);
     background-color: #EEE;
   }
 

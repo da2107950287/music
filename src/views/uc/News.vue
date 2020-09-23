@@ -5,19 +5,19 @@
     </profile-header>
     <div class="table" :style="{'margin-bottom':total<=pageSize?'30px':''}">
       <div class="table-header flex">
-        <div @click="handleCheckedAll">
+        <!-- <div @click="handleCheckedAll">
           <img v-if="!checkedAll" src="~assets/image/icon_check_normal.png" class="select-icon" />
           <img v-else src="~assets/image/icon_check_sel.png" class="select-icon" />
-        </div>
+        </div> -->
         <div @click="readMsg" class="btn read">全部已读</div>
         <!-- <img @click="deleteMsg" src="~assets/image/bnt_sc.png" class="btn delete" /> -->
       </div>
       <div v-for="(item,index) in arr" :key="index" class="list">
         <div class="table-body flex">
-          <div @click="item.checked=!item.checked">
+          <!-- <div @click="item.checked=!item.checked">
             <img v-if="item.checked==false" src="~assets/image/icon_check_normal.png" class="select-icon" />
             <img v-else src="~assets/image/icon_check_sel.png" class="select-icon" />
-          </div>
+          </div> -->
           <div class="flex td">
             <div class="td-left">
               <img src="~assets/image/icon_jyxx.png" />

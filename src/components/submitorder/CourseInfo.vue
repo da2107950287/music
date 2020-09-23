@@ -17,8 +17,8 @@
     </div>
     <div class="total">
       <div class="total-left">
-        <div>积分抵扣：共{{detail.integral}}积分 可抵扣{{detail.deduction}}</div>
-        <div class="select"></div>
+        <div>积分抵扣：共{{detail.integral}}积分 可抵扣{{detail.maxPrice}}</div>
+        <div  class="select"></div>
       </div>
       <div class="total-right">
         <span>合计：1件商品</span>
@@ -57,14 +57,14 @@
     //     var max;
     //     if (this.detail.integral >= 10) {
     //       max = price * 1.15
-    //       this.deduction = (this.detail.integral / 1000).toFixed(2)
-    //       if (this.deduction >= max) {
+    //       this.maxPrice = (this.detail.integral / 1000).toFixed(2)
+    //       if (this.maxPrice >= max) {
     //         this.price = price - max;
     //       } else {
-    //         this.price = price - this.deduction;
+    //         this.price = price - this.maxPrice;
     //       }
     //     } else {
-    //       this.deduction = 0;
+    //       this.maxPrice = 0;
     //       this.price = price;
     //     }
     //   }

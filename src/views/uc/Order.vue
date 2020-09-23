@@ -24,6 +24,8 @@
         lists: [
           { name: "全部", olState: "all" },
           { name: "待付款", olState: "1" },
+          { name: "待发货", olState: "2" },
+          { name: "待收货", olState: "3" },
           { name: "已完成", olState: "5" },
           { name: "已取消", olState: "6" },
         ],
@@ -53,7 +55,7 @@
                     let s = Math.floor(leftTime / 1000 % 60);
                     this.$set(item, "countTime", `请在${m}分${s}秒内完成支付，超时订单将被自动取消哦〜`)
                   } else {
-                    item.countTime=""
+                    item.countTime = ""
                     clearInterval(timer);
                   }
                 }, 1000);
@@ -80,6 +82,7 @@
 <style lang="scss" scoped>
   @import '~assets/css/pagination.css';
   @import "~assets/css/mixin";
+
   .order {
     width: 950px;
   }

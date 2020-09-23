@@ -3,30 +3,35 @@
     <div class="title">
       <div>商品信息</div>
     </div>
-    <div v-for="(item,index) in courses" :key="index">
+
+    <div v-for="(item,index) in goodInfo.courses" :key="index">
       <div class="table" @click="seeCourse(item.couId,item.couType)">
         <div class="table-body">
           <div class="left">{{item.couName}}</div>
           <div class="right">
             <span>总课时：{{item.totalHours}}</span>
-            <span v-if="item.isnotvip==0">&yen;{{item.price}}</span>
-            <span v-else>&yen;{{item.pricevip}}</span>
+            <span v-if="item.isnotvip==0">&yen;{{item.price|priceFormat}}</span>
+            <span v-else>&yen;{{item.pricevip|priceFormat}}</span>
             <span class="num">&times;{{item.number}}</span>
           </div>
         </div>
       </div>
       <div class="total">
-        <span>合计：{{courses.length}}件商品</span>
+        <span>合计：{{goodInfo.courses.length}}件商品</span>
+        <span style="text-indent: 2rem;">积分抵扣：使用{{goodInfo.integral}}积分&nbsp&nbsp&nbsp抵扣&yen;{{maxPrice}}</span>
         <div>
           <span>共计：</span>
-          <span class="price">&yen;{{payPrice}}</span>
+          <span class="price">&yen;{{goodInfo.payPrice|priceFormat}}</span>
         </div>
       </div>
       <div class="btn-box">
-        <div class="cancel btn" v-if="olState==1" @click="cancelOrder(item.olId)">取消订单</div>
-        <div class="pay btn" v-if="olState==1" @click="toPay(item.olId,item.couName)">去支付</div>
-        <div class="study btn" v-if="olState==5" @click="toStudy(item.couType,item.couId)">去学习</div>
-        <div class="pay btn" v-if="olState==6" @click="buyAgain(item.couType,item.couId)">再次购买</div>
+        <div class="cancel btn" v-if="goodInfo.olState==1" @click="cancelOrder(item.olId)">取消订单</div>
+        <div class="pay btn" v-if="goodInfo.olState==1" @click="toPay(item.olId,item.couName)">去支付</div>
+        <div class="cancel btn" v-show="goodInfo.olState==3" @click="confirm(item.olId)">确认收货</div>
+        <div class="study btn" v-if="goodInfo.olState==2 ||goodInfo.olState==3 || goodInfo.olState==5"
+          @click="toStudy(item.couId)">去学习</div>
+        <div class="pay btn" v-if="goodInfo.olState==6" @click="buyAgain(item.couType,item.couId)">再次购买</div>
+
       </div>
     </div>
   </div>
@@ -35,22 +40,37 @@
   export default {
     inject: ['reload'],
     props: {
-      courses: {
-        type: Array,
+      goodInfo: {
+        type: Object,
         default() {
-          return []
+          return {}
         }
-      },
-      olState: {
-        type: String,
-        default() {
-          return ''
-        }
-      },
-      payPrice: {},
-      payMethod: {}
+      }
+      // courses: {
+      //   type: Array,
+      //   default() {
+      //     return []
+      //   }
+      // },
+      // olState: {
+      //   type: String,
+      //   default() {
+      //     return ''
+      //   }
+      // },
+      // payPrice: {},
+      // payMethod: {}
     },
-
+    filters: {
+      priceFormat(value) {
+        return Number(value).toFixed(2)
+      }
+    },
+    computed: {
+      maxPrice() {
+        return this.goodInfo.integral / 1000;
+      }
+    },
     methods: {
       cancelOrder(olId) {
         this.$confirm('你确定要取消该订单?', '提示', {
@@ -65,7 +85,7 @@
         })
       },
       toPay(olId, couName) {
-        if(this.payMethod==1) {
+        if (this.goodInfo.payMethod == 1) {
           //支付宝支付
           this.$post("/alipay/buyOrderlist", {
             olId: olId,
@@ -81,14 +101,14 @@
               document.forms[0].submit();
             }
           });
-        }else if (this.payMethod == 2) {
+        } else if (this.goodInfo.payMethod == 2) {
           //跳转到微信支付
-          this.$router.push({ path: '/index/scanPay', query: { olId, couName, totalPrice:this.payPrice } });
+          this.$router.push({ path: '/index/scanPay', query: { olId, couName, totalPrice: this.goodInfo.payPrice } });
         } // this.$router.push({ path: '/index/scanPay', query: { olId,payMethod:this.payMethod, couName, totalPrice:this.payPrice } });
 
       },
-      toStudy() {
-        this.$router.push({ path: "/index/detail", query: { couType, couId } })
+      toStudy(couId) {
+        this.$router.push({ path: '/index/courseLearning', query: { couId } })
       },
       buyAgain(payMethod, couId) {
         this.$router.push({ path: "/index/submitOrder", query: { payMethod, couId } })
@@ -96,8 +116,21 @@
 
       seeCourse(couId, couType) {
         this.$router.push({ path: '/index/detail', query: { couId } })
-      }
+      },
+      //确认收货
+      confirm(olId) {
+        this.$confirm('你确认已收到货物?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(() => {
 
+          this.$post("/orderlist/updateOrderlist", { olId, olState: 4 }).then(res => {
+            if (res.code == 200) {
+              this.reload();
+            }
+          })
+        })
+      }
     }
   }
 </script>
@@ -179,7 +212,8 @@
       color: #9899a1;
 
       div {
-        margin-left: 30px;
+       
+        text-indent: 2rem;
 
         .price {
           color: $tcolor;

@@ -61,11 +61,12 @@
     },
     methods: {
       pay() {
-        this.totalPrice = this.$route.query.totalPrice;
+       
         this.couName = this.$route.query.couName;
         this.fullname=this.$route.query.fullname;
         this.address=this.$route.query.address;
         this.mobile=this.$route.query.mobile;
+        this.totalPrice = this.$route.query.totalPrice;
         if (!this.$route.query.hasOwnProperty("olId")) {//第一次支付
           this.couId = this.$route.query.couId;
           this.integral = this.$route.query.integral;
@@ -121,7 +122,9 @@
       // },
       
       //生成二维码
+      
       qrcode() {
+     
         let qr = new QRCode("qrcode", {
           width: 180,
           height: 180,
@@ -150,7 +153,7 @@
       payAgain() {
         this.$post("/wx/buyOrderlist", { olId: this.olId, type: 1 }).then(res => {
           if (res.code == 200) {
-            this.qrLink = res.data;
+            this.qrLink = res.data.content;
             if (this.qrLink != "") {
               this.$nextTick(() => {
                 this.qrcode();

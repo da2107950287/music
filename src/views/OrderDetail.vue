@@ -4,13 +4,17 @@
             <profile-header>
                 <div slot="status">支付状态：</div>
                 <div slot="title" v-show="detail.olState==1">待支付</div>
+                <div slot="title" v-show="detail.olState==2">待发货</div>
+                <div slot="title" v-show="detail.olState==3">待收货</div>
+
                 <div slot="title" v-show="detail.olState==5">已完成</div>
                 <div slot="title" v-show="detail.olState==6">已取消</div>
                 <div slot="dec" v-show="detail.olState==1" class="count-time">{{countTime}}</div>
             </profile-header>
             <shipping-address :addressInfo="addressInfo"></shipping-address>
-            <good-info :courses="detail.orderlistCourse" :olState="detail.olState" :payPrice="detail.payPrice"
-                :payMethod="detail.payMethod"></good-info>
+            <!-- <good-info :courses="detail.orderlistCourse" :olState="detail.olState" :payPrice="detail.payPrice"
+                :payMethod="detail.payMethod" ></good-info> -->
+                <good-info :goodInfo="goodInfo"></good-info>
             <order-info :detail="detail"></order-info>
         </div>
     </div>
@@ -26,7 +30,8 @@
                 olId: '',
                 detail: {},
                 countTime: '',
-                addressInfo: {}
+                addressInfo: {},
+                goodInfo:{}
             }
         },
         created() {
@@ -38,11 +43,18 @@
                         fullname: this.detail.fullname,
                         mobile: this.detail.mobile,
                         detailed: this.detail.address,
-
                     }
+                    this.goodInfo={
+                        courses:this.detail.orderlistCourse,
+                        olState:this.detail.olState,
+                        payPrice:this.detail.payPrice,
+                        payMethod:this.detail.payMethod,
+                        integral:this.detail.integral
+                    }
+                    console.log(this.detail)
                     if (this.detail.olState == 1) {
                         //待支付倒计时
-                        setInterval(() => {
+                     var timer=   setInterval(() => {
                             var date = new Date();
                             var now = date.getTime();
                             let olData = new Date(this.detail.olTime.replace(/-/g, '/'))

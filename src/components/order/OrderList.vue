@@ -5,6 +5,12 @@
                 <div>待支付</div>
                 <div class="count-down">{{item.countTime}}</div>
             </div>
+            <div class="title" v-show="item.olState==2">
+                <div>待发货</div>
+            </div>
+            <div class="title" v-show="item.olState==3">
+                <div>待收货</div>
+            </div>
             <div class="title" v-show="item.olState==5">
                 <div>已完成</div>
             </div>
@@ -27,8 +33,8 @@
                         <div class="left">{{el.couName}}</div>
                         <div class="right">
                             <span>总课时：{{el.totalHours}}</span>
-                            <span v-if="el.isnotvip==0">&yen;{{el.price}}</span>
-                            <span v-else>&yen;{{el.pricevip}}</span>
+                            <span v-if="el.isnotvip==0">&yen;{{el.price|priceFormat}}</span>
+                            <span v-else>&yen;{{el.pricevip|priceFormat}}</span>
                             <span>&times;{{el.number}}</span>
                         </div>
                     </div>
@@ -37,19 +43,19 @@
                     <span>合计：{{item.orderlistCourse.length}}件商品</span>
                     <div>
                         <span>共计：</span>
-                        <span class="price">&yen;{{item.payPrice}}</span>
+                        <span class="price">&yen;{{item.payPrice|priceFormat}}</span>
                     </div>
                 </div>
                 <div class="btn-box">
                     <div class="cancel btn" v-show="item.olState==1" @click="cancelOrder(el.olId)">取消订单</div>
                     <div class="pay btn" v-show="item.olState==1"
-                        @click="toPay(el.olId,item.payMethod,el.couName,item.cdyPrice)">去支付
+                        @click="toPay(el.olId,item.payMethod,el.couName,item.payPrice)">去支付
                     </div>
-                    <div class="study btn" v-show="item.olState==5" @click="toStudy(el.couId)">去学习</div>
+                    <div class="cancel btn" v-show="item.olState==3" @click="confirm(el.olId)">确认收货</div>
+                    <div class="study btn" v-show="item.olState==2||item.olState==3||item.olState==5" @click="toStudy(el.couId)">去学习</div>
                     <div class="pay btn" v-show="item.olState==6" @click="buyAgain(el.couType,el.couId)">再次购买</div>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
@@ -62,6 +68,11 @@
                 default() {
                     return []
                 }
+            }
+        },
+        filters:{
+            priceFormat(value){
+                return Number(value).toFixed(2)
             }
         },
         methods: {
@@ -114,6 +125,19 @@
             toStudy(couId) {
                 this.$router.push({ path: '/index/courseLearning', query: { couId } })
             },
+            //确认收货
+            confirm(olId){
+                this.$confirm('你确认已收到货物?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                }).then(() => {
+                    this.$post("/orderlist/updateOrderlist", { olId, olState: 4 }).then(res => {
+                        if (res.code == 200) {
+                            this.reload();
+                        }
+                    })
+                })
+            }
         }
     }
 </script>

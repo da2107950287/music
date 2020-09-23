@@ -2,19 +2,19 @@
   <div class="pay-success">
     <div>
       <img src="../assets/image/icon_zfcg.png" alt />
-      <div class="integral">购买成功，获得1000积分</div>
+      <div class="integral">购买成功，获得{{integral}}积分</div>
       <div class="tip">有效期从今天开始计算、请合理安排学习时间</div>
       <div class="order">
         <span>订单号：{{olId}}</span>
-        <span @click="seeOrderDetail">查看详情</span>
+        <span @click="seeOrderDetail" class="default">查看详情</span>
       </div>
       <div class="pay-money">
         <span>支付金额：</span>
         <span>&yen;{{totalPrice}}</span>
       </div>
       <div class="btn">
-        <div @click="go()">返回课程首页</div>
-        <div @click="go()">进入学习中心</div>
+        <div @click="go('/index/home')"  class="default">返回课程首页</div>
+        <div @click="go('/index/user/course')"  class="default">进入学习中心</div>
       </div>
     </div>
   </div>
@@ -25,19 +25,28 @@
       return{
         olId:"",
         totalPrice:null,
+        integral:''
             
       }
     },
     created(){
       this.olId=this.$route.query.olId;
       this.totalPrice=this.$route.query.totalPrice;
+      this.getIntegral()
     },
     methods:{
       go(link){
-        this.$push({path:link})
+        this.$router.push({path:link})
       },
       seeOrderDetail(){
-        this.$router.push({path:'/index/orderDetal',query:{olId:this.olId}});
+        this.$router.push({path:'/index/orderDetail',query:{olId:this.olId}});
+      },
+      getIntegral(){
+        this.$post("/orderlist/showOrderlistIntegral",{olId:this.olId}).then(res=>{
+          if(res.code==200){
+            this.integral=res.data;
+          }
+        })
       }
     }
   }
@@ -105,6 +114,9 @@
       background-color: $tc;
       color: $fc;
     }
+  }
+  .default{
+    cursor: default;
   }
 }
 </style>
