@@ -64,8 +64,17 @@
                             this.pricevip = res.data.pricevip;
                             this.price = res.data.price
                             this.getPrice()
+                            var lecturer = ""
+                            res.data.list.forEach((el, index) => {
+                                if (index <= 1) {
+                                    lecturer += el.username + " "
+                                }
+                            });
+                            if(res.data.list.length>2){
+                                lecturer+="..."
+                            }
                             this.$set(this.detail, "couName", res.data.couName);
-                            this.$set(this.detail, "lecturer", res.data.lecturer);
+                            this.$set(this.detail, "lecturer", lecturer);
                             this.$set(this.detail, "totalHours", res.data.totalHours);
                             this.$set(this.detail, "pricevip", res.data.pricevip.toFixed(2));
                             this.$set(this.detail, "price", res.data.price.toFixed(2));
@@ -128,12 +137,12 @@
                     if (this.integral >= maxIntegral) {
                         if (maxIntegral % 10 == 0) {
                             totalPrice = price - maxPrice;
-                          
+
                         } else {
                             maxIntegral = maxIntegral - (maxIntegral % 10);
                             maxPrice = maxIntegral / 1000;
                             totalPrice = price - maxPrice;
-                 
+
                         }
 
 

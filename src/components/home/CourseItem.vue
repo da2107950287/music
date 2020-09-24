@@ -20,7 +20,7 @@
                 <div class="common">
                     <div class="img-icon img3"></div>
                     <span>授课老师：</span>
-                    <span>{{course.lecturer}}</span>
+                    <span>{{lecturer}}</span>
                 </div>
             </div>
             <div class="bottom">
@@ -50,6 +50,15 @@
                 default() {
                     return {}
                 }
+            }
+        },
+        computed:{
+            lecturer(){
+                var str="";
+                this.course.list.forEach(el => {
+                   str+=el.username+" "
+                });
+                return str
             }
         },
         methods: {

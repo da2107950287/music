@@ -160,7 +160,7 @@
     }
 
     .read {
-      margin-left: 60px;
+      /* margin-left: 60px; */
       color: #6a6a6f;
       font-size: 14px;
       box-sizing: border-box;
@@ -185,7 +185,7 @@
 
     .td {
       width: 100%;
-      margin-left: 60px;
+      /* margin-left: 60px; */
       font-size: 14px;
       line-height: 24px;
 

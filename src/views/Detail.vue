@@ -53,6 +53,10 @@
                         this.couresDetail = res.data;
                         this.couType = res.data.couType;
                         this.buyState = res.data.buyState;
+                        var lecturer=[]
+                        this.couresDetail.list.forEach(el => {
+                            lecturer+=el.username+" "
+                        });
                         this.topDetail = {
                             cover: res.data.cover,
                             couName: res.data.couName,
@@ -61,7 +65,7 @@
                             price: res.data.price,
                             totalHours: res.data.totalHours,
                             termOfValidity: res.data.termOfValidity,
-                            lecturer: res.data.lecturer,
+                            lecturer: lecturer,
                             buyState: res.data.buyState
                         }
                     }
