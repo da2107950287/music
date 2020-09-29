@@ -160,7 +160,7 @@
     .btns {
         position: absolute;
         bottom: 250px;
-        right: 0;
+        right: 30px;
         display: flex;
         flex-direction: column;
         z-index: 100;

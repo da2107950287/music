@@ -9,7 +9,7 @@
                 </div>
             </div>
         </shipping-address>
-        <course-info :detail="detail"></course-info>
+        <course-info :detail="detail" @select="select"></course-info>
         <pay-order :totalPrice="totalPrice" @pay="pay"></pay-order>
         <edit-address :isShowForm="isShow" :aa="aa" @hideForm="hideForm" :addressInfo="addressInfo"></edit-address>
     </div>
@@ -33,7 +33,8 @@
                 couName: "",
                 isShow: false,//是否显示编辑地址框
                 addressInfo: {},
-                aa: {}
+                aa: {},
+                show: false
             }
         },
 
@@ -70,8 +71,8 @@
                                     lecturer += el.username + " "
                                 }
                             });
-                            if(res.data.list.length>2){
-                                lecturer+="..."
+                            if (res.data.list.length > 2) {
+                                lecturer += "..."
                             }
                             this.$set(this.detail, "couName", res.data.couName);
                             this.$set(this.detail, "lecturer", lecturer);
@@ -84,6 +85,20 @@
             })
         },
         methods: {
+            select(show) {
+                this.show = show
+                // if (show) {
+                //     console.log(88)
+                //     this.maxIntegral=0;
+                //     if(this.vip==0){
+                //         this.totalPrice=this.price
+                //     }else{
+                //         this.totalPrice=this.pricevip
+                //     }
+                // }else{
+                    this.getPrice()
+                // }
+            },
             pay(payMethod) {
                 if (payMethod == 2) {
                     //微信支付
@@ -123,11 +138,22 @@
 
             },
             getPrice() {
-                if (this.vip == 0) {
-                    this.get(this.price)
+                if (this.show) {
+                    this.maxIntegral = 0;
+                    this.maxPrice = 0
+                    if (this.vip == 0) {
+                        this.totalPrice = this.price.toFixed(2);
+                    } else {
+                        this.totalPrice = this.pricevip.toFixed(2)
+                    }   
                 } else {
-                    this.get(this.pricevip)
+                    if (this.vip == 0) {
+                        this.get(this.price)
+                    } else {
+                        this.get(this.pricevip)
+                    }
                 }
+
             },
             get(price) {
                 var maxPrice, maxIntegral, totalPrice;
@@ -137,21 +163,18 @@
                     if (this.integral >= maxIntegral) {
                         if (maxIntegral % 10 == 0) {
                             totalPrice = price - maxPrice;
-
                         } else {
                             maxIntegral = maxIntegral - (maxIntegral % 10);
                             maxPrice = maxIntegral / 1000;
                             totalPrice = price - maxPrice;
-
                         }
-
-
                     } else {
                         maxIntegral = this.integral - (this.integral % 10);
                         maxPrice = maxIntegral / 1000;
                         totalPrice = price - maxPrice;
                     }
                 } else {
+                    maxIntegral=0;
                     maxPrice = 0;
                     totalPrice = price;
                 }
@@ -159,7 +182,7 @@
                 this.maxIntegral = maxIntegral;
                 this.$set(this.detail, "maxPrice", maxPrice.toFixed(2));
                 this.$set(this.detail, "totalPrice", this.totalPrice);
-                console.log(this.maxIntegral)
+
             },
             showForm() {
                 this.isShow = true;

@@ -44,7 +44,8 @@
 
   html,body {
     height: 100%;
-    /* width: 100%; */
+   width: 100%;
+    margin: 0;
     background-color: #f7f7f7;
     font-family: "PingFangSC-Regular", "PingFang SC,sthupo";
 
@@ -52,8 +53,10 @@
 
 
   #app {
-    min-width: 1200px;
+    /* min-width: 1200px; */
     height: 100%;
+   width: 100%;
+
     /* background-color: #F5F5F5; */
   }
 </style>

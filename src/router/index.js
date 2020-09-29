@@ -24,6 +24,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "share" */"views/share/ShareGood.vue"),
     meta: { title: "分享商品", requireAuth: false }
   },
+  {
+    path:'/share',
+    component: () => import(/* webpackChunkName: "share" */"views/share/Share.vue"),
+    meta: { title: "分享APP", requireAuth: false }
+  },
   { path: '', redirect: '/index' },
   {
     path: '/index',

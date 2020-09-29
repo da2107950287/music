@@ -48,8 +48,9 @@ import { mapGetters } from 'vuex'
       handleClick(item) {
         if (item.link.includes("/home")) {
           this.$router.push('/index/home');
-          this.reload()
+          
           localStorage.clear();
+          window.location.reload()
         } else {
           this.$router.push('/index/user' + item.link)
 

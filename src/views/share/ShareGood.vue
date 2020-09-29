@@ -39,7 +39,7 @@
     <!-- 商品详情 -->
     <div class="intro">
       <span class="title">商品详情</span>
-      <div v-html="goodDetail.intro"></div>
+      <div v-html="goodDetail.intro" class="html-img"></div>
     </div>
 
     <!-- 商品评价 -->
@@ -116,9 +116,29 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+a{
+  text-decoration: none;
+}
 
+.html-img /deep/ div {
+  width: 100% !important;
+  box-sizing: border-box;
+ 
+      
+    }
+    .html-img /deep/ video {
+  width: 100% !important;
+    
+    }
+    .html-img /deep/ img{
+        width: 100%;
+      
+
+      }
 .shareGood {
-  width: 100%;
+
+   width: 100%;
+  height: 100%;
   .top {
     height: 40px;
     padding: 0 15px;

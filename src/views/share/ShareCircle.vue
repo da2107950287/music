@@ -104,8 +104,12 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+  a{
+  text-decoration: none;
+}
 .shareCircle {
-  width: 375px;
+  width: 100%;
+  height: 100%;
 
   .top {
     height: 40px;

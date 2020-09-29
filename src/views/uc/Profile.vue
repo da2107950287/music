@@ -11,7 +11,7 @@
       <div class="profile-bottom edit-form">
         <div>
           <span>昵称：</span>
-          <el-input type="text" v-model="userinfo.nickname"></el-input>
+          <el-input type="text" v-model="userinfo.nickname" maxlength="10"  show-word-limit></el-input>
         </div>
         <div>
           <span>性别：</span>
@@ -92,9 +92,9 @@
           this.$post("/userinfo/bindWx", { code: this.code, type: 1 }).then(res => {
             if (res.code == 200) {
               this.getUserinfo()
-              this.$message.success("微信绑定成功")
+              this.$message.success(res.msg)
             }else{
-              this.$message.error("微信绑定失败")
+              this.$message.error(res.msg)
             }
           })
         }
@@ -178,10 +178,12 @@
           background: this.userinfo.background
         }).then(res => {
           if (res.code == 200) {
+            
             localStorage.setItem("nickname", this.userinfo.nickname)
             localStorage.setItem("sex", this.userinfo.sex)
             this.getUserinfo()
             this.isShow = false;
+            window.location.reload()
           }
         })
       },

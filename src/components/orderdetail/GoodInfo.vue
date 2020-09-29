@@ -18,7 +18,7 @@
       </div>
       <div class="total">
         <span>合计：{{goodInfo.courses.length}}件商品</span>
-        <span style="text-indent: 2rem;">积分抵扣：使用{{goodInfo.integral}}积分&nbsp&nbsp&nbsp抵扣&yen;{{maxPrice}}</span>
+        <span style="text-indent: 2rem;">积分抵扣：使用{{goodInfo.integral}}积分&nbsp&nbsp&nbsp抵扣&yen;{{maxPrice|priceFormat}}</span>
         <div>
           <span>共计：</span>
           <span class="price">&yen;{{goodInfo.payPrice|priceFormat}}</span>

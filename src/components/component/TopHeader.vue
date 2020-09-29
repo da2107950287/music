@@ -6,15 +6,19 @@
         <div class="title">芥末音乐</div>
       </div>
       <div class="top-center">
-        <div :class="{'active':$route.path=='/index/home'}" class="item" @click="select('/index/home')">推荐课程</div>
-        <div v-for="(item,index) in list" :key="index" class="item"
-          :class="{'active': $route.query.couType===item.dicId}" @click="select('/index/courses',item.dicId)">
-          {{item.dicName}}</div>
+        <div :class="{ active: $route.path == '/index/home' }" class="item" @click="select('/index/home')">
+          推荐课程
+        </div>
+        <div v-for="(item, index) in list" :key="index" class="item"
+          :class="{ active: $route.query.couType === item.dicId }"
+          @click="select('/index/courses', item.dicId, index + 1)">
+          {{ item.dicName }}
+        </div>
       </div>
       <div class="right">
         <div @click="go('/index/user/news')" class="notification">
           <div class="notification-message"></div>
-          <div class="red-box" v-if="notReadNum>0">{{notReadNum}}</div>
+          <div class="red-box" v-if="notReadNum > 0">{{ notReadNum }}</div>
         </div>
         <div v-if="isShow" class="login" @click="showLoginBox">
           <div class="login-icon"></div>
@@ -24,14 +28,13 @@
         <el-dropdown v-else @command="handleCommand" placement="bottom-end">
           <div class="login">
             <img v-lazy="getHeadportrait" class="login-icon" />
-            <span class="login-text">{{getNickname}}</span>
+            <span class="login-text">{{ getNickname }}</span>
           </div>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item v-for="(item,index) in menu" :command="item.link" :key="index">{{item.title}}
+            <el-dropdown-item v-for="(item, index) in menu" :command="item.link" :key="index">{{ item.title }}
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-
       </div>
     </div>
     <!-- 登录弹窗 -->
@@ -39,17 +42,16 @@
   </div>
 </template>
 <script>
-
   import LoginBox from "components/component/LoginBox";
-  import { mapGetters, mapActions } from 'vuex'
+  import { mapGetters, mapActions } from "vuex";
 
   export default {
     inject: ["reload"],
     data() {
       return {
         dialogFormVisible: false, //登录弹窗开关
-        isShowMenu: false,//菜单开关
-        notReadNum: 0,//未读消息数量
+        isShowMenu: false, //菜单开关
+        notReadNum: 0, //未读消息数量
         list: [],
         menu: [
           { title: "我的资料", link: "profile" },
@@ -63,12 +65,7 @@
       };
     },
     computed: {
-      ...mapGetters([
-        'getToken',
-        'getHeadportrait',
-        'getNickname',
-        "getForm"
-      ]),
+      ...mapGetters(["getToken", "getHeadportrait", "getNickname", "getForm"]),
       isShow() {
         if (this.getToken == null) {
           return true;
@@ -79,61 +76,60 @@
     },
     created() {
       //获取头部课程类别
-      this.$post('/other/getDictionary', { dicType: "smd1" }).then(res => {
+      this.$post("/other/getDictionary", { dicType: "smd1" }).then((res) => {
         if (res.code == 200) {
           this.list = res.data;
         }
-      })
+      });
       //获取未读消息
-      this.$post('/other/getNotReadNumber', {}).then(res => {
+      this.$post("/other/getNotReadNumber", {}).then((res) => {
         if (res.code == 200) {
           this.notReadNum = res.data;
-
         }
-      })
+      });
     },
     methods: {
-      ...mapActions([
-        "setForm"
-      ]),
+      ...mapActions(["setForm"]),
       //选择课程类型
-      select(link, couType) {
+      select(link, couType, index) {
         if (couType) {
-          this.$router.push({ path: link, query: { couType } })
+          this.$router.push({ path: link, query: { couType } });
         } else {
-          this.$router.push(link)
+          this.$router.push(link);
+        }
+        if (index) {
+          let sWidth = document.querySelectorAll(".item")[index - 1].offsetWidth;
+          document.querySelector(".top-center").scrollLeft += sWidth;
         }
       },
       //跳转到我的消息页面
       go(link) {
-        if(this.getToken){
+        if (this.getToken) {
           this.$router.push(link);
-        }else{
-        this.$message.warning("对不起，请登录后再进行操作！");
-          
+        } else {
+          this.$message.warning("对不起，请登录后再进行操作！");
         }
       },
       //隐藏登录框
       hideLoginBox() {
         this.dialogFormVisible = false;
         // this.setForm(false)
-
       },
       //显示登录框
       showLoginBox() {
-      
         // this.setForm(true)
         this.dialogFormVisible = true;
       },
       handleCommand(command) {
-        if (command.includes("/home")) {
+        console.log(command);
+        if (command.includes("home")) {
           this.$router.push("/index/home");
           localStorage.clear();
-          this.reload()
+          window.location.reload();
         } else {
           this.$router.push("/index/user/" + command);
         }
-      }
+      },
     },
     components: {
       LoginBox,
@@ -153,16 +149,45 @@
 
   .top-header {
     @include wh(1200px, 100px);
-    @include fj(flex-start) position: relative;
+    @include fj(flex-start);
+    position: relative;
     margin-left: auto;
     margin-right: auto;
 
     .top-center {
       @include fj();
+      overflow-x: scroll;
+      scrollbar-width: none; // firefox下滚动条不显示
+      -ms-overflow-style: none; // IE下滚动条不显示
+
+      //设置侧边栏滚动条不显示 chrome
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      width: 845px;
       margin-left: 60px;
       text-align: center;
       font-weight: 500;
       font-family: $family;
+
+      .item {
+        // @include whl(120px, 100px, 100px);
+        // line-height: 100px;
+        white-space: nowrap;
+        padding: 39px 28px;
+        box-sizing: border-box;
+        cursor: pointer;
+        font-size: 16px;
+
+        color: $tcolor;
+        background-color: $fc;
+      }
+
+      .active {
+        background: $tc;
+        color: $fc;
+      }
     }
   }
 
@@ -189,20 +214,6 @@
     }
   }
 
-  .item {
-    @include whl(120px, 100px, 100px);
-    cursor: pointer;
-    font-size: 16px;
-
-    color: $tcolor;
-    background-color: $fc;
-  }
-
-  .active {
-    background: $tc;
-    color: $fc;
-  }
-
   .notification {
     position: relative;
     display: flex;
@@ -216,19 +227,22 @@
 
     .red-box {
       @include whl(14px, 14px, 14px);
-      background-color: #FF4545;
+      background-color: #ff4545;
       border-radius: 50%;
       @include pa(-5px, 15px);
       font-size: 10px;
       text-align: center;
       color: $fc;
     }
-
   }
 
   .right {
+    width: 160px;
     @include fa();
-    margin-left: 73px;
+
+    margin-right: 0;
+    margin-left: 30px;
+
   }
 
   .login {
@@ -247,10 +261,12 @@
   .login-text {
     margin-left: 5px;
     line-height: 60px;
+    width: 65px;
     cursor: default;
+    overflow: hidden; // 超出的文本隐藏
+    text-overflow: ellipsis; // 溢出用省略号显示
+    white-space: nowrap; // 溢出不换行
   }
-
-
 
   /deep/ .el-form-item.is-error .el-input__inner {
     border-color: $tc;

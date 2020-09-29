@@ -20,8 +20,8 @@
             <span>首次登陆默认同意</span>
             <span @click="seeUserAgreement">《用户协议》</span>
         </div>
-        <button @click="submitForm" ref="login" class="login-button" :disabled="!loginBtn"
-            :class="{'login-btn-active':loginBtn}">登 录</button>
+        <div @click="submitForm" ref="login" class="login-button" :disabled="!loginBtn"
+            :class="{'login-btn-active':loginBtn}">登 录</div>
         <div class="contact">
             <span>登录遇到问题请联系客服：</span>
             <span>400-555-666</span>
@@ -121,6 +121,8 @@
                                 break;
                             default:
                                 console.log(res.msg);
+                                this.$toast("网络故障，发送短信失败");
+                            break;
                         }
                     }
                 );

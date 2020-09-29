@@ -17,15 +17,22 @@
     </div>
     <div class="total">
       <div class="total-left">
-        <div>积分抵扣：共{{detail.integral}}积分 可抵扣{{detail.maxPrice}}</div>
-        <div  class="select"></div>
+        <div v-if="detail.integral" class="flex">
+          <div v-if="!show">积分抵扣：共{{detail.integral}}积分 可抵扣{{detail.maxPrice}}</div>
+          <div v-else>积分抵扣：共{{detail.integral}}积分 可抵扣0.00</div>
+          <div @click="select">
+            <div class="select no" v-if="show"></div>
+            <div class="select yes" v-else></div>
+          </div>
+        </div>
       </div>
       <div class="total-right">
         <span>合计：1件商品</span>
         <div>
           <span>共计：</span>
-          <span class="price">&yen;{{detail.totalPrice}}</span>
-
+          <span v-if="!show" class="price">&yen;{{detail.totalPrice}}</span>
+          <span v-else-if="detail.vip==0">&yen;{{detail.price}}</span>
+          <span v-else>&yen;{{detail.pricevip}}</span>
         </div>
       </div>
     </div>
@@ -41,10 +48,21 @@
         }
       }
     },
-  
+    data() {
+      return {
+        show: false
+      }
+    },
+
     created() {
       console.log(this.detail)
     },
+    methods: {
+      select() {
+        this.show = !this.show;
+        this.$emit("select", this.show)
+      }
+    }
     // methods: {
     //   init() {
     //     if (this.detail.vip == 0) {
@@ -148,16 +166,29 @@
       color: #9899a1;
 
       .total-left {
+       
         @include fa();
 
         color: #fb9715;
-
+.flex{
+  display: flex;
+  align-items: center
+}
         .select {
           @include wh(16px, 16px);
 
           margin-left: 5px;
           background-image: url(~assets/image/icon.png);
+
+        }
+
+        .yes {
           background-position: -520px -92px;
+        }
+
+        .no {
+          background-position: -566px -92px;
+
         }
       }
 

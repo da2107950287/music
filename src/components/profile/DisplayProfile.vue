@@ -72,10 +72,10 @@
         }).then(() => {
           this.$post("/userinfo/unbindWx", {}).then(res => {
             if (res.code == 200) {
-              this.$message.success("微信解绑成功");
+              this.$message.success(res.msg);
               this.$emit("unBindWeChat")
             }else{
-              this.$message.error("微信解绑失败")
+              this.$message.error(res.msg)
             }
           })
         })

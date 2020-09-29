@@ -24,9 +24,12 @@
       return {
         options: {},
         startTime: '',
-        totalTime: ''
+        totalTime: '',
+        playerTime: '',
+        timer: null
       };
     },
+
     mounted() {
       this.options = this.$route.query;
       this.init()
@@ -49,13 +52,19 @@
           that.startTime = new Date().getTime();
         }
         window.on_cc_live_player_load = function () {
-          this.totalTime = $.DW.getDuration()// 获取视频总时长单位:秒
+          that.totalTime = $.DW.getDuration()// 获取视频总时长单位:秒
+          that.timer = setInterval(() => {
+            that.playerTime = parseInt($.DW.getPlayerTime())
+          }, 1000);
         }
-      }
+      },
     },
+
     beforeDestroy() {
-      var rateOfLearning = ((($.DW.getPlayerTime() / this.totalTime).toFixed(2)) * 100);
-      if (this.options.rateOfLearning > rateOfLearning) {
+      clearInterval(this.timer)
+      var rateOfLearning = (((this.playerTime / this.totalTime).toFixed(2)) * 100);
+      console.log(this.options.rateOfLearning, rateOfLearning)
+      if (this.options.rateOfLearning < rateOfLearning) {
         var endTime = new Date().getTime();
         var accLeaTime = ((endTime - this.startTime) / 60000).toFixed(0)
         this.$post("/course/insertStudyTime", {
@@ -69,7 +78,8 @@
           }
         })
       }
-    }
+    },
+   
   };
 </script>
 <style lang="scss" scoped>

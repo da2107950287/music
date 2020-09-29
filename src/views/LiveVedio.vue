@@ -4,11 +4,12 @@
       <div>{{option.catName}}</div>
       <div>用户ID：{{getUid}}</div>
     </div>
-      <iframe :src="url" height="100%" width="1570px"> </iframe>
+    <iframe :src="url" height="100%" width="1200px" allow="microphone;camera;midi;encrypted-media;" frameborder="0"> </iframe>
   </div>
 </template>
 <script>
   import { mapGetters } from 'vuex'
+  import flash from "assets/js/flash.js"
   export default {
 
     computed: {
@@ -21,11 +22,11 @@
     created() {
       this.init()
     },
-    methods:{
-      init(){
+    methods: {
+      init() {
+        flash.init("player")
         this.option = this.$route.query;
-      this.url = `https://view.csslcloud.net/api/view/index?roomid=${this.option.catId}&userid=${this.getUserId}&autoLogin=true&viewername=${this.getNickname}`
-   
+        this.url = `https://view.csslcloud.net/api/view/index?roomid=${this.option.catId}&userid=${this.getUserId}&autoLogin=true&viewername=${this.getNickname}`
       }
     }
   }
@@ -36,7 +37,8 @@
   .live-vedio {
     display: flex;
     flex-direction: column;
-    width: 1570px;
+    min-width: 1200px;
+    /* width: 1570px; */
     height: 100%;
     margin: 0 auto;
     margin-bottom: 30px;
@@ -52,6 +54,6 @@
       font-family: "PingFangSC-Medium", "PingFang SC";
       font-weight: 500;
     }
-    
+
   }
 </style>

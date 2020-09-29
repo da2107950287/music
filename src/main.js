@@ -12,7 +12,8 @@ import VueLazyload from 'vue-lazyload'
 // import 'normalize.css/normalize.css'
 import {post} from './assets/js/axios'
 import axios from 'axios'
-
+import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard)
 Vue.use(ElementUI);
 Vue.use(VueLazyload)
 Vue.prototype.$axios=axios
