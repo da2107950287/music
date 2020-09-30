@@ -81,9 +81,12 @@ export default {
     this.$post("/circle/showDynamic", { dyId: this.dyId }).then((res) => {
       if (res.code == 200) {
         this.dynamicDetails = res.data;
-        this.dynamicDetails.picture =
-          "https://banlvresources.oss-cn-chengdu.aliyuncs.com/picture/1595990460830.png,https://banlvresources.oss-cn-chengdu.aliyuncs.com/picture/1595990460830.png,https://banlvresources.oss-cn-chengdu.aliyuncs.com/picture/1595990460830.png,https://banlvresources.oss-cn-chengdu.aliyuncs.com/picture/1595990460830.png,https://banlvresources.oss-cn-chengdu.aliyuncs.com/picture/1595990460830.png,https://banlvresources.oss-cn-chengdu.aliyuncs.com/picture/1595990460830.png,https://banlvresources.oss-cn-chengdu.aliyuncs.com/picture/1595990460830.png,https://banlvresources.oss-cn-chengdu.aliyuncs.com/picture/1595990460830.png,https://banlvresources.oss-cn-chengdu.aliyuncs.com/picture/1595990460830.png";
-        this.dynamicDetails.picture = this.dynamicDetails.picture.split(",");
+        if(this.dynamicDetails.picture){
+          this.dynamicDetails.picture = this.dynamicDetails.picture.split(",");
+
+        }else{
+          this.dynamicDetails.picture=[]
+        }
         this.dynamicDetails.dyTime = this.dynamicDetails.dyTime.substr(0, 16);
       }
     });
@@ -237,12 +240,12 @@ export default {
         margin-right: 0.3%;
         margin-top: 0.3%;
       }
-
+      
       .one {
         flex-grow: 1;
       }
       img.four {
-        width: 49.5%;
+        width: 49%;
       }
     }
     video {

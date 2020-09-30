@@ -6,7 +6,7 @@
     </div>
     <el-carousel height="200px" indicator-position="inside">
       <el-carousel-item v-for="item in goodDetail.cdyPurl" :key="item">
-        <img v-lazy="item" alt />
+        <img v-lazy="item" alt class="slideshow" />
       </el-carousel-item>
     </el-carousel>
     <div class="good-detail">
@@ -48,7 +48,7 @@
       <div>
         <div class="coment-content-box" v-for="(item,index) in comment" :key="index">
           <div class="flex coment-content">
-            <img v-lazy="item.cePurl" alt class="avator" />
+            <img v-lazy="item.headportrait" alt class="avator" />
             <div class="comment-right">
               <div class="flex">
                 <div>
@@ -59,8 +59,10 @@
               </div>
               <div>
                 <div class="content">{{item.content}}</div>
+              
                 <div class="imgs">
-                  <img v-for="(el,index) in item.cePurl" v-lazy="el" :key="index" alt />
+                  <img v-for="(el,index) in item.cePurl" :class="{'one':item.cePurl.length<=2,'four':item.cePurl.length==4}"
+                    v-lazy="el" :key="index" alt />
                 </div>
               </div>
             </div>
@@ -72,199 +74,249 @@
   </div>
 </template>
 <script>
-  import {getRequest} from "assets/js/utils.js"
-export default {
-  name:"sharegood",
-  data() {
-    return {
-      cdyId: "",
-      goodDetail: {},
-      PageNumber: 1,
-      PageSize: 10,
-      comment: [],
-      number: 0,
-    };
-  },
-  created() {
-    this.cdyId=getRequest().cdyId;
-    this.$post("/commodity/showCommodity", { cdyId: this.cdyId }).then(
-      (res) => {
-        if (res.code == 200) {
-          this.goodDetail = res.data;
-          console.log(this.goodDetail.cdyPurl);
-          this.goodDetail.cdyPurl = this.goodDetail.cdyPurl.split(",");
+  import { getRequest } from "assets/js/utils.js"
+  export default {
+    name: "sharegood",
+    data() {
+      return {
+        cdyId: "",
+        goodDetail: {},
+        PageNumber: 1,
+        PageSize: 10,
+        comment: [],
+        number: 0,
+      };
+    },
+    created() {
+      this.cdyId = getRequest().cdyId;
+      this.$post("/commodity/showCommodity", { cdyId: this.cdyId }).then(
+        (res) => {
+          if (res.code == 200) {
+            this.goodDetail = res.data;
+            console.log(this.goodDetail.cdyPurl);
+            this.goodDetail.cdyPurl = this.goodDetail.cdyPurl.split(",");
+          }
         }
-      }
-    );
-    this.$post("/commodity/getCommodityEvaluate", {
-      cdyId: this.cdyId,
-      PageNumber: this.PageNumber,
-      PageSize: this.PageSize,
-    }).then((res) => {
-      if (res.code == 200) {
-        this.comment = res.data.list;
-        this.number = res.data.count;
-       
-        this.comment.forEach((item, index) => {
-          this.comment[index].ceTime = item.ceTime.substr(0, 10);
+      );
+      this.$post("/commodity/getCommodityEvaluate", {
+        cdyId: this.cdyId,
+        PageNumber: this.PageNumber,
+        PageSize: this.PageSize,
+      }).then((res) => {
+        if (res.code == 200) {
+          this.comment = res.data.list;
+          this.number = res.data.count;
+          this.comment.forEach((item, index) => {
+            this.comment[index].ceTime = item.ceTime.substr(0, 10);
+            if( this.comment[index].cePurl){
 
-          this.comment[index].cePurl = item.cePurl.split(",");
-        });
-      }
-    });
-  },
-};
+              this.comment[index].cePurl = item.cePurl.split(",");
+
+            }else{
+              this.comment[index].cePurl=[]
+            }
+          });
+        }
+      });
+    },
+  };
 </script>
 <style lang="scss" scoped>
-a{
-  text-decoration: none;
-}
-
-.html-img /deep/ div {
-  width: 100% !important;
-  box-sizing: border-box;
- 
-      
-    }
-    .html-img /deep/ video {
-  width: 100% !important;
-    
-    }
-    .html-img /deep/ img{
-        width: 100%;
-      
-
-      }
-.shareGood {
-
-   width: 100%;
-  height: 100%;
-  .top {
-    height: 40px;
-    padding: 0 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #98b702;
-    color: #fff;
-    .open {
-      display: inset-block;
-      width: 52px;
-      height: 23px;
-
-      border-radius: 2px;
-      text-align: center;
-      line-height: 23px;
-      background-color: #fff;
-      color: #36363a;
-      font-size: 12px;
-      font-family: "PingFangSC-Medium", "PingFang SC";
-    }
+  a {
+    text-decoration: none;
   }
-  .flex {
-    display: flex;
-    align-items: center;
+
+  .html-img /deep/ div {
+    width: 100% !important;
+    box-sizing: border-box;
+
+
   }
-  .good-detail {
-    padding: 15px;
-    .good-name {
-      font-family: "PingFangSC-Semibold", "PingFang SC";
-      font-weight: 600;
-      color: #333333;
-    }
-    .font12 {
-      font-size: 12px;
-      font-family: "PingFangSC-Regular", "PingFang SC";
-      font-weight: 400;
-      color: #6a6a6f;
-    }
-    .price-box {
-      margin-top: 10px;
+
+  .html-img /deep/ video {
+    width: 100% !important;
+
+  }
+
+  .html-img /deep/ img {
+    width: 100%;
+
+
+  }
+
+  .slideshow {
+    width: 100%;
+    height: 200px;
+  }
+
+  .shareGood {
+
+    width: 100%;
+    height: 100%;
+
+    .top {
+      height: 40px;
+      padding: 0 15px;
+      display: flex;
       justify-content: space-between;
+      align-items: center;
+      background-color: #98b702;
+      color: #fff;
 
-      .vip-icon {
-        width: 16px;
-        height: 9px;
-      }
-      .pricevip {
-        font-size: 10px;
-      }
-      .price {
-        margin-left: 10px;
-        font-size: 24px;
-        font-family: "DINAlternate-Bold", "DINAlternate";
-        font-weight: bold;
-        color: #36363a;
-      }
-    }
-    .tag {
-      margin-top: 24px;
-      justify-content: space-between;
-      .tag-img {
-        width: 16px;
-        height: 16px;
-        margin-right: 5px;
-      }
-    }
-  }
-  .title {
-    padding: 20px 15px 15px;
+      .open {
+        display: inset-block;
+        width: 52px;
+        height: 23px;
 
-    font-family: "PingFangSC-Medium", "PingFang SC";
-    font-weight: 500;
-    color: #36363a;
-  }
-  .intro {
-  }
-  .comment {
-    padding: 0 15px;
-    .title {
-      padding-left: 0;
-    }
-    .coment-content-box {
-      margin-bottom: 15px;
-    }
-    .coment-content {
-      align-items: flex-start;
-    }
-    .avator {
-      width: 32px;
-      height: 32px;
-      margin-right: 10px;
-      border-radius: 50%;
-    }
-    .comment-right {
-      width: 100%;
-      .flex {
-        justify-content: space-between;
-        align-items: center;
-      }
-      .nickname {
-        font-size: 14px;
-        font-weight: 400;
+        border-radius: 2px;
+        text-align: center;
+        line-height: 23px;
+        background-color: #fff;
         color: #36363a;
-      }
-      .ce-time {
         font-size: 12px;
-
-        font-weight: 400;
-        color: #9899a1;
-        line-height: 17px;
+        font-family: "PingFangSC-Medium", "PingFang SC";
       }
-      .content {
-        margin-bottom: 10px;
+    }
 
-        font-size: 14px;
+    .flex {
+      display: flex;
+      align-items: center;
+    }
 
+    .good-detail {
+      padding: 15px;
+
+      .good-name {
+        font-family: "PingFangSC-Semibold", "PingFang SC";
+        font-weight: 600;
+        color: #333333;
+      }
+
+      .font12 {
+        font-size: 12px;
+        font-family: "PingFangSC-Regular", "PingFang SC";
         font-weight: 400;
         color: #6a6a6f;
       }
-      .imgs {
-        img {
-          width: 100%;
+
+      .price-box {
+        margin-top: 10px;
+        justify-content: space-between;
+
+        .vip-icon {
+          width: 16px;
+          height: 9px;
+        }
+
+        .pricevip {
+          font-size: 10px;
+        }
+
+        .price {
+          margin-left: 10px;
+          font-size: 24px;
+          font-family: "DINAlternate-Bold", "DINAlternate";
+          font-weight: bold;
+          color: #36363a;
+        }
+      }
+
+      .tag {
+        margin-top: 24px;
+        justify-content: space-between;
+
+        .tag-img {
+          width: 16px;
+          height: 16px;
+          margin-right: 5px;
         }
       }
     }
+
+    .title {
+      padding: 20px 15px 15px;
+
+      font-family: "PingFangSC-Medium", "PingFang SC";
+      font-weight: 500;
+      color: #36363a;
+    }
+
+    .intro {}
+
+    .comment {
+      padding: 0 15px;
+
+      .title {
+        padding-left: 0;
+      }
+
+      .coment-content-box {
+        margin-bottom: 15px;
+      }
+
+      .coment-content {
+        align-items: flex-start;
+      }
+
+      .avator {
+        width: 32px;
+        height: 32px;
+        margin-right: 10px;
+        border-radius: 50%;
+      }
+
+      .comment-right {
+        width: 100%;
+
+        .flex {
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .nickname {
+          font-size: 14px;
+          font-weight: 400;
+          color: #36363a;
+        }
+
+        .ce-time {
+          font-size: 12px;
+
+          font-weight: 400;
+          color: #9899a1;
+          line-height: 17px;
+        }
+
+        .content {
+          margin-bottom: 10px;
+
+          font-size: 14px;
+
+          font-weight: 400;
+          color: #6a6a6f;
+        }
+
+        .imgs {
+          /* display: flex;
+          flex-wrap: wrap; */
+          img {
+            width: 28.6%;
+            height: 80px;
+            margin-right: 2%;
+            margin-top: 2%;
+          }
+          .one {
+            flex-grow: 1;
+          }
+
+          .four {
+            width: 48%;
+          }
+
+        }
+
+
+      }
+    }
   }
-}
 </style>
