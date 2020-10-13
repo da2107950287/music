@@ -1,7 +1,7 @@
 <template>
   <div class="shareGood">
     <div class="top">
-      <div>打开APP购买课程</div>
+      <div>打开APP购买商品</div>
       <a href="#" class="open">打开</a>
     </div>
     <el-carousel height="200px" indicator-position="inside">

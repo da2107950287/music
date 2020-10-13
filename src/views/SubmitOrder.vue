@@ -4,7 +4,8 @@
             <div slot="right">
                 <div class="title-left">
                     <img src="~assets/image/icon_xgdz.png" alt="">
-                    <span v-if="addressInfo">修改地址</span>
+                  
+                    <span v-if="!ishasAddress">修改地址</span>
                     <span v-else>添加地址</span>
                 </div>
             </div>
@@ -37,20 +38,15 @@
                 show: false
             }
         },
-
+        computed: {
+            ishasAddress() {
+                return Object.keys(this.addressInfo).length === 0
+            }
+        },
         created() {
             this.couId = this.$route.query.couId;
             //获取地址
-            this.$post("/address/getAddress", {}).then(res => {
-                if (res.code == 200) {
-                    let data = res.data;
-                    data.forEach((item, index) => {
-                        if (item.state == 1) {
-                            this.addressInfo = item;
-                        }
-                    })
-                }
-            })
+            this.getAddress();
             // 获取用户相关信息
             this.$post('/userinfo/showUserinfo', {}).then(res => {
                 if (res.code == 200) {
@@ -85,6 +81,18 @@
             })
         },
         methods: {
+            getAddress() {
+                this.$post("/address/getAddress", {}).then(res => {
+                    if (res.code == 200) {
+                        let data = res.data;
+                        data.forEach((item, index) => {
+                            if (item.state == 1) {
+                                this.addressInfo = item;
+                            }
+                        })
+                    }
+                })
+            },
             select(show) {
                 this.show = show
                 // if (show) {
@@ -96,45 +104,53 @@
                 //         this.totalPrice=this.pricevip
                 //     }
                 // }else{
-                    this.getPrice()
+                this.getPrice()
                 // }
             },
             pay(payMethod) {
-                if (payMethod == 2) {
-                    //微信支付
-                    this.$router.push({
-                        path: '/index/scanPay', query: {
-                            totalPrice: this.totalPrice,
+                this.getAddress();
+                if (this.ishasAddress) {
+                    this.$message.warning("请添加收货地址")
+                } else {
+                    if (payMethod == 2) {
+                        //微信支付
+                        this.$router.push({
+                            path: '/index/scanPay', query: {
+                                totalPrice: this.totalPrice,
+                                couId: this.couId,
+                                integral: this.maxIntegral,
+                                // payMethod,
+                                couName: this.couName,
+                                fullname: this.addressInfo.fullname,
+                                address: this.addressInfo.addressinfo + this.addressInfo.detailed,
+                                mobile: this.addressInfo.mobile
+                            }
+                        });
+                    } else {
+                        //支付宝支付
+                        this.$post("/alipay/buyCourse", {
                             couId: this.couId,
                             integral: this.maxIntegral,
-                            // payMethod,
-                            couName: this.couName,
                             fullname: this.addressInfo.fullname,
                             address: this.addressInfo.addressinfo + this.addressInfo.detailed,
-                            mobile: this.addressInfo.mobile
-                        }
-                    });
-                } else {
-                    //支付宝支付
-                    this.$post("/alipay/buyCourse", {
-                        couId: this.couId,
-                        integral: this.maxIntegral,
-                        fullname: this.addressInfo.fullname,
-                        address: this.addressInfo.addressinfo + this.addressInfo.detailed,
-                        mobile: this.addressInfo.mobile,
-                        type: 1,
-                    }).then((res) => {
-                        if (res.code == 200) {
-                            this.qrLink = res.data;
-                            console.log(this.qrLink)
-                            const div = document.createElement("divform");
-                            div.innerHTML = res.data;
-                            document.body.appendChild(div);
-                            // document.forms[0].acceptCharset = 'GBK'; //保持与支付宝默认编码格式一致，如果不一致将会出现：调试错误，请回到请求来源地，重新发起请求，错误代码 invalid-signature 错误原因: 验签出错，建议检查签名字符串或签名私钥与应用公钥是否匹配
-                            document.forms[0].submit();
-                        }
-                    });
+                            mobile: this.addressInfo.mobile,
+                            type: 1,
+                        }).then((res) => {
+                            console.log(res.data)
+                            if (res.code == 200) {
+                                // this.qrLink = res.data;
+                                // console.log(this.qrLink)
+                                const div = document.createElement("divform");
+                                div.innerHTML = res.data;
+                                document.body.appendChild(div);
+                                div.style.display = "none"
+                                // document.forms[0].acceptCharset = 'GBK'; //保持与支付宝默认编码格式一致，如果不一致将会出现：调试错误，请回到请求来源地，重新发起请求，错误代码 invalid-signature 错误原因: 验签出错，建议检查签名字符串或签名私钥与应用公钥是否匹配
+                                document.forms[0].submit();
+                            }
+                        });
+                    }
                 }
+
 
             },
             getPrice() {
@@ -145,7 +161,7 @@
                         this.totalPrice = this.price.toFixed(2);
                     } else {
                         this.totalPrice = this.pricevip.toFixed(2)
-                    }   
+                    }
                 } else {
                     if (this.vip == 0) {
                         this.get(this.price)
@@ -174,7 +190,7 @@
                         totalPrice = price - maxPrice;
                     }
                 } else {
-                    maxIntegral=0;
+                    maxIntegral = 0;
                     maxPrice = 0;
                     totalPrice = price;
                 }
@@ -189,6 +205,7 @@
             },
             hideForm() {
                 this.isShow = false;
+                this.getAddress()
             }
         },
         components: {

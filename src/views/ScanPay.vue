@@ -66,7 +66,7 @@
         this.fullname=this.$route.query.fullname;
         this.address=this.$route.query.address;
         this.mobile=this.$route.query.mobile;
-        this.totalPrice = this.$route.query.totalPrice.toFixed(2);
+        this.totalPrice = this.$route.query.totalPrice;
         if (!this.$route.query.hasOwnProperty("olId")) {//第一次支付
           this.couId = this.$route.query.couId;
           this.integral = this.$route.query.integral;

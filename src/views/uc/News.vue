@@ -12,7 +12,7 @@
         <div @click="readMsg" class="btn read">全部已读</div>
         <!-- <img @click="deleteMsg" src="~assets/image/bnt_sc.png" class="btn delete" /> -->
       </div>
-      <div v-for="(item,index) in arr" :key="index" class="list">
+      <div v-for="(item,index) in arr" :key="index" class="list" @click="toCourse(item.msgType,item.sourceid)">
         <div class="table-body flex">
           <!-- <div @click="item.checked=!item.checked">
             <img v-if="item.checked==false" src="~assets/image/icon_check_normal.png" class="select-icon" />
@@ -77,6 +77,11 @@
             });
           }
         })
+      },
+      toCourse(msgType, couId) {
+        if (msgType == 1) {
+          this.$router.push({ path: "/index/detail", query: { couId: couId } })
+        }
       },
       handleCheckedAll() {
         let isCheckedAll = this.arr.some(item => {

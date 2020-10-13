@@ -20,7 +20,7 @@
         </ol>
       </div>
     </div>
-    <el-pagination  @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize" background
+    <el-pagination v-if="total>pageSize"   @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize" background
       layout="prev, pager, next" :total="total" class="pagination">
     </el-pagination>
   </div>

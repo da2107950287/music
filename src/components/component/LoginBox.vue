@@ -135,6 +135,7 @@
                             account: this.loginForm.phone,
                             verify: this.loginForm.smsCode,
                             inCode: "",
+                            type:1
                         }).then((res) => {
                             switch (res.code) {
                                 case "200":

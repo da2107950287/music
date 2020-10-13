@@ -15,7 +15,6 @@
       <div class="userinfo">
         <div>
           <div v-for="(item,index) in courseinfo.list">
-
             <img class="avator" v-lazy="item.headportrait" alt v-if="index < 2" />
             <span class="font12" v-if="index < 2">{{item.username}}</span>
           </div>
@@ -101,9 +100,6 @@
   a {
     text-decoration: none;
   }
-
-
-
   .share-course {
     width: 100%;
     height: 100%;

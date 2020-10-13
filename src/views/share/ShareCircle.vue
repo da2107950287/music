@@ -1,7 +1,7 @@
 <template>
   <div class="shareCircle">
     <div class="top">
-      <div>打开APP购买课程</div>
+      <div>下载查看更多</div>
       <a href="#" class="open">打开</a>
     </div>
     <div class="dynamic-details flex">
@@ -40,7 +40,6 @@
     </div>
     <div class="comment">
       <div class="number">评论（{{number}}）</div>
-      <!--  -->
       <div class="flex" v-for="(item,index) in comment" :key="index">
         <img class="avator" v-lazy="item.headportrait" alt />
         <div class="right">

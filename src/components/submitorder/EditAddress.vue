@@ -67,8 +67,9 @@
         this.$emit("hideForm");
       },
       saveEdit() {
+
         //修改默认地址
-        if (this.addressInfo) {
+        if (Object.keys(this.addressInfo).length !== 0) {
           this.$post("/address/updateAddress", {
             addId: this.addressInfo.addId,
             fullname: this.form.username,
@@ -149,8 +150,8 @@
       border-top: 1px solid #eee;
 
       >div {
-        @include whl(100px,40px,40px);
-        
+        @include whl(100px, 40px, 40px);
+
         text-align: center;
         font-size: 14px;
         cursor: default;
