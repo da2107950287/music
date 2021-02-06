@@ -1,8 +1,8 @@
 <template>
   <div class="shareGood">
     <div class="top">
-      <div>打开APP购买商品</div>
-      <a href="#" class="open">打开</a>
+      <div>下载APP购买商品</div>
+      <router-link to="/download" class="open">下载</router-link>
     </div>
     <el-carousel height="200px" indicator-position="inside">
       <el-carousel-item v-for="item in goodDetail.cdyPurl" :key="item">

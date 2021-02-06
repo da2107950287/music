@@ -1,8 +1,9 @@
 <template>
   <div class="share-course">
     <div class="top">
-      <div>打开APP购买课程</div>
-      <a href="#" class="open">打开</a>
+      <div>下载APP购买课程</div>
+      <router-link to="/download" class="open">下载</router-link>
+
     </div>
     <img v-lazy="courseinfo.cover" class="img-cover" alt />
     <div class="info">

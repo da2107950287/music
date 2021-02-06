@@ -9,7 +9,7 @@
           </div>
           <div class="payee">
             <span>收款方：</span>
-            <span>北京锐智互动网络科技有限公司</span>
+            <span>乐律嘉音(天津)科技有限公司</span>
           </div>
         </div>
         <div>

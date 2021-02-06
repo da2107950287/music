@@ -8,24 +8,16 @@ export function isElement(value) {
   //判断value是一个object-like对象
 }
 export function getRequest() {
-  var url;
-  if (window.location.hash) {
-    url = window.location.hash;
-    url = "?" + url.split("?")[1];
-
-  } else {
-    url = window.location.search; //获取url中"?"符后的字串
-  }
-  var theRequest = new Object();
-  if (url.indexOf("?") != -1) {
-    var str = url.substr(1);
-    var strs = str.split("&");
-    for (var i = 0; i < strs.length; i++) {
-      theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
-    }
-  }
-  console.log(theRequest)
-  return theRequest;
+  let qs = location.href.split('?')[1] || '',
+    args = {},
+    items = qs.length ? qs.split("&") : [];
+  items.forEach((item, i) => {
+    let arr = item.split('='),
+      name = decodeURIComponent(arr[0]),
+      value = decodeURIComponent(arr[1]);
+    name.length && (args[name] = value)
+  })
+  return args;
 }
 export function shieldEmoticon(message) {
   let msg = message;

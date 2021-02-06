@@ -2,7 +2,7 @@
   <div class="bgi" @touchstart="gotouchstart" @touchmove="gotouchmove" @touchend="gotouchend">
     <div class="code">您的邀请码为：<span>{{code}}</span></div>
     <div class="qrcode-box">
-      <img class="qrcode" src="~assets/image/img_qr.png" alt="">
+      <img class="qrcode" src="~assets/image/download-code.png" alt="">
       <div class="">长按图片复制链接在浏览器中打开下载APP</div>
     </div>
     <div class="tips">1.点击右上角分享邀请链接，朋友通过连接注册<br />
@@ -65,7 +65,7 @@
         this.timeOutEvent = 0;
       },
       copy(){
-        this.$copyText("123456").then(function (e) {
+        this.$copyText("http://47.111.244.224/dist/#/download").then(function (e) {
                console.log('Copied')
                console.log(e)
            }, function (e) {

@@ -5,7 +5,7 @@
     </div>
     <div class="table">
       <div class="table-body">
-        <div class="list" v-if="detail.olState==5">
+        <div class="list" v-if="detail.olState==2||detail.olState==3||detail.olState==5">
           <div>
             <span>订单编号：</span>
             <span>{{detail.olId}}</span>
@@ -28,6 +28,10 @@
             <span>支付金额：</span>
             <span>&yen;{{detail.payPrice}}</span>
           </div>
+          <div v-if="detail.olState==3 || detail.olState==5">
+            <span>运单号:</span>
+            <span>{{detail.logisticsCompany}} {{detail.courierNumber}}</span>
+          </div>
         </div>
         <div class="list" v-else>
           <div>
@@ -44,65 +48,73 @@
   </div>
 </template>
 <script>
-  export default{
-    props:{
-      detail:{
-        type:Object,
-        default(){
+  export default {
+    props: {
+      detail: {
+        type: Object,
+        default() {
           return {}
         }
       }
     }
   }
 </script>
-  <style lang="scss" scoped>
-    @import "~assets/css/mixin";
+<style lang="scss" scoped>
+  @import "~assets/css/mixin";
 
-.good-info {
-  padding: 30px;
-  margin-top: 10px;
-  box-sizing: border-box;
-  background-color: $fc;
-  .title {
-   @include fa();
-    position: relative;
-    div:first-child {
-      font-size: 20px;
-      font-weight: 500;
-      color: $tcolor;
-      font-family:"PingFangSC-Medium","PingFang SC";
+  .good-info {
+    padding: 30px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    background-color: $fc;
+
+    .title {
+      @include fa();
+      position: relative;
+
+      div:first-child {
+        font-size: 20px;
+        font-weight: 500;
+        color: $tcolor;
+        font-family: "PingFangSC-Medium", "PingFang SC";
+      }
+
+      div:nth-child(2) {
+        margin-left: 10px;
+        color: #ff4545;
+      }
     }
-    div:nth-child(2) {
-      margin-left: 10px;
-      color: #ff4545;
+
+    .title::before {
+      content: "";
+      @include pa(5px, -26px);
+      @include wh(4px, 12px);
+      display: inline-block;
+      background-color: $tc;
+      margin-right: 30px;
     }
-  }
-  .title::before {
-    content: "";
-    @include pa(5px,-26px);
-    @include wh(4px,12px);
-    display: inline-block;
-    background-color: $tc;
-    margin-right: 30px;
-  }
-  .table {
-    margin-top: 20px;
-    border: 1px solid #eee;
-    .table-body {
-      padding:  0 30px 30px;
-      @include fj();
-      .list{
-         
-          div{
-              margin-top: 30px;
-              color: $tcolor;
-              span:nth-child(1){
-                  margin-right: 30px;
-                  color:#6A6A6F
-              }
+
+    .table {
+      margin-top: 20px;
+      border: 1px solid #eee;
+
+      .table-body {
+        padding: 0 30px 30px;
+        @include fj();
+
+        .list {
+
+          div {
+            margin-top: 30px;
+            color: $tcolor;
+
+            span:nth-child(1) {
+              margin-right: 30px;
+              color: #6A6A6F
+            }
           }
+        }
       }
     }
   }
-}
 </style>

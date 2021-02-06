@@ -29,6 +29,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "share" */"views/share/Share.vue"),
     meta: { title: "分享APP", requireAuth: false }
   },
+  {
+    path:'/download',
+    component: () => import(/* webpackChunkName: "share" */"views/share/Download.vue"),
+    meta: { title: "下载APP", requireAuth: false }
+  },
   { path: '', redirect: '/index' },
   {
     path: '/index',

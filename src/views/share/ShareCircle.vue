@@ -2,7 +2,7 @@
   <div class="shareCircle">
     <div class="top">
       <div>下载查看更多</div>
-      <a href="#" class="open">打开</a>
+      <router-link to="/download" class="open">下载</router-link>
     </div>
     <div class="dynamic-details flex">
       <img class="avator" v-lazy="dynamicDetails.headportrait" alt />
