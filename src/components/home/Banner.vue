@@ -31,7 +31,9 @@
 </script>
 <style lang="scss" scoped>
   @import "~assets/css/mixin";
-
+/deep/ .el-carousel__arrow i{
+  font-size: 26px;
+}
   .banner-img {
     @include wh(100%, 480px)
   }

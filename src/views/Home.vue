@@ -16,7 +16,7 @@
     <!-- <div v-else class="course">
       <course-item v-for="(item,index) in list" :key="index" :course="item"></course-item>
     </div> -->
-    <download-app />
+    <!-- <download-app /> -->
   </div>
 </template>
 <script>

@@ -58,7 +58,8 @@
       addressInfo() {
         this.form.username = this.addressInfo.fullname;
         this.form.phone = this.addressInfo.mobile;
-        this.form.region = this.addressInfo.addressinfo.split(" ");
+        this.form.region = this.addressInfo.addressinfo.split(' ');
+    
         this.form.address = this.addressInfo.detailed.replace(/\s+/g, "");
       },
     },
@@ -67,7 +68,6 @@
         this.$emit("hideForm");
       },
       saveEdit() {
-
         //修改默认地址
         if (Object.keys(this.addressInfo).length !== 0) {
           this.$post("/address/updateAddress", {

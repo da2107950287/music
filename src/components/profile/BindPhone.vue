@@ -3,7 +3,7 @@
     <el-form :model="phoneForm" :rules="rules" ref="phoneForm" class="demo-loginForm form">
       <div class="popup-title bind-phone">绑定、更换手机号</div>
       <el-form-item prop="phone">
-        <el-input v-model.number="phoneForm.phone" maxlength="11" placeholder="请输入新的手机号"></el-input>
+        <el-input v-model="phoneForm.phone" maxlength="11" placeholder="请输入新的手机号"></el-input>
       </el-form-item>
       <el-form-item prop="graphicsCode" class="pass graphics-code-box">
         <el-input v-model="phoneForm.graphicsCode" placeholder="请输入图形验证码" class="graphics-code-input"></el-input>
@@ -75,8 +75,9 @@
         },
         identifyCodes: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
         identifyCode: "",
-        canClick: false, //短信验证码开关
+        canClick: true, //短信验证码开关
         totalTime: 60,
+        clock: null,
         phoneForm: {
           phone: "",
           graphicsCode: "",
@@ -84,12 +85,26 @@
         },
       };
     },
+    watch: {
+      'phoneForm.phone'() {
+        this.phoneForm.phone = this.phoneForm.phone.replace(/\D/g, '');
+      }
+    },
     created() {
       this.refreshCode();
     },
     methods: {
       handleClose() {
         this.$emit("hidePhoneForm");
+        this.phoneForm = {
+          phone: "",
+          graphicsCode: "",
+          smsCode: "",
+        }
+        this.canClick = true;
+        this.$refs.phoneForm.resetFields();
+
+
       },
       // 生成随机数
       randomNum(min, max) {
@@ -115,11 +130,11 @@
         if (!this.canClick) return;
         this.canClick = false;
         this.codeMsg = this.totalTime + "s";
-        let clock = window.setInterval(() => {
+        this.clock = window.setInterval(() => {
           this.totalTime--;
           this.codeMsg = this.totalTime + "s";
           if (this.totalTime < 0) {
-            window.clearInterval(clock);
+            window.clearInterval(this.clock);
             this.codeMsg = "重新发送验证码";
             this.totalTime = 60;
             this.canClick = true; //这里重新开启
@@ -203,7 +218,7 @@
 
       .code {
         position: absolute;
-        top:0;
+        top: 0;
         right: 20px;
         font-size: 14px;
         font-family: "PingFangSC-Regular", "PingFang SC";
@@ -235,8 +250,7 @@
     }
 
     .login-button {
-      @include wh(300px,40px)
-      background-color: $tc;
+      @include wh(300px, 40px) background-color: $tc;
       border-radius: 2px;
       border: 0;
       color: $fc;

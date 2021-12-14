@@ -116,7 +116,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: #98b702;
+      background-color: #00CDFF;
       color: #fff;
 
       .open {
@@ -158,7 +158,7 @@
         font-size: 11px;
         text-align: center;
         line-height: 18px;
-        background-color: #98b702;
+        background-color: #00CDFF;
         border-top-left-radius: 9px;
         border-bottom-right-radius: 9px;
       }
@@ -262,7 +262,7 @@
         margin-top: 11px;
         height: 3px;
         width: 20px;
-        background-color: #98b702;
+        background-color: #00CDFF;
       }
 
       .active-text {
@@ -290,7 +290,7 @@
           text-align: center;
           line-height: 20px;
           color: #fff;
-          background-color: #98b702;
+          background-color: #00CDFF;
           border-top-left-radius: 10px;
           margin-right: 10px;
         }

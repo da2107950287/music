@@ -160,7 +160,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: #98b702;
+      background-color: #00CDFF;
       color: #fff;
 
       .open {

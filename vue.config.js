@@ -85,7 +85,7 @@ module.exports = {
     port: 8080,
     proxy: {
       "/mustard": {
-        target: "http://47.111.244.224/mustard",
+        target: "http://47.111.244.224:81/mustard",
         changeOrigin: true,
         pathRewrite: { '^/mustard': '' }
       },

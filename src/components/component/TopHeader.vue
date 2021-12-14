@@ -2,8 +2,10 @@
   <div class="top-header-box">
     <div class="top-header" id="top-header">
       <div class="left">
-        <div class="logo">芥末</div>
-        <div class="title">芥末音乐</div>
+        <!-- <div class="logo">芥末</div>
+         -->
+         <div class="logo"></div>
+        <div class="title"></div>
       </div>
       <div class="top-center">
         <div :class="{ active: $route.path == '/index/home' }" class="item" @click="select('/index/home')">
@@ -39,6 +41,7 @@
     </div>
     <!-- 登录弹窗 -->
     <LoginBox :dialogFormVisible="dialogFormVisible" @hideLoginBox="hideLoginBox" />
+  
   </div>
 </template>
 <script>
@@ -196,21 +199,17 @@
     text-align: center;
 
     .logo {
-      @include whl(60px, 60px, 60px);
-      font-weight: 600;
-      font-size: 18px;
-      background: $fc;
-      box-shadow: 0px 0px 6px 0px rgba(129, 156, 2, 0.4);
-      border-radius: 10px;
-      color: $tc;
+      @include whl(78px, 78px, 78px);
+      background-image:url(~assets/image/logo.png);
+      background-size:100% 100%;
+   
     }
 
     .title {
-      @include whl(96px, 25px, 25px);
-      font-size: 24px;
-      color: $tc;
-      margin-left: 10px;
-      font-family: "sthupo";
+      @include wh(119px, 35px);
+      background-image:url(../../assets/image/name.png);
+      background-size:100% 100%;
+   
     }
   }
 

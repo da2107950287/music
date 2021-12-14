@@ -4,7 +4,6 @@
             <div slot="right">
                 <div class="title-left">
                     <img src="~assets/image/icon_xgdz.png" alt="">
-                  
                     <span v-if="!ishasAddress">修改地址</span>
                     <span v-else>添加地址</span>
                 </div>

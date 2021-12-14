@@ -11,7 +11,7 @@
       <div class="profile-bottom edit-form">
         <div>
           <span>昵称：</span>
-          <el-input type="text" v-model="userinfo.nickname" maxlength="10"  show-word-limit></el-input>
+          <el-input type="text" v-model="userinfo.nickname" maxlength="10" show-word-limit></el-input>
         </div>
         <div>
           <span>性别：</span>
@@ -93,7 +93,7 @@
             if (res.code == 200) {
               this.getUserinfo()
               this.$message.success(res.msg)
-            }else{
+            } else {
               this.$message.error(res.msg)
             }
           })
@@ -101,14 +101,9 @@
       }
     },
     created() {
-      this.init();
-      console.log("cre")
+      this.getUserinfo()
     },
     methods: {
-      init() {
-        this.getUserinfo()
-
-      },
       getUserinfo() {
         //查询用户信息
         this.$post("/userinfo/showUserinfo", {}).then((res) => {
@@ -116,7 +111,7 @@
             this.userinfo = res.data.userinfo;
             this.selectedOptions.push(TextToCode[this.userinfo.province].code);
             this.selectedOptions.push(TextToCode[this.userinfo.province][this.userinfo.city].code);
-            console.log(!this.userinfo.wx)
+
           }
         });
       },
@@ -178,7 +173,7 @@
           background: this.userinfo.background
         }).then(res => {
           if (res.code == 200) {
-            
+
             localStorage.setItem("nickname", this.userinfo.nickname)
             localStorage.setItem("sex", this.userinfo.sex)
             this.getUserinfo()

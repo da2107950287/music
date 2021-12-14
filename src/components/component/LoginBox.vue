@@ -2,18 +2,18 @@
     <el-dialog :visible.sync="dialogFormVisible" :before-close="handleDialogClose" center width="480px">
         <el-form :model="loginForm" :rules="rules" ref="loginForm" class="demo-ruleForm">
             <div class="left">
-                <div class="logo">芥末</div>
-                <div class="title">芥末音乐</div>
+                <div class="logo"></div>
+                <div class="title"></div>
             </div>
             <el-form-item prop="phone">
-                <el-input v-model="loginForm.phone" maxlength="11" placeholder="请输入手机号"
+                <el-input v-model="loginForm.phone" minlength="11" maxlength="11" placeholder="请输入手机号"
                     @keyup.enter.native="nextEnter('smsCode')">
                 </el-input>
             </el-form-item>
             <el-form-item prop="smsCode" class="graphics-code">
                 <el-input v-model="loginForm.smsCode" ref="smsCode" placeholder="请输入验证码"
                     @keyup.enter.native="submitForm"></el-input>
-                <div class="code" :class="{'can-click':canClick}" @click="codeClick">{{codeMsg}}</div>
+                <div class="code" :class="{'can-click':canClick1}" @click="codeClick">{{codeMsg}}</div>
             </el-form-item>
         </el-form>
         <div class="agreement">
@@ -47,12 +47,14 @@
                         callback(new Error("手机号输入错误"));
                     } else {
                         this.canClick = true;
+                        this.canClick1 = true;
                         callback();
                     }
                 }
             };
             //短信验证码自定义规则
             var validatorSmsCode = (rule, value, callback) => {
+
                 if (value === "") {
                     callback(new Error("请输入验证码"));
                 } else {
@@ -61,10 +63,12 @@
                 }
             };
             return {
-                canClick: false, //验证码开关
+                canClick: true, //验证码开关
+                canClick1: false,//codeMsg字体颜色
                 loginBtn: false,//登录按钮开关
                 codeMsg: "发送验证码",
                 totalTime: 60,
+                clock: null,
                 loginForm: {
                     phone: "",//手机号
                     smsCode: "",//验证码
@@ -82,7 +86,11 @@
                 } else {
                     this.loginBtn = false;
                 }
+            },
+            'loginForm.phone'() {
+                this.loginForm.phone = this.loginForm.phone.replace(/\D/g, '');
             }
+
         },
         methods: {
             nextEnter(next) {
@@ -93,38 +101,48 @@
             //关闭dialog
             handleDialogClose() {
                 this.$emit("hideLoginBox")
+                this.codeMsg = "发送验证码";
+                window.clearInterval(this.clock);
+                this.canClick = true;
+                this.canClick1 = false;
+                this.loginForm = {
+                    phone: "",
+                    smsCode: ""
+                }
+                this.$refs.loginForm.resetFields();
             },
             //点击验证码
             codeClick() {
+
                 if (!this.canClick) return;
-                this.canClick = true;
+                this.canClick = false;
                 this.codeMsg = this.totalTime + "s";
                 //60秒倒计时
-                let clock = window.setInterval(() => {
+                this.clock = window.setInterval(() => {
                     this.totalTime--;
                     this.codeMsg = this.totalTime + "s";
                     if (this.totalTime < 0) {
-                        window.clearInterval(clock);
+                        window.clearInterval(this.clock);
                         this.codeMsg = "重新发送验证码";
                         this.totalTime = 60;
                         this.canClick = true; //这里重新开启
                     }
                 }, 1000);
-                this.$post("/userinfo/send_sms", { account: this.loginForm.phone }).then(
-                    (res) => {
-                        switch (res.code) {
-                            case "200":
-                                this.$message.success(res.msg);
-                                break;
-                            case "500":
-                                this.$message.error(res.msg);
-                                break;
-                            default:
-                                console.log(res.msg);
-                                this.$toast("网络故障，发送短信失败");
+                this.$post("/userinfo/send_sms", {
+                    account: this.loginForm.phone
+                }).then((res) => {
+                    switch (res.code) {
+                        case "200":
+                            this.$message.success(res.msg);
                             break;
-                        }
+                        case "500":
+                            this.canClick = true; //这里重新开启
+                            this.$message.error(res.msg);
+                            break;
+                        default:
+                            break;
                     }
+                }
                 );
             },
             //登录
@@ -135,7 +153,7 @@
                             account: this.loginForm.phone,
                             verify: this.loginForm.smsCode,
                             inCode: "",
-                            type:1
+                            type: 1
                         }).then((res) => {
                             switch (res.code) {
                                 case "200":
@@ -164,6 +182,7 @@
                                     break;
                                 default:
                                     console.log(res.msg);
+                                    break;
                             }
                         });
                     }
@@ -186,21 +205,17 @@
         margin-bottom: 50px;
 
         .logo {
-            @include whl(60px, 60px, 60px);
-            font-weight: 600;
-            font-size: 18px;
-            background: rgba(255, 255, 255, 1);
-            box-shadow: 0px 0px 6px 0px rgba(129, 156, 2, 0.4);
-            border-radius: 10px;
-            color: $tc;
+            @include whl(78px, 78px, 78px);
+            background-image: url(~assets/image/logo.png);
+            background-size: 100% 100%;
+
         }
 
         .title {
-            @include whl(96px, 25px, 25px);
-            font-size: 24px;
-            color: $tc;
-            margin-left: 10px;
-            font-family: "sthupo";
+            @include wh(119px, 35px);
+            background-image: url(../../assets/image/name.png);
+            background-size: 100% 100%;
+
         }
     }
 

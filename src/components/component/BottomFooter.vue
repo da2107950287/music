@@ -19,9 +19,9 @@
         </div>
 
         <div class="btns">
-            <div class="consult1 btn" @click="showChat"></div>
+            <div class="consult1" @click="showChat"></div>
             <!-- <div v-else class="consult2 btn"></div> -->
-            <div class="top btn" @click="toTop"></div>
+            <div v-show="gotop" class="top btn" @click="toTop"></div>
             <!-- <chat v-if="isShowChat" @hideChat="hideChat" class="chat"></chat> -->
 
         </div>
@@ -35,6 +35,7 @@
         data() {
             return {
                 isShow: false,
+                gotop: false
             }
         },
         computed: {
@@ -49,8 +50,13 @@
         },
         mounted() {
             this.init()
+            window.addEventListener("scroll", this.handleScroll, true);
         },
         methods: {
+            handleScroll() {
+                let scrolltop = document.documentElement.scrollTop || document.body.scrollTop;
+                this.gotop = scrolltop > 30 ? true : false;
+            },
             init() {
                 let that = this;
                 window.easemobim = window.easemobim || {};
@@ -158,11 +164,12 @@
     }
 
     .btns {
-        position: absolute;
+        position: fixed;
         bottom: 250px;
         right: 30px;
         display: flex;
         flex-direction: column;
+        align-items: center;
         z-index: 100;
 
         .btn {
@@ -170,10 +177,15 @@
             height: 60px;
             background-image: url(~assets/image/icon.png);
             border-radius: 50%;
+        
         }
 
         .consult1 {
-            background-position: -66px -292px;
+            width: 80px;
+            height: 80px;
+            background-image: url(~assets/image/bnt_zx.png);
+            border-radius: 50%;
+            background-size:100% 100%;
         }
 
         .consult2 {
@@ -182,7 +194,7 @@
         }
 
         .top {
-            margin-top: 30px;
+            margin-top: 20px;
             background-position: -246px -292px;
         }
 

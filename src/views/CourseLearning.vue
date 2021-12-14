@@ -6,7 +6,7 @@
       </div>
       <div class="right">
         <div class="bg-progress progress1">
-          <el-progress type="circle" :percentage="list.rateOfLearning" :width="100" color="#98B702" class="progress">
+          <el-progress type="circle" :percentage="list.rateOfLearning" :width="100" color="#98b702" class="progress">
           </el-progress>
           <div class="progress-text text1">已学习</div>
         </div>

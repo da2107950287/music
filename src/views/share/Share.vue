@@ -155,7 +155,7 @@
     left: 21%;
     font-family: "PingFangSC-Semibold", "PingFang SC";
     font-weight: 600;
-    color: #98B702;
+    color: #00CDFF;
 
     span {
       color: #FB9715;

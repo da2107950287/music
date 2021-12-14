@@ -21,7 +21,6 @@
     watch: {
       $route() {
         this.type = this.$route.query.type;
-        console.log(111)
         if(this.type){
           this.getAgreement()
         }

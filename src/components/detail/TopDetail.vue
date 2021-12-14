@@ -8,14 +8,15 @@
         <span>{{topDetail.couName}}</span>
         <div class="bgc-img isnotcollected" v-if="topDetail.courseCollState==0 || collected" @click="collectCourse">
         </div>
-        <div class="bgc-img iscollected" v-else  @click="collectCourse"></div>
+        <div class="bgc-img iscollected" v-else @click="collectCourse"></div>
       </div>
       <div class="price">
         <div class="member-price">
           <span>会员价：&yen;</span>
           <span>{{topDetail.priceVip}}</span>
         </div>
-        <div class="orgin-price">原价：&yen;{{topDetail.price}}</div>
+     
+        <div class="orgin-price" :class="{'vip-style':vip!=0}">原价：&yen;{{topDetail.price}}</div>
       </div>
       <div>
         <div class="common">
@@ -42,12 +43,18 @@
         <div @click="audition">免费试听</div>
       </div>
     </div>
+
   </div>
 </template>
 <script>
   import { mapGetters, mapActions } from "vuex"
-
+  import { getStore } from '../../assets/js/utils.js'
   export default {
+    data() {
+      return {
+        vip: localStorage.getItem('vip')
+      }
+    },
     props: {
       topDetail: {
         type: Object,
@@ -62,12 +69,13 @@
         },
       },
     },
+
     computed: {
       ...mapGetters([
         "getToken"
       ])
     },
-    
+
     methods: {
       ...mapActions([
         "setForm"
@@ -164,6 +172,9 @@
     margin-left: 20px;
     font-size: 14px;
     color: #9899a1;
+   
+  }
+  .vip-style{
     text-decoration: line-through;
   }
 

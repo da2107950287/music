@@ -3,11 +3,10 @@
         <profile-header>
             <div slot="title">我的收藏</div>
         </profile-header>
-        <div class="collect-bottom" :style="{'margin-bottom':total<=pageSize?'30px':''}">
-            <course-item v-for="(item,index) in list" :key="index" :list="item.courseEntity"
-                @click.native="seeDetail(item.couId)">
-                <img slot="img" v-lazy="item.courseEntity.cover">
-                <div slot="collect" class="iscollected"></div>
+        <div class="collect-bottom" :style="{'margin-bottom':total <= pageSize?'30px':''}">
+            <course-item v-for="(item,index) in list" :key="index" :list="item.courseEntity">
+                <img slot="img" v-lazy="item.courseEntity.cover" @click="seeDetail(item.couId)">
+                <div slot="collect" class="iscollected" @click="collectCourse(item.couId)"></div>
                 <div slot="last" class="btn">
                     <span>会员价：&yen;</span>
                     <span class="price">{{item.courseEntity.pricevip}}</span>
@@ -49,6 +48,13 @@
             },
             seeDetail(couId) {
                 this.$router.push({ path: '/index/detail', query: { couId } })
+            },
+            collectCourse(couId) {
+                this.$post('/course/setCourseColl', { couId }).then(res => {
+                    if (res.code == 200) {
+                        this.getData();
+                    }
+                })
             }
         },
         components: {
@@ -76,8 +82,7 @@
     }
 
     .iscollected {
-        @include wh(20px,20px)
-        background-image: url(~assets/image/icon.png);
+        @include wh(20px, 20px) background-image: url(~assets/image/icon.png);
         background-position: -470px -90px;
     }
 

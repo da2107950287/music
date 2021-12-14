@@ -179,6 +179,9 @@
         @include fa();
 
     }
+    .right{
+        align-items: baseline;
+    }
 
     .live-lesson {
         color: #FB9715;
@@ -196,6 +199,7 @@
 
 
     .money {
+        margin-left: 10px;
         color: $tcolor;
         font-family:"PingFangSC-Semibold","PingFang SC";
     }

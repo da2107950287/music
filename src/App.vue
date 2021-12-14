@@ -1,11 +1,13 @@
 <template>
   <div id="app">
     <router-view v-if="isRouterAlive"></router-view>
+ 
   </div>
 </template>
 <script>
 
   import { mapGetters } from 'vuex';
+ 
   export default {
     provide() {
       return {
@@ -28,10 +30,12 @@
         })
       }
     },
+  
+  
   }
 </script>
 <style>
-  @import "~assets/css/font.css";
+  /* @import "~assets/css/font.css"; */
 
   html,
   body {
@@ -39,7 +43,7 @@
     width: 100%;
     margin: 0;
     background-color: #f7f7f7;
-    font-family: "PingFangSC-Regular", "PingFang SC,sthupo";
+    /* font-family: "PingFangSC-Regular", "PingFang SC"; */
 
   }
 

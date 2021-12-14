@@ -119,7 +119,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #98b702;
+    background-color: #00CDFF;
     color: #fff;
 
     .open {
@@ -211,7 +211,7 @@ export default {
         font-size: 11px;
         font-family: "PingFangSC-Medium", " PingFang SC";
         font-weight: 500;
-        background-color: #98b702;
+        background-color: #00CDFF;
         border-radius: 10px;
         color: #fff;
       }

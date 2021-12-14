@@ -1,10 +1,12 @@
 <template>
   <div class="vedio">
-    <div class="prism-player" id="player-con"></div>
-    <div class="title-box">
-      <div>{{option .catName}}</div>
-      <div>用户ID：{{getUid}}</div>
+    <div class="prism-player" id="player-con">
+      <div class="title-box">
+        <div>{{option .catName}}</div>
+        <div>用户ID：{{getUid}}</div>
+      </div>
     </div>
+  
   </div>
 </template>
 <script>
@@ -24,7 +26,6 @@
       ])
     },
     mounted() {
-
       let that = this;
       this.option = this.$route.query;
       this.player = new Aliplayer(
@@ -141,7 +142,7 @@
   }
 
   .title-box {
-    width: 1200px;
+    width: 100%;
     height: 48px;
     position: absolute;
     top: 0;
@@ -196,7 +197,7 @@
       cursor: pointer;
 
       &.current {
-        color: #98b702;
+        color: #00CDFF;
       }
 
       &:hover {
